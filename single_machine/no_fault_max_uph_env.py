@@ -25,7 +25,7 @@ class Env:
         )
         # reward
 
-        reward = (m_departed_actual - m_queued_after_action) + (
+        reward = (m_departed_actual - m_arrived) + (
             m_departed_actual - m_depart_ability
         )
 
@@ -39,14 +39,9 @@ class Env:
         return reward
 
     def reset(self):
-
-        self.m_speed = 20
-
-        self.m_queued = 0
-
         self.state = {
-            "m_speed": self.m_speed,
-            "m_queued": self.m_queued,
+            "m_speed": 20,
+            "m_queued": 0,
         }
 
     def plt_relations(self, step: int = 20):
@@ -62,13 +57,8 @@ class Env:
             ]
 
             act_1.append(action[0])
-
             reward_l.append(self.step(action=action, time=s))
-
             m1_speeds.append(self.state.get("m_speed"))
-
-            # m1_arrived_l.append(m1_arrived)
-            # m1_departed_l.append(m1_departed)
             m1_queued_l.append(self.state.get("m_queued"))
 
         ax1 = plt.subplot(411)
@@ -77,6 +67,7 @@ class Env:
         ax2.plot(act_1, "-o")
         ax3 = plt.subplot(413)
         ax3.plot(reward_l, "-o")
+        ax3.plot(np.zeros_like(reward_l), "-o")
         ax4 = plt.subplot(414)
         ax4.plot(m1_speeds, "-o")
         ax4.plot(20 * np.ones_like(m1_speeds), "-o")
