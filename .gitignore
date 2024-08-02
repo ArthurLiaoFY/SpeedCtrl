@@ -2,3 +2,5 @@
 *.npy
 *.html
 test*
+*.png
+.DS_Store
