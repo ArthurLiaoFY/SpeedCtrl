@@ -44,6 +44,7 @@ class Env:
             "m_queued": 0,
         }
 
+
     def plt_relations(self, step: int = 20):
         m1_speeds = []
         act_1 = []
