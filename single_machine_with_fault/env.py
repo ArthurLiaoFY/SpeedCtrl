@@ -13,13 +13,9 @@ class Env:
     def __init__(self) -> None:
         self.reset()
 
-    def step(self, action: tuple, time: int, keep_info: bool = False) -> tuple | float:
+    def step(self, action: tuple, time: int, keep_info: bool = False) -> None:
         # 前方設備抵達數量
-        m_arrived = (
-            np.sin(time / 30) * 20
-            + 100
-            + np.random.uniform(low=-7, high=7, size=1).item() // 1
-        )
+        m_arrived = 100 + np.random.uniform(low=-2, high=2, size=1).item() // 1
         # 操作動作後，當前設備速度
         m_speed_after_action = np.clip(
             a=self.state.get("m_speed") + action[0], a_min=0, a_max=40
@@ -33,7 +29,6 @@ class Env:
             m_queued_after_action,
             int(m_depart_ability + np.random.uniform(-2, 2)),
         )
-        expectation_gap = m_departed_actual - m_depart_ability
         # new m queued
         m_queued_after_department = max(0, m_queued_after_action - m_departed_actual)
         # new m queued speed
@@ -41,10 +36,8 @@ class Env:
         # reward
 
         part2 = current_m_queued_speed - self.state.get("m_queued_speed")
-        part1 = (
-            (0.2 if m_queued_after_department > 0 else 0.7) * expectation_gap
-            if abs(expectation_gap) > 5
-            else 0
+        part1 = (0.2 if m_queued_after_department > 0 else 0.7) * (
+            m_departed_actual - m_depart_ability
         )
 
         reward = part1 + part2

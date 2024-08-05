@@ -3,15 +3,16 @@ from collections import defaultdict
 import numpy as np
 import plotly
 import plotly.graph_objects as go
-from agent import Agent
 from config import kwargs
 from env import Env
+
+from agent import Agent
 
 env = Env()
 agent = Agent(**kwargs)
 
 n_episodes = 5000
-env_step = 1000
+env_step = 500
 
 rewards = []
 max_total_reward = -np.inf
@@ -55,3 +56,12 @@ fig.add_trace(
     )
 )
 plotly.offline.plot(figure_or_data=fig, filename="reward_trend.html")
+# fig = go.Figure()
+# fig.add_trace(
+#     go.Scatter(
+#         x=np.arange(len(rewards)),
+#         y=rewards,
+#         mode="lines+markers",
+#     )
+# )
+# plotly.offline.plot(figure_or_data=fig, filename="reward_trend.html")
