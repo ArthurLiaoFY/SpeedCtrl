@@ -16,7 +16,7 @@ class Agent:
             action_idx = np.random.choice(self.action_size)
 
         else:
-            action_idx = np.argmax(self.q_table[state_tuple])
+            action_idx = np.argmax(self.q_table.get(state_tuple))
         return action_idx
 
     def action_idx_to_action(self, action_idx: int) -> tuple:
@@ -74,6 +74,7 @@ class Agent:
         suffix: str = "",
         table_name: str = "q_table",
     ) -> None:
+
         self.q_table = np.load(
             f"{file_path}/{prefix}{table_name}{suffix}.npy", allow_pickle=True
         ).item()
