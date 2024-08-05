@@ -1,10 +1,9 @@
 import plotly
 import plotly.graph_objects as go
+from agent import Agent
 from config import kwargs, np
 from env import Env
 from plotly.subplots import make_subplots
-
-from agent import Agent
 
 agent = Agent(**kwargs)
 agent.load_table(prefix="single_machine_")
@@ -90,6 +89,3 @@ fig.add_trace(
     col=1,
 )
 plotly.offline.plot(figure_or_data=fig, filename="speed_queue_trend.html")
-
-
-
