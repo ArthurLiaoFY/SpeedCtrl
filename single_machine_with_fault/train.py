@@ -3,16 +3,15 @@ from collections import defaultdict
 import numpy as np
 import plotly
 import plotly.graph_objects as go
+from agent import Agent
 from config import kwargs
 from env import Env
-
-from agent import Agent
 
 env = Env()
 agent = Agent(**kwargs)
 
 n_episodes = 5000
-env_step = 500
+env_step = 1000
 
 rewards = []
 max_total_reward = -np.inf
@@ -45,7 +44,7 @@ for episode in range(n_episodes):
         print(f"Episode {episode}/{n_episodes}: Total reward: {total_reward}")
 
 
-agent.save_table(prefix="single_machine_")
+agent.save_table(prefix="single_machine_with_fault_")
 
 fig = go.Figure()
 fig.add_trace(
@@ -56,12 +55,3 @@ fig.add_trace(
     )
 )
 plotly.offline.plot(figure_or_data=fig, filename="reward_trend.html")
-# fig = go.Figure()
-# fig.add_trace(
-#     go.Scatter(
-#         x=np.arange(len(rewards)),
-#         y=rewards,
-#         mode="lines+markers",
-#     )
-# )
-# plotly.offline.plot(figure_or_data=fig, filename="reward_trend.html")
