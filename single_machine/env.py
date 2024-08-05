@@ -152,7 +152,3 @@ class Env:
         )
 
         plotly.offline.plot(figure_or_data=fig, filename="m1.html")
-
-
-env = Env()
-env.plt_relations()

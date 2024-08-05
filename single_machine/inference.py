@@ -1,10 +1,10 @@
 import plotly
 import plotly.graph_objects as go
 from config import kwargs, np
-from single_machine.env import Env
 from plotly.subplots import make_subplots
 
 from agent import Agent
+from single_machine.env import Env
 
 agent = Agent(**kwargs)
 agent.load_table(prefix="single_machine_")
