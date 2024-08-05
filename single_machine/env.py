@@ -37,10 +37,10 @@ class Env:
         # new m queued
         m_queued_after_department = max(0, m_queued_after_action - m_departed_actual)
         # new m queued speed
-        current_m_queued_speed = self.state.get("m_queued") - m_queued_after_department
+        current_m_queued_diff = self.state.get("m_queued") - m_queued_after_department
         # reward
 
-        part2 = current_m_queued_speed - self.state.get("m_queued_speed")
+        part2 = current_m_queued_diff - self.state.get("m_queued_diff")
         part1 = (
             (0.2 if m_queued_after_department > 0 else 0.7) * expectation_gap
             if abs(expectation_gap) > 5
@@ -54,7 +54,7 @@ class Env:
         self.state = {
             "m_speed": m_speed_after_action,
             "m_queued": min(200, m_queued_after_department // 3 * 3),
-            "m_queued_speed": current_m_queued_speed // 3 * 3,
+            "m_queued_diff": current_m_queued_diff // 3 * 3,
         }
         if keep_info:
             return reward, part1, part2
@@ -65,7 +65,7 @@ class Env:
         self.state = {
             "m_speed": 20,
             "m_queued": 0,
-            "m_queued_speed": 0,
+            "m_queued_diff": 0,
         }
 
     def plt_relations(self, step: int = 20):
