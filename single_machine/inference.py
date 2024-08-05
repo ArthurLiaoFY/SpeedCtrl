@@ -1,7 +1,7 @@
 import plotly
 import plotly.graph_objects as go
 from config import kwargs, np
-from no_fault_max_uph_env import Env
+from single_machine.env import Env
 from plotly.subplots import make_subplots
 
 from agent import Agent

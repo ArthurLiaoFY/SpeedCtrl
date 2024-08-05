@@ -1,5 +1,8 @@
-import matplotlib.pyplot as plt
 import numpy as np
+import plotly
+import plotly.graph_objects as go
+from config import kwargs
+from plotly.subplots import make_subplots
 
 
 def flatten(nested_list: list):
@@ -10,50 +13,146 @@ class Env:
     def __init__(self) -> None:
         self.reset()
 
-    def step(self, action: tuple, time: int) -> None:
-        m_arrived = np.random.uniform(low=200, high=400, size=1).item()
+    def step(self, action: tuple, time: int, keep_info: bool = False) -> None:
+        # 前方設備抵達數量
+        m_arrived = 100 + np.random.uniform(low=-2, high=2, size=1).item() // 1
+        # 操作動作後，當前設備速度
+        m_speed_after_action = np.clip(
+            a=self.state.get("m_speed") + action[0], a_min=0, a_max=40
+        ).item()
+        m_queued_after_action = max(0, m_arrived + self.state.get("m_queued"))
 
-        # update state infos
-        self.m_speed = np.clip(self.m_speed + action[0], 0, 100000).item()
-
-        m_departed = min(
-            m_arrived + self.m_queued,
-            int(self.m_speed * 0.005 + np.random.uniform(-2, 2)),
+        # 當前速度預期應該要有的產量
+        m_depart_ability = m_speed_after_action * 5
+        # 實際的產量
+        m_departed_actual = min(
+            m_queued_after_action,
+            int(m_depart_ability + np.random.uniform(-2, 2)),
         )
-        m_queued_after_action = max(0, m_arrived + self.m_queued - m_departed)
-        self.m_queued_diff = (
-            self.m_queued - m_queued_after_action
-        )  # positive if pressure released, else negative
-        # update reward after action
-        reward = (m_arrived / 500) * m_departed / (m_arrived + self.m_queued)
+        # new m queued
+        m_queued_after_department = max(0, m_queued_after_action - m_departed_actual)
+        # new m queued speed
+        current_m_queued_speed = self.state.get("m_queued") - m_queued_after_department
+        # reward
 
-        # update queue amount after m departed
-        self.m_queued = m_queued_after_action
+        part2 = current_m_queued_speed - self.state.get("m_queued_speed")
+        part1 = (0.2 if m_queued_after_department > 0 else 0.7) * (
+            m_departed_actual - m_depart_ability
+        )
+
+        reward = part1 + part2
+
+        # update state
 
         self.state = {
-            "m_speed": self.m_speed,
-            "m_queued": self.m_queued // 10 * 10,
-            "m_fault": self.m_fault_trend[time],
+            "m_speed": m_speed_after_action,
+            "m_queued": min(200, m_queued_after_department // 3 * 3),
+            "m_queued_speed": current_m_queued_speed // 3 * 3,
         }
-
-        return reward
+        if keep_info:
+            return reward, part1, part2
+        else:
+            return reward
 
     def reset(self):
-        self.m_fault_trend = flatten(
-            [
-                [np.random.choice(a=[0, 1], size=1, replace=False, p=[0.5, 0.5]).item()]
-                * int(np.random.uniform(low=0, high=20))
-                for _ in range(500)
-            ]
-        )
-        self.m_speed = 50000
-
-        self.m_queued = 0
-
-        self.m_queued_diff = 0
-
         self.state = {
-            "m_speed": self.m_speed,
-            "m_queued": self.m_queued // 10 * 10,
-            "m_fault": self.m_fault_trend[0],
+            "m_speed": 20,
+            "m_queued": 0,
+            "m_queued_speed": 0,
         }
+
+    def plt_relations(self, step: int = 20):
+        m1_speeds = []
+        act_1 = []
+        reward_l = []
+        m1_queued_l = []
+        p1, p2 = [], []
+        for s in range(step):
+            action = kwargs.get("action_mapping")[
+                np.random.choice(
+                    np.arange(len(kwargs.get("action_mapping"))), size=1
+                ).item()
+            ]
+
+            act_1.append(action[0])
+
+            reward, part1, part2 = self.step(action=action, time=s, keep_info=True)
+            reward_l.append(reward)
+            p1.append(part1)
+            p2.append(part2)
+
+            m1_speeds.append(self.state.get("m_speed"))
+            m1_queued_l.append(self.state.get("m_queued"))
+
+        fig = make_subplots(rows=5)
+
+        fig.add_trace(
+            go.Scatter(
+                x=np.arange(len(m1_speeds)),
+                y=m1_speeds,
+                mode="lines+markers",
+                name="m1_speeds",
+            ),
+            row=2,
+            col=1,
+        )
+
+        fig.add_trace(
+            go.Scatter(
+                x=np.arange(len(m1_queued_l)),
+                y=m1_queued_l,
+                mode="lines+markers",
+                name="m1_queued_l",
+            ),
+            row=3,
+            col=1,
+        )
+
+        fig.add_trace(
+            go.Scatter(
+                x=np.arange(len(act_1)),
+                y=act_1,
+                mode="lines+markers",
+                name="action",
+            ),
+            row=1,
+            col=1,
+        )
+
+        fig.add_trace(
+            go.Scatter(x=np.arange(len(p1)), y=p1, mode="lines+markers", name="part1"),
+            row=4,
+            col=1,
+        )
+        fig.add_trace(
+            go.Scatter(x=np.arange(len(p2)), y=p2, mode="lines+markers", name="part2"),
+            row=4,
+            col=1,
+        )
+
+        fig.add_trace(
+            go.Scatter(
+                x=np.arange(len(reward_l)),
+                y=reward_l,
+                mode="lines+markers",
+                name="reward_l",
+            ),
+            row=5,
+            col=1,
+        )
+        fig.add_trace(
+            go.Scatter(
+                x=np.arange(len(reward_l)),
+                y=np.zeros_like(reward_l),
+                mode="lines",
+                name="zero",
+            ),
+            row=5,
+            col=1,
+        )
+
+        plotly.offline.plot(figure_or_data=fig, filename="m1.html")
+
+
+env = Env()
+env.plt_relations()

@@ -7,7 +7,7 @@ kwargs = {
         idx: combs
         for idx, combs in enumerate(
             itertools.product(
-                [0, -2, -1, 1, 2],
+                [0, -5, -2, -1, 1, 2, 5],
             )
         )
     },

@@ -3,15 +3,15 @@ from collections import defaultdict
 import numpy as np
 import plotly
 import plotly.graph_objects as go
+from config import kwargs
+from env import Env
 
 from agent import Agent
-from config import kwargs
-from no_fault_max_uph_env import Env
 
 env = Env()
 agent = Agent(**kwargs)
 
-n_episodes = 1000
+n_episodes = 5000
 env_step = 500
 
 rewards = []
@@ -27,7 +27,7 @@ for episode in range(n_episodes):
             state_tuple=tuple(v for v in state.values())
         )
         action = agent.action_idx_to_action(action_idx=action_idx)
-        reward = env.step(action, t)
+        reward = env.step(action=action, time=t)
         agent.update_policy(
             state_tuple=tuple(v for v in state.values()),
             action_idx=action_idx,
@@ -35,7 +35,7 @@ for episode in range(n_episodes):
             next_state_tuple=tuple(v for v in env.state.values()),
         )
 
-        total_reward += reward/env_step
+        total_reward += reward / env_step
 
     agent.update_lr_er(episode=episode)
     rewards.append(total_reward)
@@ -45,7 +45,7 @@ for episode in range(n_episodes):
         print(f"Episode {episode}/{n_episodes}: Total reward: {total_reward}")
 
 
-agent.save_table(prefix='single_machine_')
+agent.save_table(prefix="single_machine_")
 
 fig = go.Figure()
 fig.add_trace(
