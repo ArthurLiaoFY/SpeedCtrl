@@ -33,8 +33,8 @@ class Env:
             # -----------------
             "m_action": self.m_action[1],
             "m_speed": self.m_speed[1],
-            "m_queued": self.m_queued[1],
-            "m_queued_diff": self.m_queued_diff[1],
+            "m_queued": min(400, self.m_queued[1] // 3 * 3),
+            "m_queued_diff": self.m_queued_diff[1] // 3 * 3,
             # -----------------
             "nm_action": self.m_action[2],
             "nm_speed": self.m_speed[2],
@@ -70,18 +70,20 @@ class Env:
             * self.fault_trend[eqp_idx][time % len(self.fault_trend[eqp_idx])]
         )
 
-        m_queued_after_action = max(0, m_arrived + c)
+        m_queued_after_prev_arrive = max(0, m_arrived + self.m_queued[eqp_idx])
 
         # 當前速度預期應該要有的產量
         m_depart_ability = int(m_speed_after_action * 5)
         # 實際的產量
         m_departed_actual = min(
-            m_queued_after_action,
+            m_queued_after_prev_arrive,
             m_depart_ability,
         )
         expectation_gap = m_departed_actual - m_depart_ability
         # new m queued
-        m_queued_after_department = max(0, m_queued_after_action - m_departed_actual)
+        m_queued_after_department = max(
+            0, m_queued_after_prev_arrive - m_departed_actual
+        )
         # new m queued speed
         current_m_queued_diff = self.m_queued[eqp_idx] - m_queued_after_department
         # reward
