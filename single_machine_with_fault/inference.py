@@ -55,7 +55,7 @@ fig.add_trace(
         x=np.arange(500),
         y=20 * np.ones_like(m_speed_rl),
         mode="lines+markers",
-        name="speed",
+        name="speed baseline",
     ),
     row=1,
     col=1,

@@ -40,10 +40,12 @@ class Env:
         current_m_queued_diff = self.state.get("m_queued") - m_queued_after_department
         # reward
 
-        part2 = current_m_queued_diff - self.state.get("m_queued_diff")
-        part1 = (
+        part1 = (1 if m_queued_after_department > 0 else 0) * (
+            current_m_queued_diff - self.state.get("m_queued_diff")
+        )
+        part2 = (
             (0.2 if m_queued_after_department > 0 else 0.7) * expectation_gap
-            if abs(expectation_gap) > 5
+            if expectation_gap < -5
             else 0
         )
 
