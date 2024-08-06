@@ -11,8 +11,18 @@ def flatten(nested_list: list):
 
 
 class Env:
-    def __init__(self) -> None:
-        self.reset()
+
+    def __init__(
+        self,
+        num_of_eqps: int = 3,
+        init_queued_amount: int = 10000,
+        init_speed: int = 20,
+    ) -> None:
+        self.reset(
+            num_of_eqps,
+            init_queued_amount,
+            init_speed,
+        )
 
     def reset(
         self,
@@ -58,19 +68,21 @@ class Env:
                     )
                 ]
             )
-            for _ in range(num_of_eqps)
+            for _ in range(num_of_eqps + 2)
         ]
 
     def step(
-        self, action: tuple, time: int, m_arrived: int, eqp_idx: int
+        self, action: tuple, time: int, eqp_idx: int, m_arrived: int | None = None
     ) -> tuple | float:
         # 操作動作後，當前設備速度
         m_speed_after_action = (
             np.clip(a=self.m_speed[eqp_idx] + action[0], a_min=0, a_max=60).item()
             * self.fault_trend[eqp_idx][time % len(self.fault_trend[eqp_idx])]
         )
-
-        m_queued_after_prev_arrive = max(0, m_arrived + self.m_queued[eqp_idx])
+        if eqp_idx == 1:
+            m_queued_after_prev_arrive = max(0, self.m_queued[eqp_idx])
+        else:
+            m_queued_after_prev_arrive = max(0, m_arrived + self.m_queued[eqp_idx])
 
         # 當前速度預期應該要有的產量
         m_depart_ability = int(m_speed_after_action * 5)
@@ -125,4 +137,4 @@ class Env:
             # -----------------
         }
 
-        return reward
+        return reward, m_departed_actual
