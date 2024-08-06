@@ -88,7 +88,9 @@ class Env:
 
             act_1.append(action[0])
 
-            reward, part1, part2, part3 = self.step(action=action, time=s, keep_info=True)
+            reward, part1, part2, part3 = self.step(
+                action=action, time=s, keep_info=True
+            )
             reward_l.append(reward)
             p1.append(part1)
             p2.append(part2)
@@ -141,7 +143,7 @@ class Env:
             go.Scatter(x=np.arange(len(p2)), y=p2, mode="lines+markers", name="part2"),
             row=4,
             col=1,
-        )        
+        )
         fig.add_trace(
             go.Scatter(x=np.arange(len(p3)), y=p3, mode="lines+markers", name="part3"),
             row=4,
