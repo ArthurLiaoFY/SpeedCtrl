@@ -44,18 +44,18 @@ class Env:
             current_m_queued_diff - self.state.get("m_queued_diff")
         )
         part2 = (
-            (0.2 if m_queued_after_department > 0 else 0.7) * expectation_gap
-            if expectation_gap < -5
-            else 0
+            (0.2 if m_queued_after_department > 0 else 0.7)
+            * (1 if expectation_gap < -5 else 0)
+            * expectation_gap
         )
-        part3 = 0.05 * (self.state.get("m_prev_action") * action[0])
+        part3 = 0.05 * (self.state.get("m_action") * action[0])
 
         reward = part1 + part2 + part3
 
         # update state
 
         self.state = {
-            "m_prev_action": action[0],
+            "m_action": action[0],
             "m_speed": m_speed_after_action,
             "m_queued": min(400, m_queued_after_department // 3 * 3),
             "m_queued_diff": current_m_queued_diff // 3 * 3,
@@ -67,7 +67,7 @@ class Env:
 
     def reset(self):
         self.state = {
-            "m_prev_action": 0,
+            "m_action": 0,
             "m_speed": 20,
             "m_queued": 0,
             "m_queued_diff": 0,
