@@ -22,7 +22,7 @@ class Env:
         ) * self.fault_trend[time % len(self.fault_trend)]
         # 操作動作後，當前設備速度
         m_speed_after_action = np.clip(
-            a=self.state.get("m_speed") + action[0], a_min=0, a_max=40
+            a=self.state.get("m_speed") + action[0], a_min=0, a_max=60
         ).item()
         m_queued_after_action = max(0, m_arrived + self.state.get("m_queued"))
 
@@ -49,12 +49,14 @@ class Env:
             if expectation_gap < -5
             else 0
         )
+        part3 = 0.01 * (self.state.get("m_prev_action") * action[0])
 
-        reward = part1 + part2
+        reward = part1 + part2 + part3
 
         # update state
 
         self.state = {
+            "m_prev_action": action[0],
             "m_speed": m_speed_after_action,
             "m_queued": min(500, m_queued_after_department // 3 * 3),
             "m_queued_diff": current_m_queued_diff // 3 * 3,
@@ -66,6 +68,7 @@ class Env:
 
     def reset(self):
         self.state = {
+            "m_prev_action": 0,
             "m_speed": 20,
             "m_queued": 0,
             "m_queued_diff": 0,

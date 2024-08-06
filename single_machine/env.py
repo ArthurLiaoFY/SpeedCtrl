@@ -22,7 +22,7 @@ class Env:
         )
         # 操作動作後，當前設備速度
         m_speed_after_action = np.clip(
-            a=self.state.get("m_speed") + action[0], a_min=0, a_max=40
+            a=self.state.get("m_speed") + action[0], a_min=0, a_max=60
         ).item()
         m_queued_after_action = max(0, m_arrived + self.state.get("m_queued"))
 
@@ -48,23 +48,26 @@ class Env:
             if expectation_gap < -5
             else 0
         )
+        part3 = 0.05 * (self.state.get("m_prev_action") * action[0])
 
-        reward = part1 + part2
+        reward = part1 + part2 + part3
 
         # update state
 
         self.state = {
+            "m_prev_action": action[0],
             "m_speed": m_speed_after_action,
-            "m_queued": min(200, m_queued_after_department // 3 * 3),
+            "m_queued": min(400, m_queued_after_department // 3 * 3),
             "m_queued_diff": current_m_queued_diff // 3 * 3,
         }
         if keep_info:
-            return reward, part1, part2
+            return reward, part1, part2, part3
         else:
             return reward
 
     def reset(self):
         self.state = {
+            "m_prev_action": 0,
             "m_speed": 20,
             "m_queued": 0,
             "m_queued_diff": 0,
@@ -75,7 +78,7 @@ class Env:
         act_1 = []
         reward_l = []
         m1_queued_l = []
-        p1, p2 = [], []
+        p1, p2, p3 = [], [], []
         for s in range(step):
             action = kwargs.get("action_mapping")[
                 np.random.choice(
@@ -85,10 +88,11 @@ class Env:
 
             act_1.append(action[0])
 
-            reward, part1, part2 = self.step(action=action, time=s, keep_info=True)
+            reward, part1, part2, part3 = self.step(action=action, time=s, keep_info=True)
             reward_l.append(reward)
             p1.append(part1)
             p2.append(part2)
+            p3.append(part3)
 
             m1_speeds.append(self.state.get("m_speed"))
             m1_queued_l.append(self.state.get("m_queued"))
@@ -135,6 +139,11 @@ class Env:
         )
         fig.add_trace(
             go.Scatter(x=np.arange(len(p2)), y=p2, mode="lines+markers", name="part2"),
+            row=4,
+            col=1,
+        )        
+        fig.add_trace(
+            go.Scatter(x=np.arange(len(p3)), y=p3, mode="lines+markers", name="part3"),
             row=4,
             col=1,
         )
