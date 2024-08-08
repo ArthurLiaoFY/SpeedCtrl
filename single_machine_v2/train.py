@@ -24,7 +24,7 @@ for episode in range(n_episodes):
         m_arrived = (
             np.sin(t / 30) * 20
             + 100
-            + np.random.uniform(low=-7, high=7, size=1).item() // 1
+            + np.random.uniform(low=-2, high=2, size=1).item() // 1
         )
         for eqp_idx in range(kwargs.get("num_of_eqps")):
             state = env.state

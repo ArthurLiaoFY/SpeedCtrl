@@ -20,11 +20,7 @@ env_step = 500
 
 env = Env(**kwargs)
 for t in range(env_step):
-    m_arrived = (
-        np.sin(t / 30) * 20
-        + 100
-        + np.random.uniform(low=-7, high=7, size=1).item() // 1
-    )
+    m_arrived = np.sin(t / 30) * 20 + 100 + np.random.randn() * 2 // 1
     for eqp_idx in range(kwargs.get("num_of_eqps")):
         state = env.state
         m_speed_rl.append(state.get("m_speed"))
@@ -66,7 +62,7 @@ fig.add_trace(
 fig.add_trace(
     go.Scatter(
         x=np.arange(500),
-        y=20 * np.ones_like(m_speed_rl),
+        y=kwargs.get('init_speed') * np.ones_like(m_speed_rl),
         mode="lines+markers",
         name="speed baseline",
     ),

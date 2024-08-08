@@ -12,6 +12,9 @@ def flatten(nested_list: list):
 class Env:
     def __init__(self, **kwargs) -> None:
         self.num_of_eqps = kwargs.get("num_of_eqps")
+        self.init_speed = kwargs.get("init_speed")
+        self.min_speed = kwargs.get("min_speed")
+        self.max_speed = kwargs.get("max_speed")
         self.reset()
 
     def step(self, action: tuple, eqp_idx: int, m_arrived: int) -> tuple | float:
@@ -23,14 +26,14 @@ class Env:
         m_queued_after_arrive = max(0, m_arrived + self.m_queued[eqp_idx])
 
         # 當前速度預期應該要有的產量
-        m_depart_ability = m_speed_after_action * 5
+        m_depart_ability = m_speed_after_action * 3
         # 實際的產量
         m_departed_actual = min(
             m_queued_after_arrive,
             int(m_depart_ability + np.random.uniform(-2, 2)),
         )
         expectation_gap = m_departed_actual - m_depart_ability
-        serious_gap = expectation_gap < -5
+        serious_gap = expectation_gap < -10
         # new m queued
         m_queued_after_department = max(0, m_queued_after_arrive - m_departed_actual)
         # new m queued speed
@@ -38,14 +41,11 @@ class Env:
         # reward
         no_queued = m_queued_after_department > 0
 
-        part1 = (
-            (1 if no_queued else 0) * 
-            (current_m_queued_diff - self.m_queued_diff[eqp_idx])
-            )
+        part1 = (1 if no_queued else 0) * (
+            current_m_queued_diff - self.m_queued_diff[eqp_idx]
+        )
         part2 = (
-            (0.2 if no_queued else 0.7) * 
-            (1 if serious_gap else 0) * 
-            expectation_gap
+            (0.2 if no_queued else 0.7) * (1 if serious_gap else 0) * expectation_gap
         )
 
         reward = part1 + part2
@@ -66,7 +66,7 @@ class Env:
 
     def reset(self):
         self.m_action = [0] * self.num_of_eqps
-        self.m_speed = [20] * self.num_of_eqps
+        self.m_speed = [self.init_speed] * self.num_of_eqps
         self.m_queued = [0] * self.num_of_eqps
         self.m_queued_diff = [0] * self.num_of_eqps
 
