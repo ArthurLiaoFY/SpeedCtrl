@@ -5,6 +5,7 @@ from config import kwargs, np
 from env import Env
 from plotly.subplots import make_subplots
 
+print(kwargs)
 agent = Agent(**kwargs)
 agent.load_table(prefix="single_machine_v2_")
 agent.shutdown_explore
@@ -19,8 +20,9 @@ m_queued_bl = []
 env_step = 500
 
 env = Env(**kwargs)
+uph_rl = []
 for t in range(env_step):
-    m_arrived = np.sin(t / 30) * 20 + 100 + np.random.randn() * 2 // 1
+    m_arrived = np.sin(t / 30) * 20 + 100 + 0.2 * t + np.random.randn() * 5 // 1
     for eqp_idx in range(kwargs.get("num_of_eqps")):
         state = env.state
         m_speed_rl.append(state.get("m_speed"))
@@ -33,14 +35,13 @@ for t in range(env_step):
         reward, m_arrived = env.step(
             action=action, eqp_idx=eqp_idx, m_arrived=m_arrived
         )
+    uph_rl.append(m_arrived)
 
+print(kwargs)
+uph_bl = []
 env.reset()
 for t in range(env_step):
-    m_arrived = (
-        np.sin(t / 30) * 20
-        + 100
-        + np.random.uniform(low=-7, high=7, size=1).item() // 1
-    )
+    m_arrived = np.sin(t / 30) * 20 + 100 + 0.2 * t + np.random.randn() * 5 // 1
     for eqp_idx in range(kwargs.get("num_of_eqps")):
         state = env.state
         m_queued_bl.append(state.get("m_queued"))
@@ -48,6 +49,7 @@ for t in range(env_step):
         reward, m_arrived = env.step(
             action=action, eqp_idx=eqp_idx, m_arrived=m_arrived
         )
+    uph_bl.append(m_arrived)
 
 
 fig = make_subplots(rows=3, cols=1)
@@ -62,7 +64,7 @@ fig.add_trace(
 fig.add_trace(
     go.Scatter(
         x=np.arange(500),
-        y=kwargs.get('init_speed') * np.ones_like(m_speed_rl),
+        y=kwargs.get("init_speed")[0] * np.ones_like(m_speed_rl),
         mode="lines+markers",
         name="speed baseline",
     ),
@@ -92,7 +94,17 @@ fig.add_trace(
 )
 fig.add_trace(
     go.Scatter(
-        x=np.arange(len(actions_rl)), y=actions_rl, mode="lines+markers", name="action"
+        x=np.arange(len(uph_rl)), y=np.cumsum(uph_rl), mode="lines+markers", name="uph"
+    ),
+    row=3,
+    col=1,
+)
+fig.add_trace(
+    go.Scatter(
+        x=np.arange(len(uph_bl)),
+        y=np.cumsum(uph_bl),
+        mode="lines+markers",
+        name="uph baseline",
     ),
     row=3,
     col=1,
