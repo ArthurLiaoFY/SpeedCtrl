@@ -43,9 +43,8 @@ class Env:
             * (1 if expectation_gap < -5 else 0)
             * expectation_gap
         )
-        part3 = 0.05 * (self.state.get("m_action") * action[0])
 
-        reward = part1 + part2 + part3
+        reward = part1 + part2
 
         # update state
         self.m_action[eqp_idx] = action[0]
@@ -53,24 +52,44 @@ class Env:
         self.m_queued[eqp_idx] = m_queued_after_department
         self.m_queued_diff[eqp_idx] = current_m_queued_diff
 
-        self.state = {
-            # -------------
-            "pm_action": self.m_action[eqp_idx - 1],
-            "pm_speed": self.m_speed[eqp_idx - 1],
-            "pm_queued": self.m_queued[eqp_idx - 1],
-            "pm_queued_diff": self.m_queued_diff[eqp_idx - 1],
-            # -------------
-            "m_action": action[0],
-            "m_speed": m_speed_after_action,
-            "m_queued": min(400, m_queued_after_department // 3 * 3),
-            "m_queued_diff": current_m_queued_diff // 3 * 3,
-            # -------------
-            "nm_action": self.m_action[eqp_idx + 1],
-            "nm_speed": self.m_speed[eqp_idx + 1],
-            "nm_queued": self.m_queued[eqp_idx + 1],
-            "nm_queued_diff": self.m_queued_diff[eqp_idx + 1],
-            # -------------
-        }
+        if eqp_idx + 2 == 5:
+            self.state = {
+                # -------------
+                "pm_action": self.m_action[0],
+                "pm_speed": self.m_speed[0],
+                "pm_queued": self.m_queued[0],
+                "pm_queued_diff": self.m_queued_diff[0],
+                # -------------
+                "m_action": self.m_action[1],
+                "m_speed": self.m_speed[1],
+                "m_queued": self.m_queued[1],
+                "m_queued_diff": self.m_queued_diff[1],
+                # -------------
+                "nm_action": self.m_action[2],
+                "nm_speed": self.m_speed[2],
+                "nm_queued": self.m_queued[2],
+                "nm_queued_diff": self.m_queued_diff[2],
+                # -------------
+            }
+        else:
+            self.state = {
+                # -------------
+                "pm_action": action[0],
+                "pm_speed": m_speed_after_action,
+                "pm_queued": min(400, m_queued_after_department // 3 * 3),
+                "pm_queued_diff": current_m_queued_diff // 3 * 3,
+                # -------------
+                "m_action": self.m_action[eqp_idx + 1],
+                "m_speed": self.m_speed[eqp_idx + 1],
+                "m_queued": self.m_queued[eqp_idx + 1],
+                "m_queued_diff": self.m_queued_diff[eqp_idx + 1],
+                # -------------
+                "nm_action": self.m_action[eqp_idx + 2],
+                "nm_speed": self.m_speed[eqp_idx + 2],
+                "nm_queued": self.m_queued[eqp_idx + 2],
+                "nm_queued_diff": self.m_queued_diff[eqp_idx + 2],
+                # -------------
+            }
         return reward, m_departed_actual
 
     def reset(self):

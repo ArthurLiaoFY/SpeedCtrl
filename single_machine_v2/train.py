@@ -50,7 +50,7 @@ for episode in range(n_episodes):
         print(f"Episode {episode}/{n_episodes}: Total reward: {total_reward}")
 
 
-agent.save_table(prefix="single_machine_")
+# agent.save_table(prefix="single_machine_")
 
 fig = go.Figure()
 fig.add_trace(
