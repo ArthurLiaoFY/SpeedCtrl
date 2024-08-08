@@ -11,6 +11,7 @@ kwargs = {
             )
         )
     },
+    "num_of_eqps": 1,
     "learning_rate": 0.1,
     "explore_rate": 0.5,
     "learning_rate_min": 0.03,

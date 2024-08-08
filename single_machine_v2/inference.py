@@ -6,7 +6,7 @@ from env import Env
 from plotly.subplots import make_subplots
 
 agent = Agent(**kwargs)
-agent.load_table(prefix="single_machine_")
+agent.load_table(prefix="single_machine_v2_")
 agent.shutdown_explore
 
 m_speed_rl = []
@@ -16,30 +16,43 @@ actions_rl = []
 m_queued_bl = []
 
 
-print(kwargs)
-
 env_step = 500
 
-env = Env()
-for s in range(env_step):
-    state = env.state
-
-    m_speed_rl.append(state.get("m_speed"))
-    m_queued_rl.append(state.get("m_queued"))
-
-    action_idx = agent.select_action_idx(state_tuple=tuple(v for v in state.values()))
-    action = agent.action_idx_to_action(action_idx=action_idx)
-    actions_rl.append(action[0])
-
-    reward = env.step(action=action, time=s)
+env = Env(**kwargs)
+for t in range(env_step):
+    m_arrived = (
+        np.sin(t / 30) * 20
+        + 100
+        + np.random.uniform(low=-7, high=7, size=1).item() // 1
+    )
+    for eqp_idx in range(kwargs.get("num_of_eqps")):
+        state = env.state
+        m_speed_rl.append(state.get("m_speed"))
+        m_queued_rl.append(state.get("m_queued"))
+        action_idx = agent.select_action_idx(
+            state_tuple=tuple(v for v in state.values())
+        )
+        action = agent.action_idx_to_action(action_idx=action_idx)
+        actions_rl.append(action[0])
+        reward, m_arrived = env.step(
+            action=action, eqp_idx=eqp_idx, m_arrived=m_arrived
+        )
 
 env.reset()
-for s in range(env_step):
-    state = env.state
+for t in range(env_step):
+    m_arrived = (
+        np.sin(t / 30) * 20
+        + 100
+        + np.random.uniform(low=-7, high=7, size=1).item() // 1
+    )
+    for eqp_idx in range(kwargs.get("num_of_eqps")):
+        state = env.state
+        m_queued_bl.append(state.get("m_queued"))
+        action = agent.action_idx_to_action(action_idx=0)
+        reward, m_arrived = env.step(
+            action=action, eqp_idx=eqp_idx, m_arrived=m_arrived
+        )
 
-    m_queued_bl.append(state.get("m_queued"))
-    action = agent.action_idx_to_action(action_idx=0)
-    reward = env.step(action=action, time=s)
 
 fig = make_subplots(rows=3, cols=1)
 fig.add_trace(

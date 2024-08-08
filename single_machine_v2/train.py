@@ -7,10 +7,10 @@ from agent import Agent
 from config import kwargs
 from env import Env
 
-env = Env()
+env = Env(**kwargs)
 agent = Agent(**kwargs)
 
-n_episodes = 5000
+n_episodes = 3000
 env_step = 1000
 
 rewards = []
@@ -26,13 +26,15 @@ for episode in range(n_episodes):
             + 100
             + np.random.uniform(low=-7, high=7, size=1).item() // 1
         )
-        for eqp_idx in range(3):
+        for eqp_idx in range(kwargs.get("num_of_eqps")):
             state = env.state
             action_idx = agent.select_action_idx(
                 state_tuple=tuple(v for v in state.values())
             )
             action = agent.action_idx_to_action(action_idx=action_idx)
-            reward, m_arrived = env.step(action=action, eqp_idx=eqp_idx + 1, m_arrived=m_arrived)
+            reward, m_arrived = env.step(
+                action=action, eqp_idx=eqp_idx, m_arrived=m_arrived
+            )
             agent.update_policy(
                 state_tuple=tuple(v for v in state.values()),
                 action_idx=action_idx,
@@ -50,7 +52,7 @@ for episode in range(n_episodes):
         print(f"Episode {episode}/{n_episodes}: Total reward: {total_reward}")
 
 
-# agent.save_table(prefix="single_machine_")
+agent.save_table(prefix="single_machine_v2_")
 
 fig = go.Figure()
 fig.add_trace(
