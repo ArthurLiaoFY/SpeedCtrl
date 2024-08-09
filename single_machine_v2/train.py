@@ -8,40 +8,40 @@ from config import kwargs
 from env import Env
 
 env = Env(**kwargs)
-agent = [Agent(**kwargs) for _ in range(kwargs.get("num_of_eqps"))]
+agent = Agent(**kwargs)
 
-n_episodes = 300
+n_episodes = 3000
 env_step = 1000
 
-rewards = defaultdict(list)
+rewards = {idx: [] for idx in range(kwargs.get("num_of_eqps"))}
 max_total_reward = {idx: -np.inf for idx in range(kwargs.get("num_of_eqps"))}
 
 
 for episode in range(n_episodes):
     env.reset()
-    total_reward = defaultdict(lambda: 0)
+    total_reward = {idx: 0 for idx in range(kwargs.get("num_of_eqps"))}
     for t in range(env_step):
         m_arrived = np.sin(t / 30) * 20 + 100 + 0.2 * t + np.random.randn() * 5 // 1
         for eqp_idx in range(kwargs.get("num_of_eqps")):
-            state = env.state
-            action_idx = agent[eqp_idx].select_action_idx(
+            state = env.state_dict[eqp_idx]
+            action_idx = agent.select_action_idx(
                 state_tuple=tuple(v for v in state.values())
             )
-            action = agent[eqp_idx].action_idx_to_action(action_idx=action_idx)
+            action = agent.action_idx_to_action(action_idx=action_idx)
             reward, m_arrived = env.step(
                 action=action, eqp_idx=eqp_idx, m_arrived=m_arrived
             )
-            agent[eqp_idx].update_policy(
+            agent.update_policy(
                 state_tuple=tuple(v for v in state.values()),
                 action_idx=action_idx,
                 reward=reward,
-                next_state_tuple=tuple(v for v in env.state.values()),
+                next_state_tuple=tuple(v for v in env.state_dict[eqp_idx].values()),
             )
 
             total_reward[eqp_idx] += reward / env_step
 
     for eqp_idx in range(kwargs.get("num_of_eqps")):
-        agent[eqp_idx].update_lr_er(episode=episode)
+        agent.update_lr_er(episode=episode)
         rewards[eqp_idx].append(total_reward[eqp_idx])
         if total_reward[eqp_idx] > max_total_reward[eqp_idx]:
             # print
@@ -51,7 +51,7 @@ for episode in range(n_episodes):
             )
 
 
-# agent.save_table(prefix="single_machine_v2_")
+agent.save_table(prefix="single_machine_v2_")
 
 fig = go.Figure()
 for idx, reward_l in rewards.items():
