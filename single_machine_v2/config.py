@@ -5,19 +5,19 @@ import numpy as np
 kwargs = {
     # -------------------------------
     "action_mapping": {
-        idx: combs
-        for idx, combs in enumerate(
-            itertools.product(
-                [0, -10, -5, 5, 10],
-            )
-        )
+        0: 0,
+        1: -10,
+        2: -5,
+        3: 5,
+        4: 10,
     },
     # -------------------------------
     "init_speed": [60, 60],
     "min_speed": [0, 0],
     "max_speed": [180, 180],
     # -------------------------------
-    "max_buffer": [1000, 1000],
+    "max_head_buffer": [700, 500],
+    "max_tail_buffer": [500, 700],
     # -------------------------------
     "num_of_eqps": 2,
     # -------------------------------
@@ -28,5 +28,5 @@ kwargs = {
     "learning_rate_decay": 0.999,
     "explore_rate_decay": 0.999,
     "discount_factor": 0.99,
-    "fully_explore_step": 500,
+    "fully_explore_step": 1000,
 }

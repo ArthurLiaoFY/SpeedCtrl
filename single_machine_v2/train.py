@@ -10,7 +10,7 @@ from env import Env
 env = Env(**kwargs)
 agent = Agent(**kwargs)
 
-n_episodes = 3000
+n_episodes = 2000  # 5000
 env_step = 1000
 
 rewards = {idx: [] for idx in range(kwargs.get("num_of_eqps"))}
@@ -28,9 +28,10 @@ for episode in range(n_episodes):
                 state_tuple=tuple(v for v in state.values())
             )
             action = agent.action_idx_to_action(action_idx=action_idx)
-            reward, m_arrived = env.step(
-                action=action, eqp_idx=eqp_idx, m_arrived=m_arrived
-            )
+            if eqp_idx == 0:
+                reward = env.step(action=action, eqp_idx=eqp_idx, m_arrived=m_arrived)
+            else:
+                reward = env.step(action=action, eqp_idx=eqp_idx)
             agent.update_policy(
                 state_tuple=tuple(v for v in state.values()),
                 action_idx=action_idx,

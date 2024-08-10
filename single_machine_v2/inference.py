@@ -26,15 +26,16 @@ for t in range(env_step):
     for eqp_idx in range(kwargs.get("num_of_eqps")):
         state = env.state_dict[eqp_idx]
         m_speed_rl[eqp_idx].append(state.get("m_speed"))
-        m_queued_rl[eqp_idx].append(state.get("m_queued"))
+        m_queued_rl[eqp_idx].append(state.get("m_head_queued"))
         action_idx = agent.select_action_idx(
             state_tuple=tuple(v for v in state.values())
         )
         action = agent.action_idx_to_action(action_idx=action_idx)
-        m_actions_rl[eqp_idx].append(action[0])
-        reward, m_arrived = env.step(
-            action=action, eqp_idx=eqp_idx, m_arrived=m_arrived
-        )
+        m_actions_rl[eqp_idx].append(action)
+        if eqp_idx == 0:
+            reward = env.step(action=action, eqp_idx=eqp_idx, m_arrived=m_arrived)
+        else:
+            reward = env.step(action=action, eqp_idx=eqp_idx)
     uph_rl.append(m_arrived)
 
 print(kwargs)
@@ -46,9 +47,10 @@ for t in range(env_step):
         state = env.state_dict[eqp_idx]
         m_queued_bl[eqp_idx].append(state.get("m_queued"))
         action = agent.action_idx_to_action(action_idx=0)
-        reward, m_arrived = env.step(
-            action=action, eqp_idx=eqp_idx, m_arrived=m_arrived
-        )
+        if eqp_idx == 0:
+            reward = env.step(action=action, eqp_idx=eqp_idx, m_arrived=m_arrived)
+        else:
+            reward = env.step(action=action, eqp_idx=eqp_idx)
     uph_bl.append(m_arrived)
 
 
@@ -68,10 +70,31 @@ for eqp_idx in range(kwargs.get("num_of_eqps")):
 for eqp_idx in range(kwargs.get("num_of_eqps")):
     fig.add_trace(
         go.Scatter(
-            x=np.arange(500),
+            x=np.arange(env_step),
             y=kwargs.get("init_speed")[0] * np.ones_like(m_speed_rl[eqp_idx]),
             mode="lines+markers",
             name=f"speed baseline {eqp_idx}",
+        ),
+        row=1,
+        col=1,
+    )
+for eqp_idx in range(kwargs.get("num_of_eqps")):
+    fig.add_trace(
+        go.Scatter(
+            x=np.arange(env_step),
+            y=kwargs.get("max_speed")[0] * np.ones_like(m_speed_rl[eqp_idx]),
+            line=dict(color="red", dash="dash"),
+            name=f"speed upper limit {eqp_idx}",
+        ),
+        row=1,
+        col=1,
+    )
+    fig.add_trace(
+        go.Scatter(
+            x=np.arange(env_step),
+            y=kwargs.get("min_speed")[0] * np.ones_like(m_speed_rl[eqp_idx]),
+            line=dict(color="red", dash="dash"),
+            name=f"speed lower limit {eqp_idx}",
         ),
         row=1,
         col=1,
