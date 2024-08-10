@@ -16,8 +16,8 @@ kwargs = {
     "min_speed": [0, 0],
     "max_speed": [180, 180],
     # -------------------------------
-    "max_head_buffer": [700, 500],
-    "max_tail_buffer": [500, 700],
+    "max_head_buffer": [np.inf, 500],
+    "max_tail_buffer": [500, np.inf],
     # -------------------------------
     "num_of_eqps": 2,
     # -------------------------------
