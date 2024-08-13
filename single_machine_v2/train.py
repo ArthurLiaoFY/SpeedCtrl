@@ -11,16 +11,17 @@ env = Env(**kwargs)
 agent = Agent(**kwargs)
 
 n_episodes = 500  # 5000
-env_step = 1000
 
 rewards = {idx: [] for idx in range(kwargs.get("num_of_eqps"))}
 max_total_reward = {idx: -np.inf for idx in range(kwargs.get("num_of_eqps"))}
 
+max_step = 500
 
 for episode in range(n_episodes):
+    step_cnt = 0
     env.reset()
     total_reward = {idx: 0 for idx in range(kwargs.get("num_of_eqps"))}
-    for t in range(env_step):
+    while sum(env.current_head_queued_list) > 0 and step_cnt <= max_step:
         for eqp_idx in range(kwargs.get("num_of_eqps")):
             state = env.state_dict[eqp_idx]
             action_idx = agent.select_action_idx(
@@ -35,16 +36,17 @@ for episode in range(n_episodes):
                 next_state_tuple=tuple(v for v in env.state_dict[eqp_idx].values()),
             )
 
-            total_reward[eqp_idx] += reward / env_step
+            total_reward[eqp_idx] += reward
+        step_cnt += 1
 
     for eqp_idx in range(kwargs.get("num_of_eqps")):
         agent.update_lr_er(episode=episode)
-        rewards[eqp_idx].append(total_reward[eqp_idx])
+        rewards[eqp_idx].append(total_reward[eqp_idx] / step_cnt)
         if total_reward[eqp_idx] > max_total_reward[eqp_idx]:
             # print
             max_total_reward[eqp_idx] = total_reward[eqp_idx]
             print(
-                f"Episode {episode}/{n_episodes}: Total reward ({eqp_idx}): {total_reward[eqp_idx]}"
+                f"Episode {episode}/{n_episodes}: Total reward ({eqp_idx}): {total_reward[eqp_idx] / step_cnt}"
             )
 
 
