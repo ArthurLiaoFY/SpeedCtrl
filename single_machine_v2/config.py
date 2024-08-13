@@ -14,12 +14,16 @@ kwargs = {
     # -------------------------------
     "init_speed": [60, 60, 60],
     "min_speed": [0, 0, 0],
-    "max_speed": [180, 180, 180],
+    "max_speed": [1800, 1800, 1800],
     # -------------------------------
     "max_head_buffer": [np.inf, 500, 500],
     "max_tail_buffer": [500, 500, np.inf],
     # -------------------------------
+    "ambiguous_upper_bound": 400,
+    # -------------------------------
     "num_of_eqps": 3,
+    # -------------------------------
+    "sim_production_quantity": 20000,
     # -------------------------------
     "learning_rate": 0.1,
     "explore_rate": 0.5,
@@ -28,5 +32,5 @@ kwargs = {
     "learning_rate_decay": 0.999,
     "explore_rate_decay": 0.999,
     "discount_factor": 0.99,
-    "fully_explore_step": 1000,
+    "fully_explore_step": 0,
 }
