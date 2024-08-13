@@ -23,7 +23,9 @@ env_step = 500
 
 env = Env(**kwargs)
 uph_rl = []
-for t in range(env_step):
+max_step = 500
+step_cnt = 0
+while sum(env.current_head_queued_list) > 0 and step_cnt <= max_step:
     for eqp_idx in range(kwargs.get("num_of_eqps")):
         state = env.state_dict[eqp_idx]
         m_speed_rl[eqp_idx].append(state.get("m_speed"))
@@ -36,11 +38,12 @@ for t in range(env_step):
         m_actions_rl[eqp_idx].append(action)
         reward = env.step(action=action, eqp_idx=eqp_idx)
     # uph_rl.append(m_arrived)
+    step_cnt += 1
 
-print(kwargs)
+step_cnt = 0
 uph_bl = []
 env.reset()
-for t in range(env_step):
+while sum(env.current_head_queued_list) > 0 and step_cnt <= max_step:
     for eqp_idx in range(kwargs.get("num_of_eqps")):
         state = env.state_dict[eqp_idx]
         m_h_queued_bl[eqp_idx].append(env.current_head_queued_list[eqp_idx])
@@ -48,6 +51,7 @@ for t in range(env_step):
         action = agent.action_idx_to_action(action_idx=0)
         reward = env.step(action=action, eqp_idx=eqp_idx)
     # uph_bl.append(m_arrived)
+    step_cnt += 1
 
 
 fig = make_subplots(rows=3, cols=1)
