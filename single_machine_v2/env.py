@@ -37,7 +37,7 @@ class Env:
                 ),
                 "m_amb_queued_diff": min(
                     self.ambiguous_upper_bound,
-                    self.current_tail_queued_list[eqp_idx] // 3 * 3,
+                    self.current_queued_diff_list[eqp_idx] // 3 * 3,
                 ),
             }
             for eqp_idx in range(self.num_of_eqps)
