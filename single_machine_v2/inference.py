@@ -67,17 +67,17 @@ for eqp_idx in range(kwargs.get("num_of_eqps")):
         col=1,
     )
 
-for eqp_idx in range(kwargs.get("num_of_eqps")):
-    fig.add_trace(
-        go.Scatter(
-            x=np.arange(env_step),
-            y=kwargs.get("init_speed")[0] * np.ones_like(m_speed_rl[eqp_idx]),
-            mode="lines+markers",
-            name=f"speed baseline {eqp_idx}",
-        ),
-        row=1,
-        col=1,
-    )
+# for eqp_idx in range(kwargs.get("num_of_eqps")):
+#     fig.add_trace(
+#         go.Scatter(
+#             x=np.arange(env_step),
+#             y=kwargs.get("init_speed")[0] * np.ones_like(m_speed_rl[eqp_idx]),
+#             mode="lines+markers",
+#             name=f"speed baseline {eqp_idx}",
+#         ),
+#         row=1,
+#         col=1,
+#     )
 for eqp_idx in range(kwargs.get("num_of_eqps")):
     fig.add_trace(
         go.Scatter(
@@ -110,18 +110,18 @@ for eqp_idx in range(kwargs.get("num_of_eqps")):
         row=2,
         col=1,
     )
-for eqp_idx in range(kwargs.get("num_of_eqps")):
+# for eqp_idx in range(kwargs.get("num_of_eqps")):
 
-    fig.add_trace(
-        go.Scatter(
-            x=np.arange(len(m_h_queued_bl[eqp_idx])),
-            y=m_h_queued_bl[eqp_idx],
-            mode="lines+markers",
-            name=f"head queued baseline {eqp_idx}",
-        ),
-        row=2,
-        col=1,
-    )
+#     fig.add_trace(
+#         go.Scatter(
+#             x=np.arange(len(m_h_queued_bl[eqp_idx])),
+#             y=m_h_queued_bl[eqp_idx],
+#             mode="lines+markers",
+#             name=f"head queued baseline {eqp_idx}",
+#         ),
+#         row=2,
+#         col=1,
+#     )
 
 for eqp_idx in range(kwargs.get("num_of_eqps")):
     fig.add_trace(
@@ -134,18 +134,18 @@ for eqp_idx in range(kwargs.get("num_of_eqps")):
         row=3,
         col=1,
     )
-for eqp_idx in range(kwargs.get("num_of_eqps")):
+# for eqp_idx in range(kwargs.get("num_of_eqps")):
 
-    fig.add_trace(
-        go.Scatter(
-            x=np.arange(len(m_t_queued_bl[eqp_idx])),
-            y=m_t_queued_bl[eqp_idx],
-            mode="lines+markers",
-            name=f"tail queued baseline {eqp_idx}",
-        ),
-        row=3,
-        col=1,
-    )
+#     fig.add_trace(
+#         go.Scatter(
+#             x=np.arange(len(m_t_queued_bl[eqp_idx])),
+#             y=m_t_queued_bl[eqp_idx],
+#             mode="lines+markers",
+#             name=f"tail queued baseline {eqp_idx}",
+#         ),
+#         row=3,
+#         col=1,
+#     )
 # fig.add_trace(
 #     go.Scatter(
 #         x=np.arange(len(uph_rl)), y=np.cumsum(uph_rl), mode="lines+markers", name="uph"
