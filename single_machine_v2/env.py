@@ -64,7 +64,7 @@ class Env:
         # 若來貨後無產品可生產 或是後方緩存區已經無空間收貨, 定為停機.
         if (
             m_head_queued_after_arrive <= 0
-            or self.current_tail_queued_list[eqp_idx] == self.m_max_tail_buffer[eqp_idx]
+            or self.current_tail_queued_list[eqp_idx] >= self.m_max_tail_buffer[eqp_idx]
         ):
             # 當前設備待料或是後方滿料
             self.state_dict[eqp_idx]["m_status"] = 0
