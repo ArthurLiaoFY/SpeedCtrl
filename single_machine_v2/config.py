@@ -12,14 +12,14 @@ kwargs = {
         4: 10,
     },
     # -------------------------------
-    "init_speed": [60, 60],
-    "min_speed": [0, 0],
-    "max_speed": [180, 180],
+    "init_speed": [60, 60, 60],
+    "min_speed": [0, 0, 0],
+    "max_speed": [180, 180, 180],
     # -------------------------------
-    "max_head_buffer": [np.inf, 500],
-    "max_tail_buffer": [500, np.inf],
+    "max_head_buffer": [np.inf, 500, 500],
+    "max_tail_buffer": [500, 500, np.inf],
     # -------------------------------
-    "num_of_eqps": 2,
+    "num_of_eqps": 3,
     # -------------------------------
     "learning_rate": 0.1,
     "explore_rate": 0.5,

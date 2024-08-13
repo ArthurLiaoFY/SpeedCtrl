@@ -26,7 +26,7 @@ for t in range(env_step):
     for eqp_idx in range(kwargs.get("num_of_eqps")):
         state = env.state_dict[eqp_idx]
         m_speed_rl[eqp_idx].append(state.get("m_speed"))
-        m_queued_rl[eqp_idx].append(state.get("m_head_queued"))
+        m_queued_rl[eqp_idx].append(state.get("m_anb_head_queued"))
         action_idx = agent.select_action_idx(
             state_tuple=tuple(v for v in state.values())
         )
@@ -45,7 +45,7 @@ for t in range(env_step):
     m_arrived = np.sin(t / 30) * 20 + 100 + 0.2 * t + np.random.randn() * 5 // 1
     for eqp_idx in range(kwargs.get("num_of_eqps")):
         state = env.state_dict[eqp_idx]
-        m_queued_bl[eqp_idx].append(state.get("m_queued"))
+        m_queued_bl[eqp_idx].append(state.get("m_anb_head_queued"))
         action = agent.action_idx_to_action(action_idx=0)
         if eqp_idx == 0:
             reward = env.step(action=action, eqp_idx=eqp_idx, m_arrived=m_arrived)
