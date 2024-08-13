@@ -1,5 +1,3 @@
-import copy
-
 import numpy as np
 
 
@@ -14,12 +12,14 @@ class Env:
         self.m_max_tail_buffer = self.max_tail_buffer
 
         # 記錄實時緩存區堆貨情況, 及緩存區堆貨遞增/遞減速率 [checked]
-        self.current_head_queued_list = [0 for _ in range(self.num_of_eqps)]
+        self.current_head_queued_list = [self.sim_production_quantity] + [
+            0 for _ in range(self.num_of_eqps - 1)
+        ]
         self.current_tail_queued_list = [0 for _ in range(self.num_of_eqps)]
         self.current_queued_diff_list = [0 for _ in range(self.num_of_eqps)]
 
         # 記錄實時速度 [checked]
-        self.m_speed = copy.deepcopy(self.init_speed)
+        self.m_speed = self.init_speed.copy()
 
         # 記錄實時狀態 [checked]
         self.state_dict = {
@@ -27,14 +27,23 @@ class Env:
                 "m_status": 1,
                 "m_action": self.action_mapping.get(0),
                 "m_speed": self.m_speed[eqp_idx],
-                "m_anb_head_queued": 0,
-                "m_anb_tail_queued": 0,
-                "m_anb_queued_diff": 0,
+                "m_amb_head_queued": min(
+                    self.ambiguous_upper_bound,
+                    self.current_head_queued_list[eqp_idx] // 3 * 3,
+                ),
+                "m_amb_tail_queued": min(
+                    self.ambiguous_upper_bound,
+                    self.current_tail_queued_list[eqp_idx] // 3 * 3,
+                ),
+                "m_amb_queued_diff": min(
+                    self.ambiguous_upper_bound,
+                    self.current_tail_queued_list[eqp_idx] // 3 * 3,
+                ),
             }
             for eqp_idx in range(self.num_of_eqps)
         }
 
-    def step(self, action: int, eqp_idx: int, m_arrived: int = 0) -> tuple | float:
+    def step(self, action: int, eqp_idx: int) -> tuple | float:
         # 斷定是否為首站或末站 [checked]
         first_station = bool(eqp_idx == 0)
         last_station = bool(eqp_idx == self.num_of_eqps - 1)
@@ -43,7 +52,7 @@ class Env:
         m_head_queued_after_arrive = max(
             0,
             (
-                m_arrived + self.current_head_queued_list[eqp_idx]
+                self.current_head_queued_list[eqp_idx]
                 if eqp_idx == 0
                 else self.current_tail_queued_list[eqp_idx - 1]
                 + self.current_head_queued_list[eqp_idx]
@@ -95,20 +104,33 @@ class Env:
         serious_gap = expectation_gap < -5
 
         ####################################
+        # [回報計算]
+        ####################################
+        m_head_queued_after_depart = m_head_queued_after_arrive - m_departed_actual
+        # 當前待料遞減速度差異
+        current_m_queued_diff = m_head_queued_after_arrive - m_head_queued_after_depart
+        # 回報函數估算
+        queued = m_head_queued_after_depart > 0
+
+        # UPH 目標
+        uph_target = (
+            1 if queued and self.state_dict[eqp_idx].get("m_status") else 0
+        ) * (current_m_queued_diff - self.current_queued_diff_list[eqp_idx])
+        # 資源使用效率目標
+        resource_efficiency = (
+            (0.2 if queued else 0.7)
+            * (1 if serious_gap and self.state_dict[eqp_idx].get("m_status") else 0)
+            * expectation_gap
+        )
+        # 產品堆疊導致前站滿料損失
+        force_station_stop_loss = 0
+
+        reward = uph_target + resource_efficiency + force_station_stop_loss
+
+        ####################################
         # [生產後的狀態賦予, 將賦予狀態給前後設備]
         ####################################
         # 產品離站後, 前方緩存區產品堆疊的數量
-        m_head_queued_after_depart = (
-            (
-                self.current_head_queued_list[eqp_idx]
-                + self.current_tail_queued_list[eqp_idx - 1]
-                - m_departed_actual
-            )
-            if not first_station
-            else (
-                m_arrived + self.current_head_queued_list[eqp_idx] - m_departed_actual
-            )
-        )
         if (
             m_head_queued_after_depart >= self.m_max_head_buffer[eqp_idx]
         ) and not first_station:
@@ -139,87 +161,57 @@ class Env:
         else:
             self.current_tail_queued_list[eqp_idx] = m_tail_queued_after_depart
 
-        ####################################
-        # [回報計算]
-        ####################################
-
-        # 當前待料遞減速度差異
-        current_m_queued_diff = m_head_queued_after_arrive - m_head_queued_after_depart
-        # 回報函數估算
-        queued = m_head_queued_after_depart > 0
-
-        # UPH 目標
-        uph_target = (
-            1 if queued and self.state_dict[eqp_idx].get("m_status") else 0
-        ) * (current_m_queued_diff - self.current_queued_diff_list[eqp_idx])
-        # 資源使用效率目標
-        resource_efficiency = (
-            (0.2 if queued else 0.7)
-            * (1 if serious_gap and self.state_dict[eqp_idx].get("m_status") else 0)
-            * expectation_gap
-        )
-        # 產品堆疊導致前站滿料損失
-        force_station_stop_loss = 0
-
-        reward = uph_target + resource_efficiency + force_station_stop_loss
-
-        # update state
         self.current_queued_diff_list[eqp_idx] = current_m_queued_diff
 
         self.state_dict[eqp_idx] = {
             "m_status": self.state_dict[eqp_idx].get("m_status"),
             "m_action": action,
             "m_speed": m_speed_after_action,
-            "m_anb_head_queued": self.current_head_queued_list[eqp_idx] // 3 * 3,
-            "m_anb_tail_queued": self.current_tail_queued_list[eqp_idx] // 3 * 3,
-            "m_anb_queued_diff": current_m_queued_diff // 3 * 3,
+            "m_amb_head_queued": min(
+                self.ambiguous_upper_bound,
+                self.current_head_queued_list[eqp_idx] // 3 * 3,
+            ),
+            "m_amb_tail_queued": min(
+                self.ambiguous_upper_bound,
+                self.current_tail_queued_list[eqp_idx] // 3 * 3,
+            ),
+            "m_amb_queued_diff": min(
+                self.ambiguous_upper_bound,
+                self.current_queued_diff_list[eqp_idx] // 3 * 3,
+            ),
         }
 
         if not first_station:
             self.state_dict[eqp_idx - 1].update(
                 {
-                    "m_anb_head_queued": self.current_head_queued_list[eqp_idx - 1]
-                    // 3
-                    * 3,
-                    "m_anb_tail_queued": self.current_tail_queued_list[eqp_idx - 1]
-                    // 3
-                    * 3,
+                    "m_amb_tail_queued": min(
+                        self.ambiguous_upper_bound,
+                        self.current_tail_queued_list[eqp_idx - 1] // 3 * 3,
+                    ),
                 }
             )
         elif not last_station:
             self.state_dict[eqp_idx + 1].update(
                 {
-                    "m_anb_head_queued": min(
-                        self.m_max_head_buffer[eqp_idx + 1],
+                    "m_amb_head_queued": min(
+                        self.ambiguous_upper_bound,
                         self.current_head_queued_list[eqp_idx + 1] // 3 * 3,
-                    ),
-                    "m_anb_tail_queued": min(
-                        self.m_max_tail_buffer[eqp_idx + 1],
-                        self.current_tail_queued_list[eqp_idx + 1] // 3 * 3,
                     ),
                 }
             )
         else:
             self.state_dict[eqp_idx + 1].update(
                 {
-                    "m_anb_head_queued": min(
-                        self.m_max_head_buffer[eqp_idx + 1],
+                    "m_amb_head_queued": min(
+                        self.ambiguous_upper_bound,
                         self.current_head_queued_list[eqp_idx + 1] // 3 * 3,
-                    ),
-                    "m_anb_tail_queued": min(
-                        self.m_max_tail_buffer[eqp_idx + 1],
-                        self.current_tail_queued_list[eqp_idx + 1] // 3 * 3,
                     ),
                 }
             )
             self.state_dict[eqp_idx - 1].update(
                 {
-                    "m_anb_head_queued": min(
-                        self.m_max_head_buffer[eqp_idx - 1],
-                        self.current_head_queued_list[eqp_idx - 1] // 3 * 3,
-                    ),
-                    "m_anb_tail_queued": min(
-                        self.m_max_tail_buffer[eqp_idx - 1],
+                    "m_amb_tail_queued": min(
+                        self.ambiguous_upper_bound,
                         self.current_tail_queued_list[eqp_idx - 1] // 3 * 3,
                     ),
                 }
