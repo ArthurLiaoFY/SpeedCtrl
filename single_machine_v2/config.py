@@ -4,12 +4,10 @@ import numpy as np
 
 eqp_kwargs = {
     # -------------------------------
+    "num_of_eqps": 5,
+    # -------------------------------
     "action_mapping_dict": {
-        0: 0,
-        1: -10,
-        2: -5,
-        3: 5,
-        4: 10,
+        idx: action for idx, action in enumerate([0, -30, -10, -5, -3, 3, 5, 10, 30])
     },
     # -------------------------------
     "init_status_dict": {

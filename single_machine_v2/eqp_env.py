@@ -9,7 +9,7 @@ class EqpEnv:
 
     def reset(self):
         # 目標生產總數量 [checked]
-        self.current_requested = self.sim_production_quantity
+        self.current_unprocessed_amount = self.sim_production_quantity
 
         # 記錄實時速度 [checked]
         self.pm_speed = self.init_speed_dict.get(self.eqp_idx - 1, self.feeding_speed)
@@ -28,7 +28,9 @@ class EqpEnv:
         # 初始化狀態
         self.eqp_state = {
             "m_status": self.init_status_dict.get(self.eqp_idx),
+            "pm_speed": self.pm_speed,
             "m_speed": self.init_speed_dict.get(self.eqp_idx),
+            "nm_speed": self.nm_speed,
             "balancing_coef": self.balancing_coef_dict.get(self.eqp_idx),
             "head_queued": self.current_head_queued // 3 * 3,
             "tail_queued": self.current_tail_queued // 3 * 3,
@@ -38,10 +40,21 @@ class EqpEnv:
         self,
         action: int,
     ):
-        arrived_amount = min(
-            self.current_requested, int(self.pm_speed * 1.5 + np.random.uniform(-2, 2))
+        arrived_amount = (
+            min(
+                self.current_unprocessed_amount,
+                max(
+                    0,  # 不可小於0
+                    int(
+                        self.pm_speed * 1.5 + np.random.randn() * 2
+                    ),  # 前方設備最大能耐
+                ),
+                self.m_max_head_buffer - self.current_head_queued,
+            )
+            if self.current_head_queued <= self.m_max_head_buffer
+            else 0
         )
-        self.current_requested -= arrived_amount
+        self.current_unprocessed_amount -= arrived_amount
 
         head_queued_after_arrive = self.current_head_queued + arrived_amount
 
@@ -63,34 +76,62 @@ class EqpEnv:
         m_depart_actual = (
             min(
                 head_queued_after_arrive,  # 最多可離站產品數量
-                int(
-                    m_depart_ability + np.random.uniform(-2, 2) * m_working
-                ),  # 當前速度最大能耐
+                max(
+                    0,  # 不可小於0
+                    int(
+                        m_depart_ability + np.random.randn() * 2 * m_working
+                    ),  # 當前速度最大能耐
+                ),
                 self.m_max_tail_buffer
-                - self.eqp_state.get("tail_queued"),  # 後方緩存區最多可收數量
+                - self.current_tail_queued,  # 後方緩存區最多可收數量
             )
             if m_working
             else 0
         )
 
-        #
-        nm_shipping_amount = int(self.nm_speed * 1.5 + np.random.uniform(-2, 2))
+        # 離站產品數量
+        nm_shipping_amount = int(self.nm_speed * 1.5 + np.random.randn() * 2)
 
-        uph_target = self.eqp_state.get("balancing_coef") * m_depart_actual
+        new_head_queued = head_queued_after_arrive - m_depart_actual
+        new_tail_queued = (
+            0
+            if self.eqp_idx == self.num_of_eqps - 1
+            else max(
+                0,
+                self.eqp_state.get("tail_queued")
+                + m_depart_actual
+                - nm_shipping_amount,
+            )
+        )
+
+        uph_target = self.eqp_state.get("balancing_coef") * 0.2 * m_depart_actual
+
+        if self.eqp_state.get("balancing_coef") > 0.5:
+            acc_target = self.eqp_state.get("balancing_coef") * (
+                self.current_head_queued - new_head_queued
+            )
+        else:
+            acc_target = (1 - self.eqp_state.get("balancing_coef")) * (
+                self.current_tail_queued - new_tail_queued
+            )
 
         resource_efficiency = (
             (1 - self.eqp_state.get("balancing_coef"))
-            * 0.5
             * (m_depart_actual - m_depart_ability)
+            * 2
+            if new_head_queued == 0
+            else 1
         )
 
-        m_reward = uph_target + resource_efficiency
+        m_reward = uph_target + acc_target + resource_efficiency
 
         # 更新狀態
-        self.current_head_queued = head_queued_after_arrive - m_depart_actual
-        self.current_tail_queued = max(
-            0, self.eqp_state.get("tail_queued") + m_depart_actual - nm_shipping_amount
-        )
+        # self.pm_speed += action
+        # self.nm_speed += action
+
+        self.current_head_queued = new_head_queued
+        self.current_tail_queued = new_tail_queued
+
         if self.current_tail_queued >= self.m_max_tail_buffer:
             new_status = 0
         else:
@@ -98,7 +139,9 @@ class EqpEnv:
 
         self.eqp_state = {
             "m_status": new_status,
+            "pm_speed": self.pm_speed,
             "m_speed": m_speed_after_action,
+            "nm_speed": self.nm_speed,
             "balancing_coef": self.eqp_state.get("balancing_coef"),
             "head_queued": min(
                 self.m_max_head_buffer, self.current_head_queued // 3 * 3
@@ -107,4 +150,4 @@ class EqpEnv:
                 self.m_max_tail_buffer, self.current_tail_queued // 3 * 3
             ),
         }
-        return m_reward
+        return m_reward, m_depart_actual, m_depart_ability
