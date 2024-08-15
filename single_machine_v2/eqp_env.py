@@ -98,13 +98,13 @@ class EqpEnv:
             if self.eqp_idx == self.num_of_eqps - 1
             else max(
                 0,
-                self.eqp_state.get("tail_queued")
+                self.current_tail_queued
                 + m_depart_actual
                 - nm_shipping_amount,
             )
         )
 
-        uph_target = self.eqp_state.get("balancing_coef") * 0.2 * m_depart_actual
+        uph_target = self.eqp_state.get("balancing_coef") * m_depart_actual
 
         if self.eqp_state.get("balancing_coef") > 0.5:
             acc_target = self.eqp_state.get("balancing_coef") * (
@@ -116,11 +116,8 @@ class EqpEnv:
             )
 
         resource_efficiency = (
-            (1 - self.eqp_state.get("balancing_coef"))
-            * (m_depart_actual - m_depart_ability)
-            * 2
-            if new_head_queued == 0
-            else 1
+            min(-5, m_depart_actual - m_depart_ability)
+            * (1 if (new_head_queued + self.current_unprocessed_amount) > 0 else 0)
         )
 
         m_reward = uph_target + acc_target + resource_efficiency

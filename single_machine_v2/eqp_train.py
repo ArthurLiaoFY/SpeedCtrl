@@ -10,7 +10,7 @@ from eqp_env import EqpEnv
 env = EqpEnv(eqp_idx=0, **eqp_kwargs)
 agent = Agent(**eqp_kwargs, **q_learning_kwargs)
 
-n_episodes = 7000
+n_episodes = 20000
 
 rewards = []
 nan_process_amount = defaultdict(list)
@@ -18,6 +18,7 @@ departs = defaultdict(list)
 ability = defaultdict(list)
 h_queued = defaultdict(list)
 t_queued = defaultdict(list)
+r = defaultdict(list)
 
 max_total_reward = -np.inf
 
@@ -32,6 +33,7 @@ for episode in range(n_episodes):
     h_queued[episode].append(env.current_head_queued)
     t_queued[episode].append(env.current_tail_queued)
     nan_process_amount[episode].append(env.current_unprocessed_amount)
+    r[episode].append(None)
     while (
         env.current_unprocessed_amount + env.current_head_queued > 0
         and step_cnt <= max_step
@@ -48,6 +50,7 @@ for episode in range(n_episodes):
         h_queued[episode].append(env.current_head_queued)
         t_queued[episode].append(env.current_tail_queued)
         nan_process_amount[episode].append(env.current_unprocessed_amount)
+        r[episode].append(reward)
 
         agent.update_policy(
             state_tuple=tuple(v for v in state.values()),
@@ -142,5 +145,14 @@ for flag in [4999]:
     #         legendgrouptitle={"text": "prod left"},
     #     )
     # )
-
+    fig.add_trace(
+        go.Scatter(
+            x=np.arange(len(r[flag])),
+            y=r[flag],
+            mode="lines+markers",
+            name=flag,
+            legendgroup="reward",
+            legendgrouptitle={"text": "reward"},
+        )
+    )
 plotly.offline.plot(figure_or_data=fig, filename="depart_trend.html")
