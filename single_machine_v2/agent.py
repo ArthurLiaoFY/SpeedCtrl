@@ -6,7 +6,7 @@ import numpy as np
 class Agent:
     def __init__(self, **kwargs) -> None:
         self.__dict__.update(kwargs)
-        self.action_size = len(kwargs.get("action_mapping"))
+        self.action_size = len(kwargs.get("action_mapping_dict"))
         self.start_explore
 
         self.q_table = defaultdict(lambda: np.zeros(self.action_size))
@@ -20,7 +20,7 @@ class Agent:
         return action_idx
 
     def action_idx_to_action(self, action_idx: int) -> tuple:
-        return self.action_mapping.get(action_idx)
+        return self.action_mapping_dict.get(action_idx)
 
     def update_policy(
         self,
