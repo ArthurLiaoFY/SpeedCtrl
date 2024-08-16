@@ -111,7 +111,10 @@ class EqpEnv:
             new_status = 1
             effect_other_machine_loss = 0
 
-        m_reward = uph_target + effect_other_machine_loss
+        # 做毫無意義的動作造成資源浪費
+        resource_waste = 0.1 * abs(action) * min(0, m_depart_actual - m_depart_ability)
+
+        m_reward = uph_target + effect_other_machine_loss + resource_waste
 
         # 更新狀態
         # self.pm_speed += action
