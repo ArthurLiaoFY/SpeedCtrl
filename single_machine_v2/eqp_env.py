@@ -100,9 +100,6 @@ class EqpEnv:
             )
         )
 
-        # uph 越大越好
-        uph_target = m_depart_actual
-
         # 待料是很嚴重的loss
         if self.current_tail_queued >= self.m_max_tail_buffer:
             new_status = 0
@@ -111,14 +108,24 @@ class EqpEnv:
             new_status = 1
             effect_other_machine_loss = 0
 
-        # 做毫無意義的動作造成資源浪費
-        resource_waste = 0.1 * abs(action) * min(0, m_depart_actual - m_depart_ability)
+        # 做毫無意義的動作造成資源浪費, 當前方待料數量加大時, 浪費的損失會較小, 反之較大
+        resource_waste = (
+            0.02
+            * (1 - (self.current_head_queued / self.m_max_head_buffer))
+            * abs(action)
+            * min(0, m_depart_actual - m_depart_ability)
+        )
 
-        m_reward = uph_target + effect_other_machine_loss + resource_waste
+        #
+        queued_degrade_reward = self.eqp_state.get("balancing_coef") * (
+            self.current_head_queued - new_head_queued
+        ) + (1 - self.eqp_state.get("balancing_coef")) * (
+            self.current_tail_queued - new_tail_queued
+        )
+
+        m_reward = effect_other_machine_loss + resource_waste + queued_degrade_reward
 
         # 更新狀態
-        # self.pm_speed += action
-        # self.nm_speed += action
 
         self.current_head_queued = new_head_queued
         self.current_tail_queued = new_tail_queued

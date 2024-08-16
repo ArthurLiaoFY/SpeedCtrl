@@ -34,9 +34,7 @@ while (
     m_speed_rl[eqp_idx].append(state.get("m_speed"))
     m_h_queued_rl[eqp_idx].append(env.current_head_queued)
     m_t_queued_rl[eqp_idx].append(env.current_tail_queued)
-    action_idx = agent.select_action_idx(
-        state_tuple=tuple(v for v in state.values())
-    )
+    action_idx = agent.select_action_idx(state_tuple=tuple(v for v in state.values()))
     action = agent.action_idx_to_action(action_idx=action_idx)
     m_actions_rl[eqp_idx].append(action)
     reward = env.step(action=action)
@@ -71,17 +69,6 @@ fig.add_trace(
     col=1,
 )
 
-# for eqp_idx in range(eqp_kwargs.get("num_of_eqps")):
-#     fig.add_trace(
-#         go.Scatter(
-#             x=np.arange(env_step),
-#             y=eqp_kwargs.get("init_speed")[0] * np.ones_like(m_speed_rl[eqp_idx]),
-#             mode="lines+markers",
-#             name=f"speed baseline {eqp_idx}",
-#         ),
-#         row=1,
-#         col=1,
-#     )
 fig.add_trace(
     go.Scatter(
         x=np.arange(env_step),
@@ -112,18 +99,6 @@ fig.add_trace(
     row=2,
     col=1,
 )
-# for eqp_idx in range(eqp_kwargs.get("num_of_eqps")):
-
-#     fig.add_trace(
-#         go.Scatter(
-#             x=np.arange(len(m_h_queued_bl[eqp_idx])),
-#             y=m_h_queued_bl[eqp_idx],
-#             mode="lines+markers",
-#             name=f"head queued baseline {eqp_idx}",
-#         ),
-#         row=2,
-#         col=1,
-#     )
 
 fig.add_trace(
     go.Scatter(
@@ -132,36 +107,19 @@ fig.add_trace(
         mode="lines+markers",
         name=f"tail queued {eqp_idx}",
     ),
+    row=2,
+    col=1,
+)
+
+fig.add_trace(
+    go.Scatter(
+        x=np.arange(max(len(m_t_queued_rl[eqp_idx]), len(m_h_queued_rl[eqp_idx]))),
+        y=[a + b for a, b in zip(m_t_queued_rl[eqp_idx], m_h_queued_rl[eqp_idx])],
+        mode="lines+markers",
+        name=f"total queued {eqp_idx}",
+    ),
     row=3,
     col=1,
 )
-# for eqp_idx in range(eqp_kwargs.get("num_of_eqps")):
 
-#     fig.add_trace(
-#         go.Scatter(
-#             x=np.arange(len(m_t_queued_bl[eqp_idx])),
-#             y=m_t_queued_bl[eqp_idx],
-#             mode="lines+markers",
-#             name=f"tail queued baseline {eqp_idx}",
-#         ),
-#         row=3,
-#         col=1,
-#     )
-# fig.add_trace(
-#     go.Scatter(
-#         x=np.arange(len(uph_rl)), y=np.cumsum(uph_rl), mode="lines+markers", name="uph"
-#     ),
-#     row=3,
-#     col=1,
-# )
-# fig.add_trace(
-#     go.Scatter(
-#         x=np.arange(len(uph_bl)),
-#         y=np.cumsum(uph_bl),
-#         mode="lines+markers",
-#         name="uph baseline",
-#     ),
-#     row=3,
-#     col=1,
-# )
 plotly.offline.plot(figure_or_data=fig, filename="speed_queue_trend.html")

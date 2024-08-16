@@ -7,7 +7,10 @@ eqp_kwargs = {
     "num_of_eqps": 5,
     # -------------------------------
     "action_mapping_dict": {
-        idx: action for idx, action in enumerate([0, -80, -60, -30, -10, -5, -3, 3, 5, 10, 30, 60, 80])
+        idx: action
+        for idx, action in enumerate(
+            [0, -80, -60, -30, -10, -5, -3, 3, 5, 10, 30, 60, 80]
+        )
     },
     # -------------------------------
     "init_status_dict": {
@@ -69,7 +72,7 @@ eqp_kwargs = {
 }
 
 
-kwargs = {
+line_kwargs = {
     # -------------------------------
     "num_of_eqps": 5,
     # -------------------------------
