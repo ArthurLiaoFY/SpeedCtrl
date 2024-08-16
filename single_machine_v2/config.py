@@ -64,17 +64,10 @@ eqp_kwargs = {
         # 4: 0.7,
     },
     # -------------------------------
-    "sim_production_quantity": 5000,
     "feeding_speed": 60,
     "shipping_speed": 60,
-}
-
-
-line_kwargs = {
     # -------------------------------
-    "num_of_eqps": 5,
-    # -------------------------------
-    "sim_production_quantity": 20000,
+    "sim_production_quantity": 5000,
 }
 
 q_learning_kwargs = {

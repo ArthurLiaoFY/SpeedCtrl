@@ -32,8 +32,16 @@ class EqpEnv:
             "m_speed": self.init_speed_dict.get(self.eqp_idx),
             "nm_speed": self.nm_speed,
             "balancing_coef": self.balancing_coef_dict.get(self.eqp_idx),
-            "head_queued": self.current_head_queued // 3 * 3,
-            "tail_queued": self.current_tail_queued // 3 * 3,
+            "head_queued": min(self.m_max_head_buffer, self.current_head_queued)
+            / self.m_max_head_buffer
+            * 100
+            // 5
+            * 5,
+            "tail_queued": min(self.m_max_tail_buffer, self.current_tail_queued)
+            / self.m_max_tail_buffer
+            * 100
+            // 5
+            * 5,
         }
 
     def step(
@@ -101,8 +109,10 @@ class EqpEnv:
         )
 
         # 計算回報
-        # 待料是很嚴重的loss
-        if self.current_tail_queued >= self.m_max_tail_buffer:
+        # 待料是很嚴重的損失
+        if (self.current_tail_queued >= self.m_max_tail_buffer) or (
+            self.current_head_queued >= self.m_max_head_buffer
+        ):
             new_status = 0
             effect_other_machine_loss = -2 * m_depart_ability
         else:
@@ -146,11 +156,15 @@ class EqpEnv:
             "m_speed": m_speed_after_action,
             "nm_speed": self.nm_speed,
             "balancing_coef": self.eqp_state.get("balancing_coef"),
-            "head_queued": min(
-                self.m_max_head_buffer, self.current_head_queued // 3 * 3
-            ),
-            "tail_queued": min(
-                self.m_max_tail_buffer, self.current_tail_queued // 3 * 3
-            ),
+            "head_queued": min(self.m_max_head_buffer, self.current_head_queued)
+            / self.m_max_head_buffer
+            * 100
+            // 5
+            * 5,
+            "tail_queued": min(self.m_max_tail_buffer, self.current_tail_queued)
+            / self.m_max_tail_buffer
+            * 100
+            // 5
+            * 5,
         }
         return m_reward, m_depart_actual, m_depart_ability
