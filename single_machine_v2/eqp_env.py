@@ -114,6 +114,7 @@ class EqpEnv:
             self.current_head_queued >= self.m_max_head_buffer
         ):
             new_status = 0
+            # 越愛現, 影響到別人, 損失就給你很大
             effect_other_machine_loss = -2 * m_depart_ability
         else:
             new_status = 1
@@ -136,7 +137,7 @@ class EqpEnv:
             * min(0, m_depart_actual - m_depart_ability)
         )
 
-        #
+        # 關注緩存區壓力情況, 壓力越小越好
         queued_degrade_reward = self.eqp_state.get("balancing_coef") * (
             self.current_head_queued - new_head_queued
         ) + (1.0 - self.eqp_state.get("balancing_coef")) * (
