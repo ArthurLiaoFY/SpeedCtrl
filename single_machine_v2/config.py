@@ -8,9 +8,7 @@ eqp_kwargs = {
     # -------------------------------
     "action_mapping_dict": {
         idx: action
-        for idx, action in enumerate(
-            [0, -60, -30, -10, -5, -3, 3, 5, 10, 30, 60]
-        )
+        for idx, action in enumerate([0, -60, -30, -10, -5, -3, 3, 5, 10, 30, 60])
     },
     # -------------------------------
     "init_status_dict": {
