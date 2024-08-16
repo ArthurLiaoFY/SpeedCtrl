@@ -100,6 +100,7 @@ class EqpEnv:
             )
         )
 
+        # 計算回報
         # 待料是很嚴重的loss
         if self.current_tail_queued >= self.m_max_tail_buffer:
             new_status = 0

@@ -45,12 +45,12 @@ for episode in range(n_episodes):
         total_reward += reward
         step_cnt += 1
     agent.update_lr_er(episode=episode)
-    rewards.append(total_reward / step_cnt)
-    if total_reward / step_cnt > max_total_reward:
+    rewards.append(total_reward)
+    if total_reward > max_total_reward:
         # print
-        max_total_reward = total_reward / step_cnt
+        max_total_reward = total_reward
         print(
-            f"Episode {episode}/{n_episodes}: Total reward : {total_reward / step_cnt}, Step: {step_cnt}"
+            f"Episode {episode}/{n_episodes}: Total reward : {total_reward}, Step: {step_cnt}"
         )
 
 
