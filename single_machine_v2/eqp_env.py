@@ -111,8 +111,17 @@ class EqpEnv:
 
         # 做毫無意義的動作造成資源浪費, 當前方待料數量加大時, 浪費的損失會較小, 反之較大
         resource_waste = (
-            0.02
-            * (1 - (self.current_head_queued / self.m_max_head_buffer))
+            0.04
+            * (
+                1.0
+                - self.eqp_state.get("balancing_coef")
+                * (self.current_head_queued / self.m_max_head_buffer)
+            )
+            * (
+                1.0
+                - (1.0 - self.eqp_state.get("balancing_coef"))
+                * (self.current_tail_queued / self.m_max_tail_buffer)
+            )
             * abs(action)
             * min(0, m_depart_actual - m_depart_ability)
         )
@@ -120,7 +129,7 @@ class EqpEnv:
         #
         queued_degrade_reward = self.eqp_state.get("balancing_coef") * (
             self.current_head_queued - new_head_queued
-        ) + (1 - self.eqp_state.get("balancing_coef")) * (
+        ) + (1.0 - self.eqp_state.get("balancing_coef")) * (
             self.current_tail_queued - new_tail_queued
         )
 
