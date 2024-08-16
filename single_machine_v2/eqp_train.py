@@ -6,11 +6,12 @@ import plotly.graph_objects as go
 from agent import Agent
 from config import eqp_kwargs, q_learning_kwargs
 from eqp_env import EqpEnv
+from plotly.subplots import make_subplots
 
 env = EqpEnv(eqp_idx=0, **eqp_kwargs)
 agent = Agent(**eqp_kwargs, **q_learning_kwargs)
 
-n_episodes = 20000
+n_episodes = 10000
 
 rewards = []
 nan_process_amount = defaultdict(list)
@@ -19,6 +20,7 @@ ability = defaultdict(list)
 h_queued = defaultdict(list)
 t_queued = defaultdict(list)
 r = defaultdict(list)
+state_list = defaultdict(list)
 
 max_total_reward = -np.inf
 
@@ -40,6 +42,7 @@ for episode in range(n_episodes):
     ):
 
         state = env.eqp_state.copy()
+        state_list[episode].append(state.copy())
         action_idx = agent.select_action_idx(
             state_tuple=tuple(v for v in state.values())
         )
@@ -77,14 +80,19 @@ agent.save_table(
     + f"_shipping_speed_{eqp_kwargs.get('shipping_speed')}"
     + "_"
 )
+import json
+
+with open("tmp.pkl", 'w') as f:
+    json.dump(state_list[n_episodes-1], f)
 
 fig = go.Figure()
 
 fig.add_trace(go.Scatter(x=np.arange(len(rewards)), y=rewards, mode="lines+markers"))
 plotly.offline.plot(figure_or_data=fig, filename="reward_trend.html")
 
-fig = go.Figure()
-for flag in [4999]:
+case = [999, 4999]
+fig = make_subplots(rows=len(case), cols=1)
+for idx, flag in enumerate([999, 4999]):
     fig.add_trace(
         go.Scatter(
             x=np.arange(len(departs[flag])),
@@ -93,7 +101,9 @@ for flag in [4999]:
             name=flag,
             legendgroup="departs",
             legendgrouptitle={"text": "departs"},
-        )
+        ),
+        row=idx+1,
+        col=1
     )
     fig.add_trace(
         go.Scatter(
@@ -103,7 +113,9 @@ for flag in [4999]:
             name=flag,
             legendgroup="expects",
             legendgrouptitle={"text": "expects"},
-        )
+        ),
+        row=idx + 1,
+        col=1,
     )
     # fig.add_trace(
     #     go.Scatter(
@@ -123,7 +135,9 @@ for flag in [4999]:
             name=flag,
             legendgroup="head queued",
             legendgrouptitle={"text": "head queued"},
-        )
+        ),
+        row=idx + 1,
+        col=1,
     )
     fig.add_trace(
         go.Scatter(
@@ -133,7 +147,9 @@ for flag in [4999]:
             name=flag,
             legendgroup="tail queued",
             legendgrouptitle={"text": "tail queued"},
-        )
+        ),
+        row=idx + 1,
+        col=1,
     )
     # fig.add_trace(
     #     go.Scatter(
@@ -153,6 +169,8 @@ for flag in [4999]:
             name=flag,
             legendgroup="reward",
             legendgrouptitle={"text": "reward"},
-        )
+        ),
+        row=idx + 1,
+        col=1,
     )
 plotly.offline.plot(figure_or_data=fig, filename="depart_trend.html")

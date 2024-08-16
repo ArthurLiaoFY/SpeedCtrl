@@ -78,14 +78,12 @@ class EqpEnv:
                 head_queued_after_arrive,  # 最多可離站產品數量
                 max(
                     0,  # 不可小於0
-                    int(
-                        m_depart_ability + np.random.randn() * 2 * m_working
-                    ),  # 當前速度最大能耐
+                    int(m_depart_ability + np.random.randn() * 2),  # 當前速度最大能耐
                 ),
                 self.m_max_tail_buffer
                 - self.current_tail_queued,  # 後方緩存區最多可收數量
             )
-            if m_working
+            if m_working and m_speed_after_action != 0
             else 0
         )
 
@@ -98,29 +96,25 @@ class EqpEnv:
             if self.eqp_idx == self.num_of_eqps - 1
             else max(
                 0,
-                self.current_tail_queued
-                + m_depart_actual
-                - nm_shipping_amount,
+                self.current_tail_queued + m_depart_actual - nm_shipping_amount,
             )
         )
 
-        uph_target = self.eqp_state.get("balancing_coef") * m_depart_actual
+        # uph_target = m_depart_actual
+        uph_target = 0
 
         if self.eqp_state.get("balancing_coef") > 0.5:
-            acc_target = self.eqp_state.get("balancing_coef") * (
-                self.current_head_queued - new_head_queued
-            )
+            acc_target = head_queued_after_arrive - new_head_queued
+
         else:
-            acc_target = (1 - self.eqp_state.get("balancing_coef")) * (
-                self.current_tail_queued - new_tail_queued
-            )
+            acc_target = self.current_tail_queued - new_tail_queued
 
-        resource_efficiency = (
-            min(-5, m_depart_actual - m_depart_ability)
-            * (1 if (new_head_queued + self.current_unprocessed_amount) > 0 else 0)
-        )
+        if (self.eqp_state.get("m_speed") - m_speed_after_action) * action <= 0:
+            useless_action_loss = -0.2 * abs(action)
+        else:
+            useless_action_loss = 0
 
-        m_reward = uph_target + acc_target + resource_efficiency
+        m_reward = uph_target + acc_target + useless_action_loss
 
         # 更新狀態
         # self.pm_speed += action
