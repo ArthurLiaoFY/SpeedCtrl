@@ -100,21 +100,18 @@ class EqpEnv:
             )
         )
 
+        # uph 越大越好
         uph_target = m_depart_actual
 
-        if self.eqp_state.get("balancing_coef") > 0.5:
-            acc_target = head_queued_after_arrive - new_head_queued
-
+        # 待料是很嚴重的loss
+        if self.current_tail_queued >= self.m_max_tail_buffer:
+            new_status = 0
+            effect_other_machine_loss = -2 * m_depart_ability
         else:
-            acc_target = self.current_tail_queued - new_tail_queued
+            new_status = 1
+            effect_other_machine_loss = 0
 
-        if (self.eqp_state.get("m_speed") - m_speed_after_action) * action <= 0:
-            useless_action_loss = -0.15 * abs(action)
-            
-        else:
-            useless_action_loss = 0
-
-        m_reward = uph_target + acc_target + useless_action_loss
+        m_reward = uph_target + effect_other_machine_loss
 
         # 更新狀態
         # self.pm_speed += action
@@ -122,11 +119,6 @@ class EqpEnv:
 
         self.current_head_queued = new_head_queued
         self.current_tail_queued = new_tail_queued
-
-        if self.current_tail_queued >= self.m_max_tail_buffer:
-            new_status = 0
-        else:
-            new_status = 1
 
         self.eqp_state = {
             "m_status": new_status,
