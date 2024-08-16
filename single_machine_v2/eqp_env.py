@@ -100,8 +100,7 @@ class EqpEnv:
             )
         )
 
-        # uph_target = m_depart_actual
-        uph_target = 0
+        uph_target = m_depart_actual
 
         if self.eqp_state.get("balancing_coef") > 0.5:
             acc_target = head_queued_after_arrive - new_head_queued
@@ -110,7 +109,8 @@ class EqpEnv:
             acc_target = self.current_tail_queued - new_tail_queued
 
         if (self.eqp_state.get("m_speed") - m_speed_after_action) * action <= 0:
-            useless_action_loss = -0.2 * abs(action)
+            useless_action_loss = -0.15 * abs(action)
+            
         else:
             useless_action_loss = 0
 

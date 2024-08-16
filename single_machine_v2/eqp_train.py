@@ -80,10 +80,10 @@ agent.save_table(
     + f"_shipping_speed_{eqp_kwargs.get('shipping_speed')}"
     + "_"
 )
-import json
+# import json
 
-with open("tmp.pkl", 'w') as f:
-    json.dump(state_list[n_episodes-1], f)
+# with open("tmp.pkl", "w") as f:
+#     json.dump(state_list[n_episodes - 1], f)
 
 fig = go.Figure()
 
@@ -102,8 +102,8 @@ for idx, flag in enumerate([999, 4999]):
             legendgroup="departs",
             legendgrouptitle={"text": "departs"},
         ),
-        row=idx+1,
-        col=1
+        row=idx + 1,
+        col=1,
     )
     fig.add_trace(
         go.Scatter(
@@ -117,16 +117,18 @@ for idx, flag in enumerate([999, 4999]):
         row=idx + 1,
         col=1,
     )
-    # fig.add_trace(
-    #     go.Scatter(
-    #         x=np.arange(len(departs[flag])),
-    #         y=np.cumsum(departs[flag]),
-    #         mode="lines+markers",
-    #         name=flag,
-    #         legendgroup="cumulate departs",
-    #         legendgrouptitle={"text": "cumulate departs"},
-    #     )
-    # )
+    fig.add_trace(
+        go.Scatter(
+            x=np.arange(len(departs[flag])),
+            y=np.cumsum(departs[flag]),
+            mode="lines+markers",
+            name=flag,
+            legendgroup="cumulate departs",
+            legendgrouptitle={"text": "cumulate departs"},
+        ),
+        row=idx + 1,
+        col=1,
+    )
     fig.add_trace(
         go.Scatter(
             x=np.arange(len(h_queued[flag])),
@@ -151,16 +153,18 @@ for idx, flag in enumerate([999, 4999]):
         row=idx + 1,
         col=1,
     )
-    # fig.add_trace(
-    #     go.Scatter(
-    #         x=np.arange(len(nan_process_amount[flag])),
-    #         y=nan_process_amount[flag],
-    #         mode="lines+markers",
-    #         name=flag,
-    #         legendgroup="prod left",
-    #         legendgrouptitle={"text": "prod left"},
-    #     )
-    # )
+    fig.add_trace(
+        go.Scatter(
+            x=np.arange(len(nan_process_amount[flag])),
+            y=nan_process_amount[flag],
+            mode="lines+markers",
+            name=flag,
+            legendgroup="prod left",
+            legendgrouptitle={"text": "prod left"},
+        ),
+        row=idx + 1,
+        col=1,
+    )
     fig.add_trace(
         go.Scatter(
             x=np.arange(len(r[flag])),
