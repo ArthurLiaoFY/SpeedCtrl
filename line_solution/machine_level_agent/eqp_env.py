@@ -80,6 +80,7 @@ class EqpEnv:
 
         # 當前速度預期應該要有的產量 [checked]
         m_depart_ability = m_speed_after_action * 1.5
+        # 之後需要一個 f(x) 去估計 m_depart_ability
 
         # 實際的產量 [checked]
         m_depart_actual = (
@@ -125,14 +126,12 @@ class EqpEnv:
         resource_waste = (
             0.04
             * (
-                1.0
-                - self.eqp_state.get("balancing_coef")
-                * (self.current_head_queued / self.m_max_head_buffer)
+                self.eqp_state.get("balancing_coef")
+                * (1.0 - self.current_head_queued / self.m_max_head_buffer)
             )
             * (
-                1.0
-                - (1.0 - self.eqp_state.get("balancing_coef"))
-                * (self.current_tail_queued / self.m_max_tail_buffer)
+                (1.0 - self.eqp_state.get("balancing_coef"))
+                * (1.0 - self.current_tail_queued / self.m_max_tail_buffer)
             )
             * abs(action)
             * min(0, m_depart_actual - m_depart_ability)
