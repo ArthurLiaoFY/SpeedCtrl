@@ -31,7 +31,7 @@ class EqpEnv:
             "pm_speed": self.pm_speed,
             "m_speed": self.init_speed_dict.get(self.eqp_idx),
             "nm_speed": self.nm_speed,
-            "balancing_coef": self.balancing_coef_dict.get(self.eqp_idx),
+            "balancing_coef": self.init_balancing_coef_dict.get(self.eqp_idx),
             "head_queued": min(self.m_max_head_buffer, self.current_head_queued)
             / self.m_max_head_buffer
             * 100
@@ -47,6 +47,7 @@ class EqpEnv:
     def step(
         self,
         action: int,
+        balancing_coef: float | None = None,
     ):
         arrived_amount = (
             min(
@@ -156,7 +157,11 @@ class EqpEnv:
             "pm_speed": self.pm_speed,
             "m_speed": m_speed_after_action,
             "nm_speed": self.nm_speed,
-            "balancing_coef": self.eqp_state.get("balancing_coef"),
+            "balancing_coef": (
+                balancing_coef
+                if balancing_coef
+                else self.eqp_state.get("balancing_coef")
+            ),
             "head_queued": min(self.m_max_head_buffer, self.current_head_queued)
             / self.m_max_head_buffer
             * 100

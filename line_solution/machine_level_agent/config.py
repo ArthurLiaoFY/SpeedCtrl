@@ -56,7 +56,7 @@ eqp_kwargs = {
         # 4: 400,
     },
     # -------------------------------
-    "balancing_coef_dict": {
+    "init_balancing_coef_dict": {
         0: 0.7,
         # 1: 0.7,
         # 2: 0.7,
