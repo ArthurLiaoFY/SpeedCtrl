@@ -99,6 +99,19 @@ fig.add_trace(
     row=2,
     col=1,
 )
+fig.add_trace(
+    go.Scatter(
+        x=np.arange(len(m_h_queued_rl[eqp_idx])),
+        y=[
+            eqp_kwargs.get("max_head_buffer_dict").get(eqp_idx)
+            for _ in range(len(m_h_queued_rl[eqp_idx]))
+        ],
+        mode="lines+markers",
+        name=f"head queued upper limit {eqp_idx}",
+    ),
+    row=2,
+    col=1,
+)
 
 fig.add_trace(
     go.Scatter(
@@ -110,6 +123,20 @@ fig.add_trace(
     row=2,
     col=1,
 )
+fig.add_trace(
+    go.Scatter(
+        x=np.arange(len(m_t_queued_rl[eqp_idx])),
+        y=[
+            eqp_kwargs.get("max_tail_buffer_dict").get(eqp_idx)
+            for _ in range(len(m_t_queued_rl[eqp_idx]))
+        ],
+        mode="lines+markers",
+        name=f"tail queued upper limit {eqp_idx}",
+    ),
+    row=2,
+    col=1,
+)
+
 
 fig.add_trace(
     go.Scatter(
