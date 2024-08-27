@@ -124,12 +124,14 @@ class EqpEnv:
         resource_waste = (
             0.04
             * (
-                self.eqp_state.get("balancing_coef")
-                * (1.0 - self.current_head_queued / self.m_max_head_buffer)
-            )
-            * (
-                (1.0 - self.eqp_state.get("balancing_coef"))
-                * (1.0 - self.current_tail_queued / self.m_max_tail_buffer)
+                (
+                    self.eqp_state.get("balancing_coef")
+                    * (1.0 - self.current_head_queued / self.m_max_head_buffer)
+                )
+                + (
+                    (1.0 - self.eqp_state.get("balancing_coef"))
+                    * (1.0 - self.current_tail_queued / self.m_max_tail_buffer)
+                )
             )
             * abs(action)
             * min(0, m_depart_actual - m_depart_ability)
