@@ -28,9 +28,7 @@ class EqpEnv:
         # 初始化狀態
         self.eqp_state = {
             "m_status": self.init_status_dict.get(self.eqp_idx),
-            "pm_speed": self.pm_speed,
             "m_speed": self.init_speed_dict.get(self.eqp_idx),
-            "nm_speed": self.nm_speed,
             "balancing_coef": self.init_balancing_coef_dict.get(self.eqp_idx),
             "head_queued": min(self.m_max_head_buffer, self.current_head_queued)
             / self.m_max_head_buffer
@@ -153,9 +151,7 @@ class EqpEnv:
 
         self.eqp_state = {
             "m_status": new_status,
-            "pm_speed": self.pm_speed,
             "m_speed": m_speed_after_action,
-            "nm_speed": self.nm_speed,
             "balancing_coef": (
                 balancing_coef
                 if balancing_coef
