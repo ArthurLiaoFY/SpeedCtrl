@@ -8,6 +8,8 @@ class EqpEnv:
         self.reset()
 
     def reset(self):
+        self.m_working = True
+
         # 目標生產總數量 [checked]
         self.current_unprocessed_amount = self.sim_production_quantity
 
@@ -27,7 +29,6 @@ class EqpEnv:
 
         # 初始化狀態
         self.eqp_state = {
-            "m_status": self.init_status_dict.get(self.eqp_idx),
             "m_speed": self.init_speed_dict.get(self.eqp_idx),
             "balancing_coef": self.init_balancing_coef_dict.get(self.eqp_idx),
             "head_queued": min(self.m_max_head_buffer, self.current_head_queued)
@@ -65,14 +66,13 @@ class EqpEnv:
 
         head_queued_after_arrive = self.current_head_queued + arrived_amount
 
-        m_working = self.eqp_state.get("m_status")
         m_speed_after_action = (
             np.clip(
                 a=self.eqp_state.get("m_speed") + action,
                 a_min=self.min_speed,
                 a_max=self.max_speed,
             ).item()
-            if m_working
+            if self.m_working
             else 0
         )
 
@@ -91,7 +91,7 @@ class EqpEnv:
                 self.m_max_tail_buffer
                 - self.current_tail_queued,  # 後方緩存區最多可收數量
             )
-            if m_working and m_speed_after_action != 0
+            if self.m_working and m_speed_after_action != 0
             else 0
         )
 
@@ -113,11 +113,11 @@ class EqpEnv:
         if (self.current_tail_queued >= self.m_max_tail_buffer) or (
             self.current_head_queued >= self.m_max_head_buffer
         ):
-            new_status = 0
+            self.m_working = False
             # 越愛現, 影響到別人, 損失就給你很大
             effect_other_machine_loss = -2 * m_depart_ability
         else:
-            new_status = 1
+            self.m_working = True
             effect_other_machine_loss = 0
 
         # 做毫無意義的動作造成資源浪費, 當前方待料數量加大時, 浪費的損失會較小, 反之較大
@@ -152,7 +152,6 @@ class EqpEnv:
         self.current_tail_queued = new_tail_queued
 
         self.eqp_state = {
-            "m_status": new_status,
             "m_speed": m_speed_after_action,
             "balancing_coef": (
                 balancing_coef
