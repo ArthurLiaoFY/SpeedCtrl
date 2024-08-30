@@ -169,4 +169,4 @@ class EqpEnv:
             // 5
             * 5,
         }
-        return m_reward, m_depart_actual, m_depart_ability
+        return m_reward

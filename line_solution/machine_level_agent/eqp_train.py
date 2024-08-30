@@ -33,7 +33,7 @@ for episode in range(n_episodes):
             state_tuple=tuple(v for v in state.values())
         )
         action = agent.action_idx_to_action(action_idx=action_idx)
-        reward, depart_actual, depart_ability = env.step(action=action)
+        reward = env.step(action=action)
 
         agent.update_policy(
             state_tuple=tuple(v for v in state.values()),
