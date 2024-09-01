@@ -1,3 +1,5 @@
+import json
+
 import salabim as sim
 
 
@@ -6,9 +8,9 @@ class SNGenerator(sim.Component):
         while True:
             while head_buffer.available_quantity() <= 0:
                 self.standby()
-            self.request(conveyor1)
+            self.request((conveyor1, 1))
             self.hold(2)
-            self.release()
+            self.release((conveyor1, 1))
             SN().enter(head_buffer)
 
 
@@ -24,14 +26,19 @@ class SNSink(sim.Component):
             while tail_buffer.available_quantity() == tail_buffer.capacity.value:
                 self.standby()
             product = self.from_store(tail_buffer)
-            self.request(conveyor2)
+            self.request((conveyor2, 1))
             self.hold(4)
-            self.release()
+            self.release((conveyor2, 1))
             product.passivate()
             env.total_prod_amount += 1
 
 
 class Machine(sim.Component):
+    def __init__(self, machine_order: int = 0, speed: int = 50000, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.machine_order = machine_order
+        self.speed = speed
+
     @staticmethod
     def waiting_for_materials():
         status_0.set(value=False)
@@ -75,28 +82,32 @@ class Machine(sim.Component):
             self.to_store(tail_buffer, product)
 
 
+# data_file_path = "./digital_twins"
+# unity_config = json.load(open(f'{data_file_path}/unity_config.json'))
+# unity_config.get('Layoutdata', {}).get("Device")
+
 env = sim.Environment(trace=True)
 env.total_prod_amount = 0
-
-sn_generator = SNGenerator(name="產品發射器")
-conveyor1 = sim.Resource("前方傳輸帶")
-head_buffer = sim.Store(name="前方緩存區", capacity=8)
-machine = Machine(name="雷射焊錫機")
-tail_buffer = sim.Store(name="後方緩存區", capacity=8)
-conveyor2 = sim.Resource("後方傳輸帶")
-sn_sink = SNSink(name="產品接收器")
+num_of_machine = 5
 
 
-status_0 = sim.State(name="正常生產", value=False)
-status_4 = sim.State(name="待料", value=False)
-status_5 = sim.State(name="滿料", value=False)
+simulate_config = {
+    **{"sn_feeder": SNGenerator(name="半成品發射器")},
+    **{
+        f"machine_{i+1}": {
+            "machine": Machine(name=f"設備({i+1})"),
+            "head_buffer": sim.Resource(f"設備({i+1}) 前方緩存區", capacity=8),
+            "tail_buffer": sim.Resource(f"設備({i+1}) 後方緩存區", capacity=8),
+            "status_0": sim.State(name=f"設備({i+1}) 正常生產", value=False),
+            "status_4": sim.State(name=f"設備({i+1}) 待料", value=False),
+            "status_5": sim.State(name=f"設備({i+1}) 滿料", value=False),
+        }
+        for i in range(num_of_machine)
+    },
+    **{"sn_receiver": SNSink(name="成品接收器")},
+}
+connection_config = {}
 
 
-env.run(till=100)
-status_0.print_statistics()
-status_4.print_statistics()
-status_5.print_statistics()
-
-
-head_buffer.print_statistics()
-tail_buffer.print_statistics()
+# env.run(till=100)
+# print(env.total_prod_amount)

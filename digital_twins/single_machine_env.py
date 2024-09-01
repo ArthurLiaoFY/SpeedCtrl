@@ -97,6 +97,10 @@ status_0.print_statistics()
 status_4.print_statistics()
 status_5.print_statistics()
 
+sn_generator.status.print_histogram(values=True)
+machine.status.print_histogram(values=True)
+sn_sink.status.print_histogram(values=True)
+
 
 head_buffer.print_statistics()
 tail_buffer.print_statistics()
