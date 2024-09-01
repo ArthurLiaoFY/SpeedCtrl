@@ -115,8 +115,21 @@ class Machine(sim.Component):
             self.to_store(tail_buffer, product)
 
 
-env = sim.Environment(trace=False)
-env.background_color("40%gray")
+animate = False
+run_till = 50
+seed = 1122
+if animate:
+    env = sim.Environment(trace=False, random_seed=seed)
+    env.background_color("40%gray")
+
+    sim.AnimateImage("./digital_twins/factory-machine.png", x=350, y=400, width=300)
+    sim.AnimateImage("./digital_twins/delivery-box.png", x=100, y=400, width=200)
+    sim.AnimateImage("./digital_twins/delivery-box.png", x=700, y=400, width=200)
+
+else:
+    env = sim.Environment(trace=True, random_seed=seed)
+
+
 env.total_prod_amount = 0
 
 sn_generator = SNGenerator(name="產品發射器")
@@ -126,39 +139,33 @@ machine = Machine(name="雷射焊錫機")
 tail_buffer = sim.Store(name="後方緩存區", capacity=8)
 conveyor2 = sim.Resource("後方傳輸帶")
 sn_sink = SNSink(name="產品接收器")
+if animate:
+    hb_animate = sim.AnimateQueue(
+        head_buffer,
+        x=160,
+        y=350,
+        title="Head Buffer",
+        direction="s",
+        id="blue",
+        titlefontsize=30,
+    )
+    tb_animate = sim.AnimateQueue(
+        tail_buffer,
+        x=760,
+        y=350,
+        title="Tail Buffer",
+        direction="s",
+        id="black",
+        titlefontsize=30,
+    )
+
+env.animate(animate)
+env.run(run_till)
+
+# sn_generator.status.print_histogram(values=True)
+# machine.status.print_histogram(values=True)
+# sn_sink.status.print_histogram(values=True)
 
 
-hb_animate = sim.AnimateQueue(
-    head_buffer,
-    x=160,
-    y=350,
-    title="Head Buffer",
-    direction="s",
-    id="blue",
-    titlefontsize=30,
-)
-tb_animate = sim.AnimateQueue(
-    tail_buffer,
-    x=760,
-    y=350,
-    title="Tail Buffer",
-    direction="s",
-    id="black",
-    titlefontsize=30,
-)
-sim.AnimateImage("./digital_twins/factory-machine.png", x=350, y=400, width=300)
-sim.AnimateImage("./digital_twins/delivery-box.png", x=100, y=400, width=200)
-sim.AnimateImage("./digital_twins/delivery-box.png", x=700, y=400, width=200)
-
-sim.AnimateText(text=str(machine.count()))
-
-env.animate(True)
-env.run()
-
-sn_generator.status.print_histogram(values=True)
-machine.status.print_histogram(values=True)
-sn_sink.status.print_histogram(values=True)
-
-
-head_buffer.print_statistics()
-tail_buffer.print_statistics()
+# head_buffer.print_statistics()
+# tail_buffer.print_statistics()
