@@ -58,45 +58,59 @@ class SNSink(sim.Component):
 
 
 class Machine(sim.Component):
-    @staticmethod
-    def waiting_for_materials():
-        status_0.set(value=False)
-        status_4.set(value=True)
-        status_5.set(value=False)
+    def setup(self):
+        self.machine_status = {
+            status_code: sim.State(name=cn_name, value=False)
+            for status_code, cn_name in zip(
+                range(-1, 13),
+                [
+                    "未連線",
+                    "正常",
+                    "故障",
+                    "暫停",
+                    "待機",
+                    "待料",
+                    "滿料",
+                    "材料低位",
+                    "換線",
+                    "缺料",
+                    "待啟動",
+                    "安全停機",
+                    "品質停機",
+                    "調機",
+                ],
+            )
+        }
 
-    @staticmethod
-    def waiting_for_seats():
-        status_0.set(value=False)
-        status_4.set(value=False)
-        status_5.set(value=True)
+    def switch_to_status(self, status: int):
+        for status_code in self.machine_status:
+            if status_code == 4:
+                self.machine_status[status_code].set(value=True)
 
-    @staticmethod
-    def normal_production():
-        status_0.set(value=True)
-        status_4.set(value=False)
-        status_5.set(value=False)
+            else:
+                self.machine_status[status_code].set(value=False)
 
     def process(self):
         while True:
             while len(head_buffer) == 0:
-                self.waiting_for_materials()
+                self.switch_to_status(status=4)
                 self.standby()
 
             product = self.from_store(head_buffer)
 
             if self.ispassive():
                 self.activate()
-            self.normal_production()
+            self.switch_to_status(status=0)
 
             self.hold(sim.Exponential(5))
 
             while tail_buffer.available_quantity() <= 0:
-                self.waiting_for_seats()
+                self.switch_to_status(status=5)
                 self.standby()
 
             if self.ispassive():
                 self.activate()
-            self.normal_production()
+            self.switch_to_status(status=0)
 
             self.to_store(tail_buffer, product)
 
@@ -112,11 +126,6 @@ machine = Machine(name="雷射焊錫機")
 tail_buffer = sim.Store(name="後方緩存區", capacity=8)
 conveyor2 = sim.Resource("後方傳輸帶")
 sn_sink = SNSink(name="產品接收器")
-
-
-status_0 = sim.State(name="正常生產", value=False)
-status_4 = sim.State(name="待料", value=False)
-status_5 = sim.State(name="滿料", value=False)
 
 
 hb_animate = sim.AnimateQueue(
@@ -141,6 +150,7 @@ sim.AnimateImage("./digital_twins/factory-machine.png", x=350, y=400, width=300)
 sim.AnimateImage("./digital_twins/delivery-box.png", x=100, y=400, width=200)
 sim.AnimateImage("./digital_twins/delivery-box.png", x=700, y=400, width=200)
 
+sim.AnimateText(text=str(machine.count()))
 
 env.animate(True)
 env.run()
