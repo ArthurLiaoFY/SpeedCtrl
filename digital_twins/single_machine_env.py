@@ -17,6 +17,32 @@ class SN(sim.Component):
         while True:
             self.passivate()
 
+    def animation_objects(self, id):
+        """
+        the way the component is determined by the id, specified in AnimateQueue
+        'text' means just the name
+        any other value represents the color
+        """
+        if id == "text":
+            animate_text = sim.AnimateText(
+                text=self.name(), textcolor="fg", text_anchor="nw"
+            )
+            return 15, 0, animate_text
+        else:
+            animate_rectangle = sim.AnimateRectangle(
+                (
+                    -20,
+                    0,
+                    20,
+                    20,
+                ),  # (x lower left, y lower left, x upper right, y upper right)
+                text=self.name(),
+                fillcolor=id,
+                textcolor="white",
+                arg=self,
+            )
+            return 0, 30, animate_rectangle
+
 
 class SNSink(sim.Component):
     def process(self):
@@ -75,7 +101,8 @@ class Machine(sim.Component):
             self.to_store(tail_buffer, product)
 
 
-env = sim.Environment(trace=True)
+env = sim.Environment(trace=False)
+env.background_color("40%gray")
 env.total_prod_amount = 0
 
 sn_generator = SNGenerator(name="產品發射器")
@@ -92,10 +119,31 @@ status_4 = sim.State(name="待料", value=False)
 status_5 = sim.State(name="滿料", value=False)
 
 
-env.run(till=100)
-status_0.print_statistics()
-status_4.print_statistics()
-status_5.print_statistics()
+hb_animate = sim.AnimateQueue(
+    head_buffer,
+    x=160,
+    y=350,
+    title="Head Buffer",
+    direction="s",
+    id="blue",
+    titlefontsize=30,
+)
+tb_animate = sim.AnimateQueue(
+    tail_buffer,
+    x=760,
+    y=350,
+    title="Tail Buffer",
+    direction="s",
+    id="black",
+    titlefontsize=30,
+)
+sim.AnimateImage("./digital_twins/factory-machine.png", x=350, y=400, width=300)
+sim.AnimateImage("./digital_twins/delivery-box.png", x=100, y=400, width=200)
+sim.AnimateImage("./digital_twins/delivery-box.png", x=700, y=400, width=200)
+
+
+env.animate(True)
+env.run()
 
 sn_generator.status.print_histogram(values=True)
 machine.status.print_histogram(values=True)
@@ -104,5 +152,3 @@ sn_sink.status.print_histogram(values=True)
 
 head_buffer.print_statistics()
 tail_buffer.print_statistics()
-
-print(env.total_prod_amount)
