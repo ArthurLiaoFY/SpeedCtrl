@@ -115,7 +115,7 @@ class Machine(sim.Component):
             self.to_store(tail_buffer, product)
 
 
-animate = True
+animate = False
 run_till = 500
 seed = 1122
 animate_speed = 16
@@ -160,8 +160,8 @@ if animate:
         id="black",
         titlefontsize=30,
     )
-with env.video("./digital_twins/demo.mp4"):
 
+with env.video("./digital_twins/demo.mp4"):
     env.animate(animate)
     env.run(run_till)
 
