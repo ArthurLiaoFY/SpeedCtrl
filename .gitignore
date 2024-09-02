@@ -6,3 +6,4 @@ test*
 .DS_Store
 **/__pycache__/
 *.venv
+*.mp4
