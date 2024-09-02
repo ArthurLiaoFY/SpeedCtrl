@@ -115,11 +115,13 @@ class Machine(sim.Component):
             self.to_store(tail_buffer, product)
 
 
-animate = False
-run_till = 50
+animate = True
+run_till = 500
 seed = 1122
+animate_speed = 16
 if animate:
     env = sim.Environment(trace=False, random_seed=seed)
+    env.animation_parameters(speed=animate_speed)
     env.background_color("40%gray")
 
     sim.AnimateImage("./digital_twins/factory-machine.png", x=350, y=400, width=300)
@@ -158,9 +160,10 @@ if animate:
         id="black",
         titlefontsize=30,
     )
+with env.video("./digital_twins/demo.mp4"):
 
-env.animate(animate)
-env.run(run_till)
+    env.animate(animate)
+    env.run(run_till)
 
 # sn_generator.status.print_histogram(values=True)
 # machine.status.print_histogram(values=True)
