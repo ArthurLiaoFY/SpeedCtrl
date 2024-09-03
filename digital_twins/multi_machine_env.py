@@ -1,5 +1,3 @@
-import json
-
 import salabim as sim
 
 
@@ -151,8 +149,12 @@ class Machine(sim.Component):
 # data_file_path = "./digital_twins"
 # unity_config = json.load(open(f'{data_file_path}/unity_config.json'))
 # unity_config.get('Layoutdata', {}).get("Device")
+seed = 1122
+run_till = 50000
+trace_env = False
 
-env = sim.Environment(trace=True)
+env = sim.Environment(trace=trace_env, random_seed=seed)
+
 env.total_prod_amount = 0
 num_of_machine = 3
 conveyer_speed = 1 / 2
@@ -208,5 +210,12 @@ simulate_config = {
 connection_config = {}
 
 
-env.run(till=100)
-# print(env.total_prod_amount)
+env.run(till=run_till)
+
+simulate_config["machine_1"]["status"][4].print_statistics()
+simulate_config["machine_1"]["status"][5].print_statistics()
+simulate_config["machine_2"]["status"][4].print_statistics()
+simulate_config["machine_2"]["status"][5].print_statistics()
+simulate_config["machine_3"]["status"][4].print_statistics()
+simulate_config["machine_3"]["status"][5].print_statistics() 
+simulate_config["sn_receiver"].print_statistics() 
