@@ -54,38 +54,39 @@ class Conveyer(sim.Component):
         self.conveyer_speed = conveyer_speed
 
     def process(self):
-        if self.from_idx != 0:
-            while (
-                len(
-                    simulate_config.get(f"machine_{self.from_idx}", {}).get(
-                        "tail_buffer"
+        while True:
+            if self.from_idx != 0:
+                while (
+                    len(
+                        simulate_config.get(f"machine_{self.from_idx}", {}).get(
+                            "tail_buffer"
+                        )
                     )
+                    <= 0
+                ):
+                    self.standby()
+
+                product = self.from_store(
+                    simulate_config[f"machine_{self.from_idx}"]["tail_buffer"]
                 )
-                <= 0
-            ):
-                self.standby()
 
-            product = self.from_store(
-                simulate_config[f"machine_{self.from_idx}"]["tail_buffer"]
-            )
+            self.hold(sim.Exponential(1 / self.conveyer_speed))
 
-        self.hold(sim.Exponential(1 / self.conveyer_speed))
-
-        if self.from_idx == num_of_machine:
-            # to sink
-            product.enter(simulate_config["sn_receiver"])
-            env.total_prod_amount += 1
-        else:
-            while (
-                simulate_config.get(f"machine_{self.to_idx}", {})
-                .get("head_buffer")
-                .available_quantity()
-                == 0
-            ):
-                self.standby()
-            self.to_store(
-                simulate_config[f"machine_{self.to_idx}"]["head_buffer"], product
-            )
+            if self.from_idx == num_of_machine:
+                # to sink
+                product.enter(simulate_config["sn_receiver"])
+                env.total_prod_amount += 1
+            else:
+                while (
+                    simulate_config.get(f"machine_{self.to_idx}", {})
+                    .get("head_buffer")
+                    .available_quantity()
+                    == 0
+                ):
+                    self.standby()
+                self.to_store(
+                    simulate_config[f"machine_{self.to_idx}"]["head_buffer"], product
+                )
 
 
 class Machine(sim.Component):
@@ -150,8 +151,8 @@ class Machine(sim.Component):
 # unity_config = json.load(open(f'{data_file_path}/unity_config.json'))
 # unity_config.get('Layoutdata', {}).get("Device")
 seed = 1122
-run_till = 500
-trace_env = True
+run_till = 1000
+trace_env = False
 
 env = sim.Environment(trace=trace_env, random_seed=seed)
 
