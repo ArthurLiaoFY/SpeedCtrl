@@ -7,18 +7,17 @@ class SNGenerator(sim.Component):
             while simulate_config["machine_1"]["head_buffer"].available_quantity() <= 0:
                 self.standby()
             product = SN()
-            self.hold(1 / conveyer_speed)
+            self.hold(sim.Exponential(1 / conveyer_speed))
             self.to_store(simulate_config["machine_1"]["head_buffer"], product)
 
 
 class SN(sim.Component):
-    def process(self):
-        while True:
-            self.passivate()
 
     def animation_objects(self, id):
         """
-        for animation
+        the way the component is determined by the id, specified in AnimateQueue
+        'text' means just the name
+        any other value represents the color
         """
         if id == "text":
             animate_text = sim.AnimateText(
@@ -70,11 +69,12 @@ class Conveyer(sim.Component):
                 simulate_config[f"machine_{self.from_idx}"]["tail_buffer"]
             )
 
-        product.hold(1 / self.conveyer_speed)
+        self.hold(sim.Exponential(1 / self.conveyer_speed))
 
         if self.from_idx == num_of_machine:
             # to sink
-            self.to_store(simulate_config["sn_receiver"], product)
+            product.enter(simulate_config["sn_receiver"])
+            env.total_prod_amount += 1
         else:
             while (
                 simulate_config.get(f"machine_{self.to_idx}", {})
@@ -150,15 +150,15 @@ class Machine(sim.Component):
 # unity_config = json.load(open(f'{data_file_path}/unity_config.json'))
 # unity_config.get('Layoutdata', {}).get("Device")
 seed = 1122
-run_till = 50000
-trace_env = False
+run_till = 500
+trace_env = True
 
 env = sim.Environment(trace=trace_env, random_seed=seed)
 
 env.total_prod_amount = 0
 num_of_machine = 3
 conveyer_speed = 1 / 2
-machine_speed = 1 / 5
+machine_speed = 1 / 3
 
 simulate_config = {
     **{"sn_feeder": SNGenerator(name="半成品發射器")},
@@ -214,8 +214,21 @@ env.run(till=run_till)
 
 simulate_config["machine_1"]["status"][4].print_statistics()
 simulate_config["machine_1"]["status"][5].print_statistics()
+
+simulate_config["machine_1"]["head_buffer"].print_statistics()
+simulate_config["machine_1"]["tail_buffer"].print_statistics()
+
 simulate_config["machine_2"]["status"][4].print_statistics()
 simulate_config["machine_2"]["status"][5].print_statistics()
+
+simulate_config["machine_2"]["head_buffer"].print_statistics()
+simulate_config["machine_2"]["tail_buffer"].print_statistics()
+
 simulate_config["machine_3"]["status"][4].print_statistics()
-simulate_config["machine_3"]["status"][5].print_statistics() 
-simulate_config["sn_receiver"].print_statistics() 
+simulate_config["machine_3"]["status"][5].print_statistics()
+
+simulate_config["machine_3"]["head_buffer"].print_statistics()
+simulate_config["machine_3"]["tail_buffer"].print_statistics()
+
+simulate_config["sn_receiver"].print_info()
+print(env.total_prod_amount)
