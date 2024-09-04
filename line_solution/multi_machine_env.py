@@ -1,14 +1,31 @@
 import salabim as sim
+from agent import Agent
+from config import (
+    num_of_machine,
+    simulate_conveyer_config,
+    simulate_machine_config,
+    simulate_setup_config,
+)
 
 
 class SNGenerator(sim.Component):
     def process(self):
         while True:
-            while simulate_config["machine_1"]["head_buffer"].available_quantity() <= 0:
+            while (
+                simulate_obj.get("machine_1", {})
+                .get("head_buffer")
+                .available_quantity()
+                <= 0
+            ):
                 self.standby()
             product = SN()
-            self.hold(sim.Exponential(1 / conveyer_speed))
-            self.to_store(simulate_config["machine_1"]["head_buffer"], product)
+            self.hold(
+                sim.Exponential(
+                    1
+                    / simulate_conveyer_config.get("conveyer_0_1").get("conveyer_speed")
+                )
+            )
+            self.to_store(simulate_obj["machine_1"]["head_buffer"], product)
 
 
 class SN(sim.Component):
@@ -59,7 +76,7 @@ class Conveyer(sim.Component):
             if self.from_idx != 0:
                 while (
                     len(
-                        simulate_config.get(f"machine_{self.from_idx}", {}).get(
+                        simulate_obj.get(f"machine_{self.from_idx}", {}).get(
                             "tail_buffer"
                         )
                     )
@@ -68,25 +85,25 @@ class Conveyer(sim.Component):
                     self.standby()
 
                 product = self.from_store(
-                    simulate_config[f"machine_{self.from_idx}"]["tail_buffer"]
+                    simulate_obj[f"machine_{self.from_idx}"]["tail_buffer"]
                 )
 
             self.hold(sim.Exponential(1 / self.conveyer_speed))
 
             if self.from_idx == num_of_machine:
                 # to sink
-                product.enter(simulate_config["sn_receiver"])
-                env.total_prod_amount += 1
+                product.enter(simulate_obj["sn_receiver"])
+
             else:
                 while (
-                    simulate_config.get(f"machine_{self.to_idx}", {})
+                    simulate_obj.get(f"machine_{self.to_idx}", {})
                     .get("head_buffer")
                     .available_quantity()
                     == 0
                 ):
                     self.standby()
                 self.to_store(
-                    simulate_config[f"machine_{self.to_idx}"]["head_buffer"], product
+                    simulate_obj[f"machine_{self.to_idx}"]["head_buffer"], product
                 )
 
 
@@ -98,24 +115,22 @@ class Machine(sim.Component):
         self.machine_speed = machine_speed
 
     def switch_to_status(self, status: int):
-        for status_code in simulate_config[f"machine_{self.machine_idx}"][
-            "status"
-        ].keys():
+        for status_code in simulate_obj[f"machine_{self.machine_idx}"]["status"].keys():
             if status_code == status:
-                simulate_config[f"machine_{self.machine_idx}"]["status"][
-                    status_code
-                ].set(value=True)
+                simulate_obj[f"machine_{self.machine_idx}"]["status"][status_code].set(
+                    value=True
+                )
 
             else:
-                simulate_config[f"machine_{self.machine_idx}"]["status"][
-                    status_code
-                ].set(value=False)
+                simulate_obj[f"machine_{self.machine_idx}"]["status"][status_code].set(
+                    value=False
+                )
 
     def process(self):
         while True:
             while (
                 len(
-                    simulate_config.get(f"machine_{self.machine_idx}", {}).get(
+                    simulate_obj.get(f"machine_{self.machine_idx}", {}).get(
                         "head_buffer"
                     )
                 )
@@ -125,7 +140,7 @@ class Machine(sim.Component):
                 self.standby()
 
             product = self.from_store(
-                simulate_config[f"machine_{self.machine_idx}"]["head_buffer"]
+                simulate_obj[f"machine_{self.machine_idx}"]["head_buffer"]
             )
 
             self.switch_to_status(status=0)
@@ -133,7 +148,7 @@ class Machine(sim.Component):
             self.hold(sim.Exponential(1 / self.machine_speed))
 
             while (
-                simulate_config.get(f"machine_{self.machine_idx}", {})
+                simulate_obj.get(f"machine_{self.machine_idx}", {})
                 .get("tail_buffer")
                 .available_quantity()
                 <= 0
@@ -144,59 +159,76 @@ class Machine(sim.Component):
             self.switch_to_status(status=0)
 
             self.to_store(
-                simulate_config[f"machine_{self.machine_idx}"]["tail_buffer"], product
+                simulate_obj[f"machine_{self.machine_idx}"]["tail_buffer"], product
             )
 
 
-class EnvScanner(sim.Component):
-    def __init__(self, scan_interval: int = 5, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+# class EnvScanner(sim.Component):
+#     def __init__(self, scan_interval: int = 5, *args, **kwargs):
+#         super().__init__(*args, **kwargs)
 
-        self.scan_interval = scan_interval
+#         self.scan_interval = scan_interval
 
-    def process(self):
-        # feed state to eqp agent
-        for i in range(num_of_machine):
-            eqp_state = {
-                "m_speed": simulate_config.get(f"machine_{i+1}")
-                .get("machine")
-                .machine_speed,
-                "balancing_coef": 0.7,
-                "head_queued": len(
-                    simulate_config.get(f"machine_{i+1}", {}).get("head_buffer")
-                ),
-                "tail_queued": len(
-                    simulate_config.get(f"machine_{i+1}", {}).get("tail_buffer")
-                ),
-            }
-        # feed state to line agent
+#     def reward(self):
+#         pass
 
-        len(simulate_config["sn_receiver"])
+#     def process(self):
+#         while True:
+#             # feed state to eqp agent
+#             for i in range(num_of_machine):
+#                 eqp_state = {
+#                     "m_speed": simulate_obj.get(f"machine_{i+1}")
+#                     .get("machine")
+#                     .machine_speed,
+#                     "balancing_coef": 0.7,
+#                     "head_queued": len(
+#                         simulate_obj.get(f"machine_{i+1}", {}).get("head_buffer")
+#                     ),
+#                     "tail_queued": len(
+#                         simulate_obj.get(f"machine_{i+1}", {}).get("tail_buffer")
+#                     ),
+#                 }
+#                 action_idx = agent.select_action_idx(
+#                     state_tuple=tuple(v for v in eqp_state.values())
+#                 )
+#                 action = agent.action_idx_to_action(action_idx=action_idx)
+#             # feed state to line agent
 
-        # wait until next scan
-        self.hold(self.scan_interval)
+#             len(simulate_obj["sn_receiver"])
+
+#             # wait until next scan
+#             self.hold(self.scan_interval)
 
 
-seed = 1122
-run_till = 1000
-trace_env = False
+env = sim.Environment(
+    trace=simulate_setup_config.get("trace_env", False),
+    random_seed=simulate_setup_config.get("seed", 1122),
+)
+# agent = Agent()
 
-env = sim.Environment(trace=trace_env, random_seed=seed)
-
-env.total_prod_amount = 0
-num_of_machine = 3
-conveyer_speed = 1 / 2
-machine_speed = 1 / 3
-
-simulate_config = {
+simulate_obj = {
     **{"sn_feeder": SNGenerator(name="半成品發射器")},
     **{
         f"machine_{i+1}": {
             "machine": Machine(
-                name=f"設備({i+1})", machine_idx=i + 1, machine_speed=machine_speed
+                name=f"設備({i+1})",
+                machine_idx=i + 1,
+                machine_speed=simulate_machine_config.get(f"machine_{i+1}").get(
+                    "machine_speed"
+                ),
             ),
-            "tail_buffer": sim.Store(f"設備({i+1}) 後方緩存區", capacity=8),
-            "head_buffer": sim.Store(f"設備({i+1}) 前方緩存區", capacity=8),
+            "tail_buffer": sim.Store(
+                f"設備({i+1}) 後方緩存區",
+                capacity=simulate_machine_config.get(f"machine_{i+1}").get(
+                    "max_tail_buffer"
+                ),
+            ),
+            "head_buffer": sim.Store(
+                f"設備({i+1}) 前方緩存區",
+                capacity=simulate_machine_config.get(f"machine_{i+1}").get(
+                    "max_head_buffer"
+                ),
+            ),
             "status": {
                 status_code: sim.State(name=cn_name, value=False)
                 for status_code, cn_name in zip(
@@ -228,7 +260,9 @@ simulate_config = {
                 name=f"傳輸帶({i}至{i+1})",
                 from_idx=i,
                 to_idx=i + 1,
-                conveyer_speed=conveyer_speed,
+                conveyer_speed=simulate_conveyer_config.get(f"conveyer_{i}_{i+1}").get(
+                    "conveyer_speed"
+                ),
             ),
         }
         for i in range(1, num_of_machine + 1)
@@ -238,25 +272,25 @@ simulate_config = {
 connection_config = {}
 
 
-env.run(till=run_till)
+env.run(till=simulate_setup_config.get("run_till"))
 
-simulate_config["machine_1"]["status"][4].print_statistics()
-simulate_config["machine_1"]["status"][5].print_statistics()
+simulate_obj["machine_1"]["status"][4].print_statistics()
+simulate_obj["machine_1"]["status"][5].print_statistics()
 
-simulate_config["machine_1"]["head_buffer"].print_statistics()
-simulate_config["machine_1"]["tail_buffer"].print_statistics()
+simulate_obj["machine_1"]["head_buffer"].print_statistics()
+simulate_obj["machine_1"]["tail_buffer"].print_statistics()
 
-simulate_config["machine_2"]["status"][4].print_statistics()
-simulate_config["machine_2"]["status"][5].print_statistics()
+simulate_obj["machine_2"]["status"][4].print_statistics()
+simulate_obj["machine_2"]["status"][5].print_statistics()
 
-simulate_config["machine_2"]["head_buffer"].print_statistics()
-simulate_config["machine_2"]["tail_buffer"].print_statistics()
+simulate_obj["machine_2"]["head_buffer"].print_statistics()
+simulate_obj["machine_2"]["tail_buffer"].print_statistics()
 
-simulate_config["machine_3"]["status"][4].print_statistics()
-simulate_config["machine_3"]["status"][5].print_statistics()
+simulate_obj["machine_3"]["status"][4].print_statistics()
+simulate_obj["machine_3"]["status"][5].print_statistics()
 
-simulate_config["machine_3"]["head_buffer"].print_statistics()
-simulate_config["machine_3"]["tail_buffer"].print_statistics()
+simulate_obj["machine_3"]["head_buffer"].print_statistics()
+simulate_obj["machine_3"]["tail_buffer"].print_statistics()
 
-simulate_config["sn_receiver"].print_info()
-print(env.total_prod_amount)
+# simulate_obj["sn_receiver"].print_info()
+simulate_obj["sn_receiver"].print_statistics()

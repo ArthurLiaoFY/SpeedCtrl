@@ -5,9 +5,9 @@ import plotly
 import plotly.graph_objects as go
 from agent import Agent
 from config import kwargs
-from env import Env
+from machine_level_agent.eqp_env import EqpEnv
 
-env = Env(**kwargs)
+env = EqpEnv(**kwargs)
 agent = Agent(**kwargs)
 
 n_episodes = 500  # 5000
