@@ -1,7 +1,6 @@
 import salabim as sim
 from agent import Agent
 from config import (
-    num_of_machine,
     simulate_conveyer_config,
     simulate_machine_config,
     simulate_setup_config,
@@ -12,20 +11,37 @@ class SNGenerator(sim.Component):
     def process(self):
         while True:
             while (
-                simulate_obj.get("machine_1", {})
-                .get("head_buffer")
-                .available_quantity()
+                sum(
+                    [
+                        simulate_obj.get(to_id, {})
+                        .get("head_buffer")
+                        .available_quantity()
+                        for to_id in simulate_setup_config.get("sn_feeder", {}).get(
+                            "to_ids"
+                        )
+                    ]
+                )
                 <= 0
             ):
                 self.standby()
-            product = SN()
-            self.hold(
-                sim.Exponential(
-                    1
-                    / simulate_conveyer_config.get("conveyer_0_1").get("conveyer_speed")
-                )
-            )
-            self.to_store(simulate_obj["machine_1"]["head_buffer"], product)
+            for to_id in simulate_setup_config.get("sn_feeder", {}).get("to_ids"):
+                if (
+                    simulate_obj.get(to_id, {}).get("head_buffer").available_quantity()
+                    <= 0
+                ):
+                    continue
+                else:
+                    product = SN()
+                    self.hold(
+                        # simulate_conveyer_config.get(
+                        #     f'{simulate_setup_config.get("sn_feeder", {}).get("id")}#{to_id}'
+                        # ).get("conveyer_cycletime")
+                        1
+                    )
+                    self.to_store(
+                        simulate_obj[to_id]["head_buffer"],
+                        product,
+                    )
 
 
 class SN(sim.Component):
@@ -64,91 +80,67 @@ class Conveyer(sim.Component):
     """
 
     def __init__(
-        self, from_idx: int, to_idx: int, conveyer_speed: int, *args, **kwargs
+        self, from_id: str, to_id: str, conveyer_cycletime: int, *args, **kwargs
     ):
         super().__init__(*args, **kwargs)
-        self.from_idx = from_idx
-        self.to_idx = to_idx
-        self.conveyer_speed = conveyer_speed
+        self.from_id = from_id
+        self.to_id = to_id
+        self.conveyer_cycletime = conveyer_cycletime
 
     def process(self):
         while True:
-            if self.from_idx != 0:
-                while (
-                    len(
-                        simulate_obj.get(f"machine_{self.from_idx}", {}).get(
-                            "tail_buffer"
-                        )
-                    )
-                    <= 0
-                ):
-                    self.standby()
+            while len(simulate_obj.get(self.from_id, {}).get("tail_buffer")) <= 0:
+                self.standby()
 
-                product = self.from_store(
-                    simulate_obj[f"machine_{self.from_idx}"]["tail_buffer"]
-                )
+            product = self.from_store(simulate_obj[self.from_id]["tail_buffer"])
 
-            self.hold(sim.Exponential(1 / self.conveyer_speed))
+            self.hold(self.conveyer_cycletime)
 
-            if self.from_idx == num_of_machine:
+            if self.to_id == simulate_setup_config.get("sn_receiver", {}).get("id"):
                 # to sink
-                product.enter(simulate_obj["sn_receiver"])
+                product.enter(
+                    simulate_obj[simulate_setup_config.get("sn_receiver", {}).get("id")]
+                )
 
             else:
                 while (
-                    simulate_obj.get(f"machine_{self.to_idx}", {})
+                    simulate_obj.get(self.to_id, {})
                     .get("head_buffer")
                     .available_quantity()
                     == 0
                 ):
                     self.standby()
-                self.to_store(
-                    simulate_obj[f"machine_{self.to_idx}"]["head_buffer"], product
-                )
+                self.to_store(simulate_obj[self.to_id]["head_buffer"], product)
 
 
 class Machine(sim.Component):
-    def __init__(self, machine_idx: int, machine_speed: int, *args, **kwargs):
+    def __init__(self, machine_id: str, machine_cycletime: int, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
-        self.machine_idx = machine_idx
-        self.machine_speed = machine_speed
+        self.machine_id = machine_id
+        self.machine_cycletime = machine_cycletime
 
     def switch_to_status(self, status: int):
-        for status_code in simulate_obj[f"machine_{self.machine_idx}"]["status"].keys():
+        for status_code in simulate_obj[self.machine_id]["status"].keys():
             if status_code == status:
-                simulate_obj[f"machine_{self.machine_idx}"]["status"][status_code].set(
-                    value=True
-                )
+                simulate_obj[self.machine_id]["status"][status_code].set(value=True)
 
             else:
-                simulate_obj[f"machine_{self.machine_idx}"]["status"][status_code].set(
-                    value=False
-                )
+                simulate_obj[self.machine_id]["status"][status_code].set(value=False)
 
     def process(self):
         while True:
-            while (
-                len(
-                    simulate_obj.get(f"machine_{self.machine_idx}", {}).get(
-                        "head_buffer"
-                    )
-                )
-                == 0
-            ):
+            while len(simulate_obj.get(self.machine_id, {}).get("head_buffer")) == 0:
                 self.switch_to_status(status=4)
                 self.standby()
 
-            product = self.from_store(
-                simulate_obj[f"machine_{self.machine_idx}"]["head_buffer"]
-            )
+            product = self.from_store(simulate_obj[self.machine_id]["head_buffer"])
 
             self.switch_to_status(status=0)
 
-            self.hold(sim.Exponential(1 / self.machine_speed))
+            self.hold(self.machine_cycletime)
 
             while (
-                simulate_obj.get(f"machine_{self.machine_idx}", {})
+                simulate_obj.get(self.machine_id, {})
                 .get("tail_buffer")
                 .available_quantity()
                 <= 0
@@ -158,9 +150,7 @@ class Machine(sim.Component):
 
             self.switch_to_status(status=0)
 
-            self.to_store(
-                simulate_obj[f"machine_{self.machine_idx}"]["tail_buffer"], product
-            )
+            self.to_store(simulate_obj[self.machine_id]["tail_buffer"], product)
 
 
 # class EnvScanner(sim.Component):
@@ -207,26 +197,30 @@ env = sim.Environment(
 # agent = Agent()
 
 simulate_obj = {
-    **{"sn_feeder": SNGenerator(name="半成品發射器")},
     **{
-        f"machine_{i+1}": {
+        simulate_setup_config.get("sn_feeder", {}).get("id"): SNGenerator(
+            name=simulate_setup_config.get("sn_feeder", {}).get("name")
+        )
+    },
+    **{
+        machine_id: {
             "machine": Machine(
-                name=f"設備({i+1})",
-                machine_idx=i + 1,
-                machine_speed=simulate_machine_config.get(f"machine_{i+1}").get(
-                    "machine_speed"
-                ),
-            ),
-            "tail_buffer": sim.Store(
-                f"設備({i+1}) 後方緩存區",
-                capacity=simulate_machine_config.get(f"machine_{i+1}").get(
-                    "max_tail_buffer"
+                name=machine_infos.get("machine_name"),
+                machine_id=machine_id,
+                machine_cycletime=simulate_machine_config.get(machine_id).get(
+                    "machine_cycletime"
                 ),
             ),
             "head_buffer": sim.Store(
-                f"設備({i+1}) 前方緩存區",
-                capacity=simulate_machine_config.get(f"machine_{i+1}").get(
+                f"{machine_infos.get('machine_name')} 前方緩存區",
+                capacity=simulate_machine_config.get(machine_id, {}).get(
                     "max_head_buffer"
+                ),
+            ),
+            "tail_buffer": sim.Store(
+                f"{machine_infos.get('machine_name')} 後方緩存區",
+                capacity=simulate_machine_config.get(machine_id, {}).get(
+                    "max_tail_buffer"
                 ),
             ),
             "status": {
@@ -252,45 +246,28 @@ simulate_obj = {
                 )
             },
         }
-        for i in range(num_of_machine)
+        for machine_id, machine_infos in simulate_machine_config.items()
     },
     **{
-        f"conveyer_{i}_{i+1}": {
+        conveyer_id: {
             "conveyer": Conveyer(
-                name=f"傳輸帶({i}至{i+1})",
-                from_idx=i,
-                to_idx=i + 1,
-                conveyer_speed=simulate_conveyer_config.get(f"conveyer_{i}_{i+1}").get(
-                    "conveyer_speed"
-                ),
+                name=conveyer_infos.get("conveyer_name", ""),
+                from_id=conveyer_infos.get("conveyer_from", ""),
+                to_id=conveyer_infos.get("conveyer_to", ""),
+                conveyer_cycletime=conveyer_infos.get("conveyer_cycletime", 1),
             ),
         }
-        for i in range(1, num_of_machine + 1)
+        for conveyer_id, conveyer_infos in simulate_conveyer_config.items()
     },
-    **{"sn_receiver": sim.Store(name="成品接收器")},
+    **{
+        simulate_setup_config.get("sn_receiver", {}).get("id"): sim.Store(
+            name=simulate_setup_config.get("sn_receiver", {}).get("name")
+        )
+    },
 }
-connection_config = {}
 
 
 env.run(till=simulate_setup_config.get("run_till"))
 
-simulate_obj["machine_1"]["status"][4].print_statistics()
-simulate_obj["machine_1"]["status"][5].print_statistics()
 
-simulate_obj["machine_1"]["head_buffer"].print_statistics()
-simulate_obj["machine_1"]["tail_buffer"].print_statistics()
-
-simulate_obj["machine_2"]["status"][4].print_statistics()
-simulate_obj["machine_2"]["status"][5].print_statistics()
-
-simulate_obj["machine_2"]["head_buffer"].print_statistics()
-simulate_obj["machine_2"]["tail_buffer"].print_statistics()
-
-simulate_obj["machine_3"]["status"][4].print_statistics()
-simulate_obj["machine_3"]["status"][5].print_statistics()
-
-simulate_obj["machine_3"]["head_buffer"].print_statistics()
-simulate_obj["machine_3"]["tail_buffer"].print_statistics()
-
-# simulate_obj["sn_receiver"].print_info()
-simulate_obj["sn_receiver"].print_statistics()
+print(simulate_obj[simulate_setup_config.get("sn_receiver", {}).get("id")].length())
