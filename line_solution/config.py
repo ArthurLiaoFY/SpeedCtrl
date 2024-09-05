@@ -2,8 +2,8 @@
 import json
 from collections import defaultdict
 
-unity_config = json.loads(open("./unity_config.json").read())
-# unity_config = json.loads(open("./line_solution/unity_config.json").read())
+# unity_config = json.loads(open("./unity_config.json").read())
+unity_config = json.loads(open("./line_solution/unity_config.json").read())
 num_of_machine = len(unity_config.get("Layoutdata").get("Device"))
 
 id_to_machine_map = {
@@ -21,7 +21,7 @@ sn_receiver_id = list(
     - set(source_to_target_map.keys())
 )[0]
 simulate_setup_config = {
-    "run_till": 50000,
+    "run_till": 8 * 60 * 60,
     "seed": 1122,
     "trace_env": False,
     "sn_feeder": {
