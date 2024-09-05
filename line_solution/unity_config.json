@@ -4,15 +4,15 @@
         "Device": [
             {
                 "class": "Processor",
-                "id": "96c7eb2f-62b9-4c75-9a4d-0b01225d1740",
+                "id": "0fa798bd-f6cb-4abd-a931-cf21249ae3dc",
                 "name": "上料",
-                "x": 3.73,
-                "y": 1.98,
+                "x": 2998,
+                "y": 3140,
                 "z": 0,
-                "length": 1.2,
+                "length": 120,
                 "angle": 0,
-                "width": 1.6,
-                "height": 1.35,
+                "width": 160,
+                "height": 1,
                 "beat": [
                     {
                         "time": 10,
@@ -32,27 +32,27 @@
                     }
                 ],
                 "cycletime": 28,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "arrivalstyle": 1,
                 "reachNum": null,
                 "stationid": 0,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Processor",
-                "id": "c9e042a0-c41a-4519-b896-5fd259c4749b",
+                "id": "e2efd20f-1b93-4ce6-93a7-aa86ec59c914",
                 "name": "AOI",
-                "x": 4.93,
-                "y": 2.53,
+                "x": 3118,
+                "y": 3140,
                 "z": 0,
-                "length": 1.045,
+                "length": 104.5,
                 "angle": 0,
-                "width": 1.37,
-                "height": 1.5,
+                "width": 137,
+                "height": 1,
                 "beat": [
                     {
                         "time": 3,
@@ -67,28 +67,28 @@
                         "status": 52
                     }
                 ],
-                "cycletime": 20,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "cycletime": "10",
+                "arrivalstyle": 1,
                 "reachNum": null,
-                "stationid": 1,
+                "stationid": 2,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Processor",
-                "id": "24e6895b-e0cd-4447-b217-ab27f7c5fb9b",
-                "name": "AOI不良分流机",
-                "x": 5.97,
-                "y": 2.56,
+                "id": "d61ffa00-5bfe-4a9d-b2fe-558d2f6734d7",
+                "name": "AOI不良分流",
+                "x": 3222.5,
+                "y": 3140,
                 "z": 0,
-                "length": 0.516,
+                "length": 51.6,
                 "angle": 0,
-                "width": 0.88,
-                "height": 1.8,
+                "width": 88,
+                "height": 1,
                 "beat": [
                     {
                         "time": 3,
@@ -103,28 +103,28 @@
                         "status": 52
                     }
                 ],
-                "cycletime": 8,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "cycletime": "10",
+                "arrivalstyle": 1,
                 "reachNum": null,
-                "stationid": 2,
+                "stationid": 4,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Processor",
-                "id": "1d06977c-eb0a-4380-8c1c-a40c0f39f900",
-                "name": "自动LINK机",
-                "x": 6.49,
-                "y": 2.41,
+                "id": "14747ca0-096b-4edf-a12b-791c34d5cbd5",
+                "name": "自动LINK",
+                "x": 3274.1,
+                "y": 3140,
                 "z": 0,
-                "length": 1.2,
+                "length": 120,
                 "angle": 0,
-                "width": 1.15,
-                "height": 1.8,
+                "width": 115,
+                "height": 1,
                 "beat": [
                     {
                         "time": 3,
@@ -139,28 +139,28 @@
                         "status": 52
                     }
                 ],
-                "cycletime": 20,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "cycletime": "10",
+                "arrivalstyle": 1,
                 "reachNum": null,
-                "stationid": 3,
+                "stationid": 6,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Processor",
-                "id": "8acdf3f1-f895-41ed-8fbe-91195d20d560",
+                "id": "2a06c694-875a-429b-96e1-7663c2021557",
                 "name": "静态测试机",
-                "x": 7.69,
-                "y": 2.56,
+                "x": 3394.1,
+                "y": 3140,
                 "z": 0,
-                "length": 0.95,
+                "length": 95,
                 "angle": 0,
-                "width": 1,
-                "height": 1.974,
+                "width": 100,
+                "height": 1,
                 "beat": [
                     {
                         "time": 1,
@@ -195,268 +195,192 @@
                         "status": 52
                     }
                 ],
-                "cycletime": 20,
-                "arrvialstyle": 1,
-                "timeInterval": null,
-                "reachNum": null,
-                "stationid": 4,
-                "maxcontent": 1,
-                "speed": 1,
-                "transportdeviceMsg": null,
-                "MTBFMTTR": null,
-                "rejectrate": 0
-            },
-            {
-                "class": "Processor",
-                "id": "358a15b1-191c-4b25-97fb-8e49b14f59b8",
-                "name": "不良分流机",
-                "x": 8.64,
-                "y": 2.42,
-                "z": 0,
-                "length": 1.12,
-                "angle": 0,
-                "width": 1.15,
-                "height": 1.58,
-                "beat": [
-                    {
-                        "time": 3,
-                        "status": 51
-                    },
-                    {
-                        "time": 2,
-                        "status": 56
-                    },
-                    {
-                        "time": 3,
-                        "status": 52
-                    }
-                ],
-                "cycletime": 8,
-                "arrvialstyle": 1,
-                "timeInterval": null,
-                "reachNum": null,
-                "stationid": 5,
-                "maxcontent": 1,
-                "speed": 1,
-                "transportdeviceMsg": null,
-                "MTBFMTTR": null,
-                "rejectrate": 0
-            },
-            {
-                "class": "Processor",
-                "id": "2449f370-294c-40e4-a4a3-b2fd98b70366",
-                "name": "自动ICT-1",
-                "x": 9.77,
-                "y": 2.48,
-                "z": 0,
-                "length": 2.1,
-                "angle": 0,
-                "width": 1.8,
-                "height": 1.8,
-                "beat": [
-                    {
-                        "time": 3,
-                        "status": 51
-                    },
-                    {
-                        "time": 2,
-                        "status": 53
-                    },
-                    {
-                        "time": 1,
-                        "status": 53
-                    },
-                    {
-                        "time": 2,
-                        "status": 53
-                    },
-                    {
-                        "time": 1.5,
-                        "status": 53
-                    },
-                    {
-                        "time": 2,
-                        "status": 53
-                    },
-                    {
-                        "time": 11,
-                        "status": 56
-                    },
-                    {
-                        "time": 2,
-                        "status": 54
-                    },
-                    {
-                        "time": 2,
-                        "status": 54
-                    },
-                    {
-                        "time": 1,
-                        "status": 54
-                    },
-                    {
-                        "time": 2,
-                        "status": 54
-                    },
-                    {
-                        "time": 1,
-                        "status": 54
-                    },
-                    {
-                        "time": 2,
-                        "status": 52
-                    }
-                ],
-                "cycletime": 32.5,
-                "arrvialstyle": 1,
-                "timeInterval": null,
-                "reachNum": null,
-                "stationid": 6,
-                "maxcontent": 1,
-                "speed": 1,
-                "transportdeviceMsg": null,
-                "MTBFMTTR": null,
-                "rejectrate": 0
-            },
-            {
-                "class": "Processor",
-                "id": "a69f1cb6-6862-4a9d-ab58-d47f51d13ca5",
-                "name": "自动ICT-2",
-                "x": 11.87,
-                "y": 2.48,
-                "z": 0,
-                "length": 2.1,
-                "angle": 0,
-                "width": 1.8,
-                "height": 1.8,
-                "beat": [
-                    {
-                        "time": 3,
-                        "status": 51
-                    },
-                    {
-                        "time": 2,
-                        "status": 53
-                    },
-                    {
-                        "time": 1,
-                        "status": 53
-                    },
-                    {
-                        "time": 2,
-                        "status": 53
-                    },
-                    {
-                        "time": 1.5,
-                        "status": 53
-                    },
-                    {
-                        "time": 2,
-                        "status": 53
-                    },
-                    {
-                        "time": 11,
-                        "status": 56
-                    },
-                    {
-                        "time": 2,
-                        "status": 54
-                    },
-                    {
-                        "time": 2,
-                        "status": 54
-                    },
-                    {
-                        "time": 1,
-                        "status": 54
-                    },
-                    {
-                        "time": 2,
-                        "status": 54
-                    },
-                    {
-                        "time": 1,
-                        "status": 54
-                    },
-                    {
-                        "time": 2,
-                        "status": 52
-                    }
-                ],
-                "cycletime": 32.5,
-                "arrvialstyle": 1,
-                "timeInterval": null,
-                "reachNum": null,
-                "stationid": 7,
-                "maxcontent": 1,
-                "speed": 1,
-                "transportdeviceMsg": null,
-                "MTBFMTTR": null,
-                "rejectrate": 0
-            },
-            {
-                "class": "Processor",
-                "id": "107011a9-c52f-46e5-8240-18c93858d307",
-                "name": "移载翻板机",
-                "x": 13.97,
-                "y": 2.48,
-                "z": 0,
-                "length": 0.62,
-                "angle": 0,
-                "width": 1.8,
-                "height": 1.8,
-                "beat": [
-                    {
-                        "time": 1,
-                        "status": 53
-                    },
-                    {
-                        "time": 2,
-                        "status": 51
-                    },
-                    {
-                        "time": 0.5,
-                        "status": 53
-                    },
-                    {
-                        "time": 1,
-                        "status": 56
-                    },
-                    {
-                        "time": 0.5,
-                        "status": 54
-                    },
-                    {
-                        "time": 1,
-                        "status": 54
-                    },
-                    {
-                        "time": 3,
-                        "status": 52
-                    }
-                ],
-                "cycletime": 9,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "cycletime": "10",
+                "arrivalstyle": 1,
                 "reachNum": null,
                 "stationid": 8,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Processor",
-                "id": "c79b56c8-be77-43ff-90c0-419a56b40676",
-                "name": "ICT不良分流机",
-                "x": 14.6,
-                "y": 2.48,
+                "id": "a2ef82ce-c83e-4ec2-af1b-c3ded866a4fd",
+                "name": "静态不良分流",
+                "x": 3489.1,
+                "y": 3140,
                 "z": 0,
-                "length": 0.5,
+                "length": 112,
                 "angle": 0,
-                "width": 1.8,
-                "height": 1.572,
+                "width": 115,
+                "height": 1,
+                "beat": [
+                    {
+                        "time": 3,
+                        "status": 51
+                    },
+                    {
+                        "time": 2,
+                        "status": 56
+                    },
+                    {
+                        "time": 3,
+                        "status": 52
+                    }
+                ],
+                "cycletime": "10",
+                "arrivalstyle": 1,
+                "reachNum": null,
+                "stationid": 10,
+                "maxcontent": 1,
+                "speed": 1,
+                "transportdeviceMsg": null,
+                "MTBFMTTR": null,
+                "rejectrate": 0,
+                "separatenum": null
+            },
+            {
+                "class": "Processor",
+                "id": "6b8d7e9a-8789-475d-9c4a-495aa8f99fa9",
+                "name": "自动FUT1/自动FUT2",
+                "x": 3601.1,
+                "y": 3140,
+                "z": 0,
+                "length": 420,
+                "angle": 0,
+                "width": 180,
+                "height": 1,
+                "beat": [
+                    {
+                        "time": 3,
+                        "status": 51
+                    },
+                    {
+                        "time": 2,
+                        "status": 53
+                    },
+                    {
+                        "time": 1,
+                        "status": 53
+                    },
+                    {
+                        "time": 2,
+                        "status": 53
+                    },
+                    {
+                        "time": 1.5,
+                        "status": 53
+                    },
+                    {
+                        "time": 2,
+                        "status": 53
+                    },
+                    {
+                        "time": 11,
+                        "status": 56
+                    },
+                    {
+                        "time": 2,
+                        "status": 54
+                    },
+                    {
+                        "time": 2,
+                        "status": 54
+                    },
+                    {
+                        "time": 1,
+                        "status": 54
+                    },
+                    {
+                        "time": 2,
+                        "status": 54
+                    },
+                    {
+                        "time": 1,
+                        "status": 54
+                    },
+                    {
+                        "time": 2,
+                        "status": 52
+                    }
+                ],
+                "cycletime": "10",
+                "arrivalstyle": 1,
+                "reachNum": null,
+                "stationid": 12,
+                "maxcontent": 1,
+                "speed": 1,
+                "transportdeviceMsg": null,
+                "MTBFMTTR": null,
+                "rejectrate": 0,
+                "separatenum": null
+            },
+            {
+                "class": "Processor",
+                "id": "eca097c5-204a-4663-bef3-98f8a6ad1f43",
+                "name": "移载翻板",
+                "x": 4021.1,
+                "y": 3140,
+                "z": 0,
+                "length": 62,
+                "angle": 0,
+                "width": 180,
+                "height": 1,
+                "beat": [
+                    {
+                        "time": 1,
+                        "status": 53
+                    },
+                    {
+                        "time": 2,
+                        "status": 51
+                    },
+                    {
+                        "time": 0.5,
+                        "status": 53
+                    },
+                    {
+                        "time": 1,
+                        "status": 56
+                    },
+                    {
+                        "time": 0.5,
+                        "status": 54
+                    },
+                    {
+                        "time": 1,
+                        "status": 54
+                    },
+                    {
+                        "time": 3,
+                        "status": 52
+                    }
+                ],
+                "cycletime": "10",
+                "arrivalstyle": 1,
+                "reachNum": null,
+                "stationid": 14,
+                "maxcontent": 1,
+                "speed": 1,
+                "transportdeviceMsg": null,
+                "MTBFMTTR": null,
+                "rejectrate": 0,
+                "separatenum": null
+            },
+            {
+                "class": "Processor",
+                "id": "ed639b8b-af60-4569-8f2c-b53e3243d335",
+                "name": "FUT不良分流",
+                "x": 4083.1000000000004,
+                "y": 3140,
+                "z": 0,
+                "length": 50,
+                "angle": 0,
+                "width": 180,
+                "height": 1,
                 "beat": [
                     {
                         "time": 3,
@@ -471,28 +395,28 @@
                         "status": 52
                     }
                 ],
-                "cycletime": 8,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "cycletime": "10",
+                "arrivalstyle": 1,
                 "reachNum": null,
-                "stationid": 9,
+                "stationid": 16,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Processor",
-                "id": "dcb68391-d0e3-4773-8ad6-10643901df8d",
-                "name": "喷胶机（五轴）",
-                "x": 15.13,
-                "y": 2.48,
+                "id": "e34dd551-4d63-4f11-aa47-e38631eb1b72",
+                "name": "背面喷胶",
+                "x": 4133.1,
+                "y": 3140,
                 "z": 0,
-                "length": 1.1,
+                "length": 110,
                 "angle": 0,
-                "width": 1.8,
-                "height": 1.8,
+                "width": 180,
+                "height": 1,
                 "beat": [
                     {
                         "time": 3,
@@ -531,28 +455,28 @@
                         "status": 52
                     }
                 ],
-                "cycletime": 32.5,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "cycletime": "10",
+                "arrivalstyle": 1,
                 "reachNum": null,
-                "stationid": 10,
+                "stationid": 18,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Processor",
-                "id": "2cca1e54-aaea-4617-9bb4-f865481deac3",
-                "name": "翻板移栽机",
-                "x": 16.27,
-                "y": 2.48,
+                "id": "54fc8487-1798-4efd-b67c-764962321443",
+                "name": "移载翻板",
+                "x": 4243.1,
+                "y": 3140,
                 "z": 0,
-                "length": 0.6,
+                "length": 60,
                 "angle": 0,
-                "width": 1.8,
-                "height": 1.8,
+                "width": 180,
+                "height": 1,
                 "beat": [
                     {
                         "time": 1,
@@ -583,28 +507,28 @@
                         "status": 52
                     }
                 ],
-                "cycletime": 9,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "cycletime": "10",
+                "arrivalstyle": 1,
                 "reachNum": null,
-                "stationid": 11,
+                "stationid": 20,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Processor",
-                "id": "72a8c61b-d87b-4adb-ab5c-9a891ff5b908",
-                "name": "喷胶机（五轴）",
-                "x": 16.89,
-                "y": 2.48,
+                "id": "b5f452e9-a9a4-473c-b7f7-12762bea5ff3",
+                "name": "正面喷胶",
+                "x": 4303.1,
+                "y": 3140,
                 "z": 0,
-                "length": 1.08,
+                "length": 108,
                 "angle": 0,
-                "width": 1.8,
-                "height": 1.8,
+                "width": 180,
+                "height": 1,
                 "beat": [
                     {
                         "time": 3,
@@ -643,84 +567,84 @@
                         "status": 52
                     }
                 ],
-                "cycletime": 29,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "cycletime": "10",
+                "arrivalstyle": 1,
                 "reachNum": null,
-                "stationid": 12,
+                "stationid": 22,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Processor",
-                "id": "eef44653-888a-45e2-bae2-5de5b5684aa5",
-                "name": "UV炉",
-                "x": 18,
-                "y": 2.51,
+                "id": "620de610-d112-4352-953e-cfb705781404",
+                "name": "UV固化",
+                "x": 4411.1,
+                "y": 3140,
                 "z": 0,
-                "length": 1.5,
+                "length": 150,
                 "angle": 0,
-                "width": 1.8,
-                "height": 1.8,
+                "width": 180,
+                "height": 1,
                 "beat": [
                     {
                         "time": 15,
                         "status": 55
                     }
                 ],
-                "cycletime": 15,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "cycletime": "10",
+                "arrivalstyle": 1,
                 "reachNum": null,
-                "stationid": 13,
+                "stationid": 24,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Processor",
-                "id": "629a85c8-58a5-4fde-8eea-f114f20b0a79",
-                "name": "泡胶机",
-                "x": 19.5,
-                "y": 2.5,
+                "id": "6d1cfe3c-c40f-4f7e-bd15-5272790a655f",
+                "name": "自动泡胶",
+                "x": 4561.1,
+                "y": 3140,
                 "z": 0,
-                "length": 1.1,
+                "length": 110,
                 "angle": 0,
-                "width": 1.8,
-                "height": 1.8,
+                "width": 180,
+                "height": 1,
                 "beat": [
                     {
                         "time": 15,
                         "status": 55
                     }
                 ],
-                "cycletime": 15,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "cycletime": "10",
+                "arrivalstyle": 1,
                 "reachNum": null,
-                "stationid": 14,
+                "stationid": 26,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Processor",
-                "id": "bc529266-0cc4-4e31-a38b-9ef20b371eef",
-                "name": "分板机",
-                "x": 20.6,
-                "y": 2.48,
+                "id": "ed3cea26-5f64-4428-a836-77581dc96a5b",
+                "name": "分板",
+                "x": 4671.1,
+                "y": 3140,
                 "z": 0,
-                "length": 1,
+                "length": 100,
                 "angle": 0,
-                "width": 1.8,
-                "height": 1.8,
+                "width": 180,
+                "height": 1,
                 "beat": [
                     {
                         "time": 3,
@@ -767,56 +691,56 @@
                         "status": 52
                     }
                 ],
-                "cycletime": 23,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "cycletime": "10",
+                "arrivalstyle": 1,
                 "reachNum": null,
-                "stationid": 15,
+                "stationid": 28,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Processor",
-                "id": "395d4dfd-9fea-4505-b0db-87a659832480",
-                "name": "追踪点胶机",
-                "x": 21.98,
-                "y": 2.47,
+                "id": "93bbe68d-6603-4ad2-8a68-768ae0d48471",
+                "name": "追踪点胶",
+                "x": 4771.1,
+                "y": 3140,
                 "z": 0,
-                "length": 0.7,
+                "length": 70,
                 "angle": 0,
-                "width": 1.2,
-                "height": 1.8,
+                "width": 120,
+                "height": 1,
                 "beat": [
                     {
                         "time": 18,
                         "status": 55
                     }
                 ],
-                "cycletime": 18,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "cycletime": "10",
+                "arrivalstyle": 1,
                 "reachNum": null,
-                "stationid": 16,
+                "stationid": 30,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Processor",
-                "id": "877d55e6-8fec-49a4-b1d0-188abd93f42a",
+                "id": "9619765c-4aa8-49a9-aa50-f44859f01c46",
                 "name": "点白胶&贴绝缘片",
-                "x": 23.07,
-                "y": 3.11,
+                "x": 4841.1,
+                "y": 3140,
                 "z": 0,
-                "length": 0.8,
+                "length": 80,
                 "angle": 0,
-                "width": 0.6,
-                "height": 0.9,
+                "width": 60,
+                "height": 1,
                 "beat": [
                     {
                         "time": 3,
@@ -831,28 +755,28 @@
                         "status": 52
                     }
                 ],
-                "cycletime": 11,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "cycletime": "10",
+                "arrivalstyle": 1,
                 "reachNum": null,
-                "stationid": 17,
+                "stationid": 32,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Processor",
-                "id": "2457771a-effe-4f73-aea4-26f5c6d94a41",
+                "id": "d4f578a9-e2c0-4c0e-b4a3-fc6bf3b149a3",
                 "name": "贴散热片&插晶体",
-                "x": 23.89,
-                "y": 3.11,
+                "x": 4921.1,
+                "y": 3140,
                 "z": 0,
-                "length": 0.8,
+                "length": 80,
                 "angle": 0,
-                "width": 0.6,
-                "height": 1.7,
+                "width": 60,
+                "height": 1,
                 "beat": [
                     {
                         "time": 5,
@@ -875,28 +799,28 @@
                         "status": 52
                     }
                 ],
-                "cycletime": 18,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "cycletime": "10",
+                "arrivalstyle": 1,
                 "reachNum": null,
-                "stationid": 18,
+                "stationid": 34,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Processor",
-                "id": "072943f5-a466-4ce6-b94b-43bd30b770f3",
-                "name": "自动喷散热膏机",
-                "x": 24.7,
-                "y": 3.36,
+                "id": "d5384413-b3c9-47dd-aa57-ca8fa71c53dd",
+                "name": "散热膏涂布",
+                "x": 5001.1,
+                "y": 3140,
                 "z": 0,
-                "length": 1.2,
+                "length": 120,
                 "angle": 0,
-                "width": 1.3,
-                "height": 1.8,
+                "width": 130,
+                "height": 1,
                 "beat": [
                     {
                         "time": 2,
@@ -931,28 +855,28 @@
                         "status": 54
                     }
                 ],
-                "cycletime": 24.5,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "cycletime": "10",
+                "arrivalstyle": 1,
                 "reachNum": null,
-                "stationid": 19,
+                "stationid": 36,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Processor",
-                "id": "937009b7-8f8b-43c4-a3d9-86fd35674197",
-                "name": "HSK加工一体机",
-                "x": 25.88,
-                "y": 3.38,
+                "id": "d489b088-6294-4715-b318-1e2b6541d4d2",
+                "name": "HSK锁附",
+                "x": 5121.1,
+                "y": 3140,
                 "z": 0,
-                "length": 0.9,
+                "length": 90,
                 "angle": 0,
-                "width": 1.3,
-                "height": 1.8,
+                "width": 130,
+                "height": 1,
                 "beat": [
                     {
                         "time": 2,
@@ -1011,28 +935,28 @@
                         "status": 54
                     }
                 ],
-                "cycletime": 16.5,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "cycletime": "10",
+                "arrivalstyle": 1,
                 "reachNum": null,
-                "stationid": 20,
+                "stationid": 38,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Processor",
-                "id": "ab7692fd-ee7c-4b2f-93ae-0df758e197ef",
+                "id": "e5d5296e-155a-4f10-b1cb-5de14d051f97",
                 "name": "IGBT&Case组装",
-                "x": 26.83,
-                "y": 3.11,
+                "x": 5211.1,
+                "y": 3140,
                 "z": 0,
-                "length": 0.8,
+                "length": 80,
                 "angle": 0,
-                "width": 0.6,
-                "height": 1.8,
+                "width": 60,
+                "height": 1,
                 "beat": [
                     {
                         "time": 8,
@@ -1055,28 +979,28 @@
                         "status": 56
                     }
                 ],
-                "cycletime": 20,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "cycletime": "10",
+                "arrivalstyle": 1,
                 "reachNum": null,
-                "stationid": 21,
+                "stationid": 40,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Processor",
-                "id": "58ffc5a6-fa1a-4849-8e86-4ef0ceaf4647",
-                "name": "IGBT锁附机",
-                "x": 27.67,
-                "y": 3.31,
+                "id": "01e1bf16-8399-4642-bd7f-084ca982975a",
+                "name": "IGBT锁附",
+                "x": 5291.1,
+                "y": 3140,
                 "z": 0,
-                "length": 1.09,
+                "length": 109,
                 "angle": 0,
-                "width": 1,
-                "height": 1.8,
+                "width": 100,
+                "height": 1,
                 "beat": [
                     {
                         "time": 3,
@@ -1127,28 +1051,28 @@
                         "status": 54
                     }
                 ],
-                "cycletime": 17,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "cycletime": "10",
+                "arrivalstyle": 1,
                 "reachNum": null,
-                "stationid": 22,
+                "stationid": 42,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Processor",
-                "id": "89a90443-20f1-4469-a920-cec2dede7ecc",
-                "name": "PWB BD锁附一体化",
-                "x": 28.76,
-                "y": 3.31,
+                "id": "c4566c24-3505-4f6d-af79-ad2667897e02",
+                "name": "PWB BD锁附",
+                "x": 5400.1,
+                "y": 3140,
                 "z": 0,
-                "length": 1.09,
+                "length": 109,
                 "angle": 0,
-                "width": 1,
-                "height": 1.8,
+                "width": 100,
+                "height": 1,
                 "beat": [
                     {
                         "time": 3,
@@ -1215,28 +1139,28 @@
                         "status": 54
                     }
                 ],
-                "cycletime": 19.5,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "cycletime": "10",
+                "arrivalstyle": 1,
                 "reachNum": null,
-                "stationid": 23,
+                "stationid": 44,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Processor",
-                "id": "f667cb60-b121-4fac-818d-53d9bacb4255",
-                "name": "镭射焊接机",
-                "x": 29.84,
-                "y": 3.31,
+                "id": "8372bf28-78a7-4b88-a32c-764ce0632d7f",
+                "name": "激光焊锡1",
+                "x": 5509.1,
+                "y": 3140,
                 "z": 0,
-                "length": 1.45,
+                "length": 145,
                 "angle": 0,
-                "width": 1,
-                "height": 1.8,
+                "width": 100,
+                "height": 1,
                 "beat": [
                     {
                         "time": 2,
@@ -1263,28 +1187,28 @@
                         "status": 52
                     }
                 ],
-                "cycletime": 15.5,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "cycletime": "10",
+                "arrivalstyle": 1,
                 "reachNum": null,
-                "stationid": 24,
+                "stationid": 46,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Processor",
-                "id": "919c8eda-bb38-4ac1-8953-5237e2ab2a56",
-                "name": "镭射焊接机",
-                "x": 31.29,
-                "y": 3.31,
+                "id": "35508438-2d7c-4107-9574-885df8579ca1",
+                "name": "激光焊锡2",
+                "x": 5654.1,
+                "y": 3140,
                 "z": 0,
-                "length": 1.45,
+                "length": 145,
                 "angle": 0,
-                "width": 1,
-                "height": 1.8,
+                "width": 100,
+                "height": 1,
                 "beat": [
                     {
                         "time": 2,
@@ -1311,28 +1235,28 @@
                         "status": 52
                     }
                 ],
-                "cycletime": 16,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "cycletime": "10",
+                "arrivalstyle": 1,
                 "reachNum": null,
-                "stationid": 25,
+                "stationid": 48,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Processor",
-                "id": "5bc9ffb2-dc02-4b95-8b9c-5f299a5114d3",
-                "name": "六轴焊锡机",
-                "x": 32.76,
-                "y": 3.27,
+                "id": "f57e4419-4858-4493-aea8-7b09f8393e4b",
+                "name": "六轴焊锡1",
+                "x": 5799.1,
+                "y": 3140,
                 "z": 0,
-                "length": 0.85,
+                "length": 85,
                 "angle": 0,
-                "width": 1,
-                "height": 1.8,
+                "width": 100,
+                "height": 1,
                 "beat": [
                     {
                         "time": 2,
@@ -1355,28 +1279,28 @@
                         "status": 52
                     }
                 ],
-                "cycletime": 19,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "cycletime": "10",
+                "arrivalstyle": 1,
                 "reachNum": null,
-                "stationid": 26,
+                "stationid": 50,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Processor",
-                "id": "f8509718-5044-4e65-8622-1a4edd2c23ad",
-                "name": "六轴焊锡机",
-                "x": 33.62,
-                "y": 3.27,
+                "id": "2127868f-a800-43de-809d-4937d8ecb29a",
+                "name": "六轴焊锡2",
+                "x": 5884.1,
+                "y": 3140,
                 "z": 0,
-                "length": 0.85,
+                "length": 85,
                 "angle": 0,
-                "width": 1,
-                "height": 1.8,
+                "width": 100,
+                "height": 1,
                 "beat": [
                     {
                         "time": 2,
@@ -1399,84 +1323,84 @@
                         "status": 52
                     }
                 ],
-                "cycletime": 19,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "cycletime": "10",
+                "arrivalstyle": 1,
                 "reachNum": null,
-                "stationid": 27,
+                "stationid": 52,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Processor",
-                "id": "7148cd5b-8d67-4ca0-8e1f-9c7948d78347",
+                "id": "39c5cfe8-320b-4237-b89f-f53311a3ef7f",
                 "name": "补焊",
-                "x": 35.08,
-                "y": 3.05,
+                "x": 5969.1,
+                "y": 3140,
                 "z": 0,
-                "length": 0.8,
+                "length": 80,
                 "angle": 0,
-                "width": 0.7,
-                "height": 1.75,
-                "beat": [
-                    {
-                        "time": 15,
-                        "status": 55
-                    }
-                ],
-                "cycletime": 15,
-                "arrvialstyle": 1,
-                "timeInterval": null,
-                "reachNum": null,
-                "stationid": 28,
-                "maxcontent": 1,
-                "speed": 1,
-                "transportdeviceMsg": null,
-                "MTBFMTTR": null,
-                "rejectrate": 0
-            },
-            {
-                "class": "Processor",
-                "id": "5e64d521-d7ed-4b46-8f73-242fbdb954ff",
-                "name": "电焊焊锡检测",
-                "x": 34.49,
-                "y": 3.27,
-                "z": 0,
-                "length": 0.6,
-                "angle": 0,
-                "width": 1,
-                "height": 1.75,
+                "width": 70,
+                "height": 1,
                 "beat": [
                     {
                         "time": 5,
                         "status": 56
                     }
                 ],
-                "cycletime": 5,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "cycletime": "10",
+                "arrivalstyle": 1,
                 "reachNum": null,
-                "stationid": 29,
+                "stationid": 54,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Processor",
-                "id": "b5f5cf46-5cdd-4c2e-9aa5-58f094041cc0",
-                "name": "喷胶固化一体机",
-                "x": 35.89,
-                "y": 3.26,
+                "id": "3e3e3978-2e16-429b-a996-5ebe3b7e2f88",
+                "name": "焊锡检测",
+                "x": 6049.1,
+                "y": 3140,
                 "z": 0,
-                "length": 1.3,
+                "length": 60,
                 "angle": 0,
-                "width": 1.1,
-                "height": 1.75,
+                "width": 100,
+                "height": 1,
+                "beat": [
+                    {
+                        "time": 15,
+                        "status": 55
+                    }
+                ],
+                "cycletime": "10",
+                "arrivalstyle": 1,
+                "reachNum": null,
+                "stationid": 56,
+                "maxcontent": 1,
+                "speed": 1,
+                "transportdeviceMsg": null,
+                "MTBFMTTR": null,
+                "rejectrate": 0,
+                "separatenum": null
+            },
+            {
+                "class": "Processor",
+                "id": "1a5a86a4-1efc-4c61-a540-d6232352030c",
+                "name": "组立喷胶固化一体",
+                "x": 6109.1,
+                "y": 3140,
+                "z": 0,
+                "length": 130,
+                "angle": 0,
+                "width": 110,
+                "height": 1,
                 "beat": [
                     {
                         "time": 3,
@@ -1503,28 +1427,28 @@
                         "status": 52
                     }
                 ],
-                "cycletime": 16.5,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "cycletime": "10",
+                "arrivalstyle": 1,
                 "reachNum": null,
-                "stationid": 30,
+                "stationid": 58,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Processor",
-                "id": "202fb680-f1d8-414d-a3c1-b23b147a6622",
+                "id": "48df90f4-7679-4667-b777-2bcae322f923",
                 "name": "组装Control板",
-                "x": 37.21,
-                "y": 3.11,
+                "x": 6239.1,
+                "y": 3140,
                 "z": 0,
-                "length": 0.8,
+                "length": 80,
                 "angle": 0,
-                "width": 0.6,
-                "height": 1.7,
+                "width": 60,
+                "height": 1,
                 "beat": [
                     {
                         "time": 5,
@@ -1543,28 +1467,28 @@
                         "status": 55
                     }
                 ],
-                "cycletime": 18,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "cycletime": "10",
+                "arrivalstyle": 1,
                 "reachNum": null,
-                "stationid": 31,
+                "stationid": 60,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Processor",
-                "id": "32f0de75-35b5-4d10-842c-b3d503449f1e",
-                "name": "CTRL BD锁附机",
-                "x": 38.03,
-                "y": 3.27,
+                "id": "0d70cc04-d1b4-424c-ade8-cee77e1c3d73",
+                "name": "CTRL BD锁附",
+                "x": 6319.1,
+                "y": 3140,
                 "z": 0,
-                "length": 0.9,
+                "length": 90,
                 "angle": 0,
-                "width": 1.3,
-                "height": 1.8,
+                "width": 130,
+                "height": 1,
                 "beat": [
                     {
                         "time": 3,
@@ -1631,28 +1555,28 @@
                         "status": 54
                     }
                 ],
-                "cycletime": 19.5,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "cycletime": "10",
+                "arrivalstyle": 1,
                 "reachNum": null,
-                "stationid": 32,
+                "stationid": 62,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Processor",
-                "id": "6d754c4d-6ab6-4ec9-b29b-9bc1e3c6309b",
-                "name": "组装机",
-                "x": 38.97,
-                "y": 3.27,
+                "id": "cf131214-1ee2-4a46-8f6c-f45e17f0df00",
+                "name": "侧盖组装",
+                "x": 6409.1,
+                "y": 3140,
                 "z": 0,
-                "length": 0.9,
+                "length": 90,
                 "angle": 0,
-                "width": 1.3,
-                "height": 1.8,
+                "width": 130,
+                "height": 1,
                 "beat": [
                     {
                         "time": 3,
@@ -1695,28 +1619,28 @@
                         "status": 54
                     }
                 ],
-                "cycletime": 14,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "cycletime": "10",
+                "arrivalstyle": 1,
                 "reachNum": null,
-                "stationid": 33,
+                "stationid": 64,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Processor",
-                "id": "7eb6475f-5557-4bdb-bd18-f34a925786fc",
+                "id": "37ffe72d-4d28-4b1c-b643-441c2878448c",
                 "name": "组Case",
-                "x": 39.85,
-                "y": 3.11,
+                "x": 6499.1,
+                "y": 3140,
                 "z": 0,
-                "length": 0.8,
+                "length": 80,
                 "angle": 0,
-                "width": 0.6,
-                "height": 1.7,
+                "width": 60,
+                "height": 1,
                 "beat": [
                     {
                         "time": 5,
@@ -1731,28 +1655,28 @@
                         "status": 51
                     }
                 ],
-                "cycletime": 13,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "cycletime": "10",
+                "arrivalstyle": 1,
                 "reachNum": null,
-                "stationid": 34,
+                "stationid": 66,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Processor",
-                "id": "55139447-4451-48be-b4d8-9511aa2c2dac",
-                "name": "镭雕机",
-                "x": 40.66,
-                "y": 3.27,
+                "id": "5582ed07-8f41-49ab-a39f-cdce62751fc6",
+                "name": "上盖镭雕",
+                "x": 6579.1,
+                "y": 3140,
                 "z": 0,
-                "length": 0.9,
+                "length": 90,
                 "angle": 0,
-                "width": 1,
-                "height": 1.8,
+                "width": 100,
+                "height": 1,
                 "beat": [
                     {
                         "time": 3,
@@ -1771,28 +1695,28 @@
                         "status": 52
                     }
                 ],
-                "cycletime": 13.5,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "cycletime": "10",
+                "arrivalstyle": 1,
                 "reachNum": null,
-                "stationid": 35,
+                "stationid": 68,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Processor",
-                "id": "41e67694-4a0c-44b7-b02c-836fb8310367",
-                "name": "升降输送机",
-                "x": 41.56,
-                "y": 2.71,
+                "id": "0ee6f483-3a2f-4b6d-aa2e-c0a088b10b69",
+                "name": "升降接驳台",
+                "x": 6669.1,
+                "y": 3140,
                 "z": 0,
-                "length": 1.8,
+                "length": 180,
                 "angle": 0,
-                "width": 0.95,
-                "height": 2.27,
+                "width": 95,
+                "height": 1,
                 "beat": [
                     {
                         "time": 2,
@@ -1803,27 +1727,27 @@
                         "status": 55
                     }
                 ],
-                "cycletime": 15,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "cycletime": "10",
+                "arrivalstyle": 1,
                 "reachNum": null,
-                "stationid": 36,
+                "stationid": 70,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Processor",
-                "id": "41513af7-e2bb-4aa3-9396-b617c853974a",
+                "id": "87409dee-258e-4bf3-b673-bb2ce87b25ae",
                 "name": "插线&锁螺丝&上载具",
-                "x": 43.39,
-                "y": 3.04,
+                "x": 6849.1,
+                "y": 3140,
                 "z": 0,
-                "length": 1.6,
+                "length": 160,
                 "angle": 0,
-                "width": 0.5,
+                "width": 50,
                 "height": 1,
                 "beat": [
                     {
@@ -1831,28 +1755,28 @@
                         "status": 55
                     }
                 ],
-                "cycletime": 18,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "cycletime": "10",
+                "arrivalstyle": 1,
                 "reachNum": null,
-                "stationid": 37,
+                "stationid": 72,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Processor",
-                "id": "f3414124-09d3-4275-8cf9-bd0529e35028",
-                "name": "成品自动测试-高压测试机",
-                "x": 45.13,
-                "y": 2.26,
+                "id": "8854bc2f-8196-4f34-b7ed-09337497682e",
+                "name": "高压测试",
+                "x": 7009.1,
+                "y": 3140,
                 "z": 0,
-                "length": 1.2,
+                "length": 120,
                 "angle": 0,
-                "width": 1.7,
-                "height": 2.7,
+                "width": 170,
+                "height": 1,
                 "beat": [
                     {
                         "time": 4,
@@ -1863,28 +1787,28 @@
                         "status": 56
                     }
                 ],
-                "cycletime": 26,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "cycletime": "10",
+                "arrivalstyle": 1,
                 "reachNum": null,
-                "stationid": 38,
+                "stationid": 74,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Processor",
-                "id": "6af985e4-49f9-4319-83cc-6537eb48f95d",
-                "name": "成品自动测试-线上崩应测试机1",
-                "x": 46.33,
-                "y": 2.25,
+                "id": "9b21dbca-a515-4642-93f0-51bc0e93a3b4",
+                "name": "崩应测试",
+                "x": 7129.1,
+                "y": 3140,
                 "z": 0,
-                "length": 1.2,
+                "length": 720,
                 "angle": 0,
-                "width": 1.7,
-                "height": 2.7,
+                "width": 170,
+                "height": 1,
                 "beat": [
                     {
                         "time": 2,
@@ -1911,200 +1835,56 @@
                         "status": 54
                     }
                 ],
-                "cycletime": 46,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "cycletime": "10",
+                "arrivalstyle": 1,
                 "reachNum": null,
-                "stationid": 39,
+                "stationid": 76,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Processor",
-                "id": "aa93e390-1d38-43fc-8615-c449ecf88491",
-                "name": "成品自动测试-线上崩应测试机2",
-                "x": 47.53,
-                "y": 2.25,
+                "id": "7d73a608-e500-4ac1-86e8-73c92e7e9a7c",
+                "name": "产品转接",
+                "x": 7849.1,
+                "y": 3140,
                 "z": 0,
-                "length": 1.2,
+                "length": 120,
                 "angle": 0,
-                "width": 1.7,
-                "height": 2.7,
-                "beat": [
-                    {
-                        "time": 2,
-                        "status": 53
-                    },
-                    {
-                        "time": 5,
-                        "status": 53
-                    },
-                    {
-                        "time": 2,
-                        "status": 53
-                    },
-                    {
-                        "time": 5,
-                        "status": 53
-                    },
-                    {
-                        "time": 30,
-                        "status": 56
-                    },
-                    {
-                        "time": 2,
-                        "status": 54
-                    }
-                ],
-                "cycletime": 46,
-                "arrvialstyle": 1,
-                "timeInterval": null,
-                "reachNum": null,
-                "stationid": 40,
-                "maxcontent": 1,
-                "speed": 1,
-                "transportdeviceMsg": null,
-                "MTBFMTTR": null,
-                "rejectrate": 0
-            },
-            {
-                "class": "Processor",
-                "id": "64126b00-ab15-47de-8a29-b7680d4ff24e",
-                "name": "成品自动测试-线上崩应测试机3",
-                "x": 48.73,
-                "y": 2.25,
-                "z": 0,
-                "length": 1.2,
-                "angle": 0,
-                "width": 1.7,
-                "height": 2.7,
-                "beat": [
-                    {
-                        "time": 2,
-                        "status": 53
-                    },
-                    {
-                        "time": 5,
-                        "status": 53
-                    },
-                    {
-                        "time": 2,
-                        "status": 53
-                    },
-                    {
-                        "time": 5,
-                        "status": 53
-                    },
-                    {
-                        "time": 30,
-                        "status": 56
-                    },
-                    {
-                        "time": 2,
-                        "status": 54
-                    }
-                ],
-                "cycletime": 46,
-                "arrvialstyle": 1,
-                "timeInterval": null,
-                "reachNum": null,
-                "stationid": 41,
-                "maxcontent": 1,
-                "speed": 1,
-                "transportdeviceMsg": null,
-                "MTBFMTTR": null,
-                "rejectrate": 0
-            },
-            {
-                "class": "Processor",
-                "id": "3652cc57-8017-4ef3-ace4-2d5145baea9d",
-                "name": "成品自动测试-线上崩应测试机4",
-                "x": 49.93,
-                "y": 2.25,
-                "z": 0,
-                "length": 1.2,
-                "angle": 0,
-                "width": 1.7,
-                "height": 2.7,
-                "beat": [
-                    {
-                        "time": 2,
-                        "status": 53
-                    },
-                    {
-                        "time": 5,
-                        "status": 53
-                    },
-                    {
-                        "time": 2,
-                        "status": 53
-                    },
-                    {
-                        "time": 5,
-                        "status": 53
-                    },
-                    {
-                        "time": 30,
-                        "status": 56
-                    },
-                    {
-                        "time": 2,
-                        "status": 54
-                    }
-                ],
-                "cycletime": 46,
-                "arrvialstyle": 1,
-                "timeInterval": null,
-                "reachNum": null,
-                "stationid": 42,
-                "maxcontent": 1,
-                "speed": 1,
-                "transportdeviceMsg": null,
-                "MTBFMTTR": null,
-                "rejectrate": 0
-            },
-            {
-                "class": "Processor",
-                "id": "c5face2a-8436-407e-bf81-66c035f797f5",
-                "name": "转接机",
-                "x": 53.53,
-                "y": 2.25,
-                "z": 0,
-                "length": 1.2,
-                "angle": 0,
-                "width": 1.7,
-                "height": 2.7,
+                "width": 170,
+                "height": 1,
                 "beat": [
                     {
                         "time": 15,
                         "status": 56
                     }
                 ],
-                "cycletime": 15,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "cycletime": "10",
+                "arrivalstyle": 1,
                 "reachNum": null,
-                "stationid": 43,
+                "stationid": 78,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Processor",
-                "id": "b4349c90-7cc8-47bf-9f0a-85c19e97dde2",
-                "name": "成品自动测试-T2测试机",
-                "x": 54.73,
-                "y": 2.31,
+                "id": "4415e155-0a6d-4dde-b178-4aac14d009af",
+                "name": "功能测试",
+                "x": 7969.1,
+                "y": 3140,
                 "z": 0,
-                "length": 1.2,
+                "length": 480,
                 "angle": 0,
-                "width": 1.7,
-                "height": 2.7,
+                "width": 170,
+                "height": 1,
                 "beat": [
                     {
                         "time": 2,
@@ -2131,171 +1911,27 @@
                         "status": 54
                     }
                 ],
-                "cycletime": 41,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "cycletime": "10",
+                "arrivalstyle": 1,
                 "reachNum": null,
-                "stationid": 44,
+                "stationid": 80,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Processor",
-                "id": "e2ac5366-f78e-4869-8d58-f2efb0a5b4cc",
-                "name": "成品自动测试-T2测试机",
-                "x": 55.93,
-                "y": 2.31,
-                "z": 0,
-                "length": 1.2,
-                "angle": 0,
-                "width": 1.7,
-                "height": 2.7,
-                "beat": [
-                    {
-                        "time": 2,
-                        "status": 53
-                    },
-                    {
-                        "time": 5,
-                        "status": 53
-                    },
-                    {
-                        "time": 2,
-                        "status": 53
-                    },
-                    {
-                        "time": 5,
-                        "status": 53
-                    },
-                    {
-                        "time": 25,
-                        "status": 56
-                    },
-                    {
-                        "time": 2,
-                        "status": 54
-                    }
-                ],
-                "cycletime": 41,
-                "arrvialstyle": 1,
-                "timeInterval": null,
-                "reachNum": null,
-                "stationid": 45,
-                "maxcontent": 1,
-                "speed": 1,
-                "transportdeviceMsg": null,
-                "MTBFMTTR": null,
-                "rejectrate": 0
-            },
-            {
-                "class": "Processor",
-                "id": "238066d7-b1eb-49b3-92ad-4afda7c14b69",
-                "name": "成品自动测试-T2测试机",
-                "x": 57.13,
-                "y": 2.31,
-                "z": 0,
-                "length": 1.2,
-                "angle": 0,
-                "width": 1.7,
-                "height": 2.7,
-                "beat": [
-                    {
-                        "time": 2,
-                        "status": 53
-                    },
-                    {
-                        "time": 5,
-                        "status": 53
-                    },
-                    {
-                        "time": 2,
-                        "status": 53
-                    },
-                    {
-                        "time": 5,
-                        "status": 53
-                    },
-                    {
-                        "time": 25,
-                        "status": 56
-                    },
-                    {
-                        "time": 2,
-                        "status": 54
-                    }
-                ],
-                "cycletime": 41,
-                "arrvialstyle": 1,
-                "timeInterval": null,
-                "reachNum": null,
-                "stationid": 46,
-                "maxcontent": 1,
-                "speed": 1,
-                "transportdeviceMsg": null,
-                "MTBFMTTR": null,
-                "rejectrate": 0
-            },
-            {
-                "class": "Processor",
-                "id": "720cac59-b931-4ed2-95dc-c733536364c0",
-                "name": "成品自动测试-T2测试机",
-                "x": 58.33,
-                "y": 2.31,
-                "z": 0,
-                "length": 1.2,
-                "angle": 0,
-                "width": 1.7,
-                "height": 2.7,
-                "beat": [
-                    {
-                        "time": 2,
-                        "status": 53
-                    },
-                    {
-                        "time": 5,
-                        "status": 53
-                    },
-                    {
-                        "time": 2,
-                        "status": 53
-                    },
-                    {
-                        "time": 5,
-                        "status": 53
-                    },
-                    {
-                        "time": 25,
-                        "status": 56
-                    },
-                    {
-                        "time": 2,
-                        "status": 54
-                    }
-                ],
-                "cycletime": 41,
-                "arrvialstyle": 1,
-                "timeInterval": null,
-                "reachNum": null,
-                "stationid": 47,
-                "maxcontent": 1,
-                "speed": 1,
-                "transportdeviceMsg": null,
-                "MTBFMTTR": null,
-                "rejectrate": 0
-            },
-            {
-                "class": "Processor",
-                "id": "36527f08-90cd-4e72-9e70-e53b7d77e08d",
+                "id": "0f4c4b8c-1074-460f-a9a6-11c8d11e4ccc",
                 "name": "拆测试治具",
-                "x": 59.53,
-                "y": 3.04,
+                "x": 8449.1,
+                "y": 3140,
                 "z": 0,
-                "length": 1.6,
+                "length": 160,
                 "angle": 0,
-                "width": 0.5,
+                "width": 50,
                 "height": 1,
                 "beat": [
                     {
@@ -2303,27 +1939,27 @@
                         "status": 56
                     }
                 ],
-                "cycletime": 20,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "cycletime": "10",
+                "arrivalstyle": 1,
                 "reachNum": null,
-                "stationid": 48,
+                "stationid": 82,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Processor",
-                "id": "0b20a66c-b5fd-40fc-a53a-0577ba1debaf",
-                "name": "升降回流机",
-                "x": 61.14,
-                "y": 3.05,
+                "id": "14a23e75-caa0-40bc-aeec-b559445f7915",
+                "name": "升降回流",
+                "x": 8609.1,
+                "y": 3140,
                 "z": 0,
-                "length": 0.6,
+                "length": 50,
                 "angle": 0,
-                "width": 0.6,
+                "width": 50,
                 "height": 1,
                 "beat": [
                     {
@@ -2331,483 +1967,249 @@
                         "status": 56
                     }
                 ],
-                "cycletime": 15,
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "cycletime": "10",
+                "arrivalstyle": 1,
                 "reachNum": null,
-                "stationid": 49,
+                "stationid": 84,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": 0
-            },
-            {
-                "class": "Processor",
-                "id": "3c660507-29e6-43a4-9a1a-91dfc4a7b8ea",
-                "name": "成品自动测试-线上崩应测试机5",
-                "x": 51.13,
-                "y": 2.25,
-                "z": 0,
-                "length": 1.2,
-                "angle": 0,
-                "width": 1.7,
-                "height": 2.7,
-                "beat": [
-                    {
-                        "time": 2,
-                        "status": 53
-                    },
-                    {
-                        "time": 5,
-                        "status": 53
-                    },
-                    {
-                        "time": 2,
-                        "status": 53
-                    },
-                    {
-                        "time": 5,
-                        "status": 53
-                    },
-                    {
-                        "time": 30,
-                        "status": 56
-                    },
-                    {
-                        "time": 2,
-                        "status": 54
-                    }
-                ],
-                "cycletime": 46,
-                "arrvialstyle": 1,
-                "timeInterval": null,
-                "reachNum": null,
-                "stationid": 50,
-                "maxcontent": 1,
-                "speed": 1,
-                "transportdeviceMsg": null,
-                "MTBFMTTR": null,
-                "rejectrate": 0
-            },
-            {
-                "class": "Processor",
-                "id": "72106506-caa8-4c56-b11a-c623ce4fe4bf",
-                "name": "成品自动测试-线上崩应测试机6",
-                "x": 52.33,
-                "y": 2.25,
-                "z": 0,
-                "length": 1.2,
-                "angle": 0,
-                "width": 1.7,
-                "height": 2.7,
-                "beat": [
-                    {
-                        "time": 2,
-                        "status": 53
-                    },
-                    {
-                        "time": 5,
-                        "status": 53
-                    },
-                    {
-                        "time": 2,
-                        "status": 53
-                    },
-                    {
-                        "time": 5,
-                        "status": 53
-                    },
-                    {
-                        "time": 30,
-                        "status": 56
-                    },
-                    {
-                        "time": 2,
-                        "status": 54
-                    }
-                ],
-                "cycletime": 46,
-                "arrvialstyle": 1,
-                "timeInterval": null,
-                "reachNum": null,
-                "stationid": 51,
-                "maxcontent": 1,
-                "speed": 1,
-                "transportdeviceMsg": null,
-                "MTBFMTTR": null,
-                "rejectrate": 0
-            },
-            {
-                "class": "StraightConveyor",
-                "id": "4bdf06c0-1a39-4486-91b7-02fceace321a",
-                "name": "传送带",
-                "x": 2.48,
-                "y": 2.58,
-                "z": 0,
-                "length": 1.25,
-                "angle": 0,
-                "width": 0.4,
-                "height": 1,
-                "beat": [],
-                "arrvialstyle": 1,
-                "timeInterval": null,
-                "reachNum": null,
-                "stationid": 53,
-                "maxcontent": 1,
-                "speed": 1,
-                "transportdeviceMsg": null,
-                "MTBFMTTR": null,
-                "rejectrate": null
+                "rejectrate": 0,
+                "separatenum": null
             },
             {
                 "class": "Source",
-                "id": "26bf49e9-8f9a-4f83-afdf-32e7cc13daa0",
+                "id": "2df4f7ee-881e-4201-95f0-37b2f09823f1",
                 "name": "发生器",
-                "x": 2.08,
-                "y": 2.58,
+                "x": 2958,
+                "y": 3125,
                 "z": 0,
-                "length": 0.4,
+                "length": 40,
                 "angle": 0,
-                "width": 0.4,
+                "width": 40,
                 "height": 1,
                 "beat": [],
-                "arrvialstyle": 1,
-                "timeInterval": 5,
+                "arrivalstyle": 1,
+                "timeInterval": 10,
                 "reachNum": 0,
-                "stationid": 54,
+                "stationid": 86,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": null
-            },
-            {
-                "class": "StraightConveyor",
-                "id": "8e1d3317-e6e5-4f6b-88a8-2e63a0b32128",
-                "name": "传送带",
-                "x": 21.61,
-                "y": 3.18,
-                "z": 0,
-                "length": 0.36,
-                "angle": 0,
-                "width": 0.4,
-                "height": 1,
-                "beat": [],
-                "arrvialstyle": 1,
-                "timeInterval": null,
-                "reachNum": null,
-                "stationid": 55,
-                "maxcontent": 1,
-                "speed": 1,
-                "transportdeviceMsg": null,
-                "MTBFMTTR": null,
-                "rejectrate": null
-            },
-            {
-                "class": "StraightConveyor",
-                "id": "829d921a-5d97-4ed5-b586-4035bcbaa363",
-                "name": "传送带",
-                "x": 22.69,
-                "y": 3.18,
-                "z": 0,
-                "length": 0.36,
-                "angle": 0,
-                "width": 0.4,
-                "height": 1,
-                "beat": [],
-                "arrvialstyle": 1,
-                "timeInterval": null,
-                "reachNum": null,
-                "stationid": 56,
-                "maxcontent": 1,
-                "speed": 1,
-                "transportdeviceMsg": null,
-                "MTBFMTTR": null,
-                "rejectrate": null
+                "rejectrate": null,
+                "separatenum": null
             },
             {
                 "class": "Sink",
-                "id": "efba8c47-f818-4df1-a693-dfaaf43a2b3c",
-                "name": "",
-                "x": 61.95,
-                "y": 3.16,
+                "id": "7002de60-aec1-4638-b3f6-4a84caf530fa",
+                "name": "吸收器",
+                "x": 8644.1,
+                "y": 3125,
                 "z": 0,
-                "length": 0.4,
+                "length": 40,
                 "angle": 0,
-                "width": 0.4,
+                "width": 40,
                 "height": 1,
                 "beat": [],
-                "arrvialstyle": 1,
-                "timeInterval": null,
+                "arrivalstyle": 1,
                 "reachNum": null,
-                "stationid": 57,
+                "stationid": 87,
                 "maxcontent": 1,
                 "speed": 1,
                 "transportdeviceMsg": null,
                 "MTBFMTTR": null,
-                "rejectrate": null
+                "rejectrate": null,
+                "separatenum": null
             }
         ],
         "Contextdragconnection": [
             {
-                "source": "2cca1e54-aaea-4617-9bb4-f865481deac3",
-                "target": "72a8c61b-d87b-4adb-ab5c-9a891ff5b908"
+                "source": "0fa798bd-f6cb-4abd-a931-cf21249ae3dc",
+                "target": "e2efd20f-1b93-4ce6-93a7-aa86ec59c914"
             },
             {
-                "source": "107011a9-c52f-46e5-8240-18c93858d307",
-                "target": "c79b56c8-be77-43ff-90c0-419a56b40676"
+                "source": "e2efd20f-1b93-4ce6-93a7-aa86ec59c914",
+                "target": "d61ffa00-5bfe-4a9d-b2fe-558d2f6734d7"
             },
             {
-                "source": "96c7eb2f-62b9-4c75-9a4d-0b01225d1740",
-                "target": "c9e042a0-c41a-4519-b896-5fd259c4749b"
+                "source": "d61ffa00-5bfe-4a9d-b2fe-558d2f6734d7",
+                "target": "14747ca0-096b-4edf-a12b-791c34d5cbd5"
             },
             {
-                "source": "c9e042a0-c41a-4519-b896-5fd259c4749b",
-                "target": "24e6895b-e0cd-4447-b217-ab27f7c5fb9b"
+                "source": "14747ca0-096b-4edf-a12b-791c34d5cbd5",
+                "target": "2a06c694-875a-429b-96e1-7663c2021557"
             },
             {
-                "source": "24e6895b-e0cd-4447-b217-ab27f7c5fb9b",
-                "target": "1d06977c-eb0a-4380-8c1c-a40c0f39f900"
+                "source": "2a06c694-875a-429b-96e1-7663c2021557",
+                "target": "a2ef82ce-c83e-4ec2-af1b-c3ded866a4fd"
             },
             {
-                "source": "1d06977c-eb0a-4380-8c1c-a40c0f39f900",
-                "target": "8acdf3f1-f895-41ed-8fbe-91195d20d560"
+                "source": "a2ef82ce-c83e-4ec2-af1b-c3ded866a4fd",
+                "target": "6b8d7e9a-8789-475d-9c4a-495aa8f99fa9"
             },
             {
-                "source": "8acdf3f1-f895-41ed-8fbe-91195d20d560",
-                "target": "358a15b1-191c-4b25-97fb-8e49b14f59b8"
+                "source": "6b8d7e9a-8789-475d-9c4a-495aa8f99fa9",
+                "target": "eca097c5-204a-4663-bef3-98f8a6ad1f43"
             },
             {
-                "source": "358a15b1-191c-4b25-97fb-8e49b14f59b8",
-                "target": "2449f370-294c-40e4-a4a3-b2fd98b70366"
+                "source": "eca097c5-204a-4663-bef3-98f8a6ad1f43",
+                "target": "ed639b8b-af60-4569-8f2c-b53e3243d335"
             },
             {
-                "source": "a69f1cb6-6862-4a9d-ab58-d47f51d13ca5",
-                "target": "107011a9-c52f-46e5-8240-18c93858d307"
+                "source": "ed639b8b-af60-4569-8f2c-b53e3243d335",
+                "target": "e34dd551-4d63-4f11-aa47-e38631eb1b72"
             },
             {
-                "source": "c79b56c8-be77-43ff-90c0-419a56b40676",
-                "target": "dcb68391-d0e3-4773-8ad6-10643901df8d"
+                "source": "e34dd551-4d63-4f11-aa47-e38631eb1b72",
+                "target": "54fc8487-1798-4efd-b67c-764962321443"
             },
             {
-                "source": "dcb68391-d0e3-4773-8ad6-10643901df8d",
-                "target": "2cca1e54-aaea-4617-9bb4-f865481deac3"
+                "source": "54fc8487-1798-4efd-b67c-764962321443",
+                "target": "b5f452e9-a9a4-473c-b7f7-12762bea5ff3"
             },
             {
-                "source": "72a8c61b-d87b-4adb-ab5c-9a891ff5b908",
-                "target": "eef44653-888a-45e2-bae2-5de5b5684aa5"
+                "source": "b5f452e9-a9a4-473c-b7f7-12762bea5ff3",
+                "target": "620de610-d112-4352-953e-cfb705781404"
             },
             {
-                "source": "358a15b1-191c-4b25-97fb-8e49b14f59b8",
-                "target": "a69f1cb6-6862-4a9d-ab58-d47f51d13ca5"
+                "source": "620de610-d112-4352-953e-cfb705781404",
+                "target": "6d1cfe3c-c40f-4f7e-bd15-5272790a655f"
             },
             {
-                "source": "2449f370-294c-40e4-a4a3-b2fd98b70366",
-                "target": "107011a9-c52f-46e5-8240-18c93858d307"
+                "source": "6d1cfe3c-c40f-4f7e-bd15-5272790a655f",
+                "target": "ed3cea26-5f64-4428-a836-77581dc96a5b"
             },
             {
-                "source": "eef44653-888a-45e2-bae2-5de5b5684aa5",
-                "target": "629a85c8-58a5-4fde-8eea-f114f20b0a79"
+                "source": "ed3cea26-5f64-4428-a836-77581dc96a5b",
+                "target": "93bbe68d-6603-4ad2-8a68-768ae0d48471"
             },
             {
-                "source": "629a85c8-58a5-4fde-8eea-f114f20b0a79",
-                "target": "bc529266-0cc4-4e31-a38b-9ef20b371eef"
+                "source": "93bbe68d-6603-4ad2-8a68-768ae0d48471",
+                "target": "9619765c-4aa8-49a9-aa50-f44859f01c46"
             },
             {
-                "source": "877d55e6-8fec-49a4-b1d0-188abd93f42a",
-                "target": "2457771a-effe-4f73-aea4-26f5c6d94a41"
+                "source": "9619765c-4aa8-49a9-aa50-f44859f01c46",
+                "target": "d4f578a9-e2c0-4c0e-b4a3-fc6bf3b149a3"
             },
             {
-                "source": "2457771a-effe-4f73-aea4-26f5c6d94a41",
-                "target": "072943f5-a466-4ce6-b94b-43bd30b770f3"
+                "source": "d4f578a9-e2c0-4c0e-b4a3-fc6bf3b149a3",
+                "target": "d5384413-b3c9-47dd-aa57-ca8fa71c53dd"
             },
             {
-                "source": "072943f5-a466-4ce6-b94b-43bd30b770f3",
-                "target": "937009b7-8f8b-43c4-a3d9-86fd35674197"
+                "source": "d5384413-b3c9-47dd-aa57-ca8fa71c53dd",
+                "target": "d489b088-6294-4715-b318-1e2b6541d4d2"
             },
             {
-                "source": "937009b7-8f8b-43c4-a3d9-86fd35674197",
-                "target": "ab7692fd-ee7c-4b2f-93ae-0df758e197ef"
+                "source": "d489b088-6294-4715-b318-1e2b6541d4d2",
+                "target": "e5d5296e-155a-4f10-b1cb-5de14d051f97"
             },
             {
-                "source": "ab7692fd-ee7c-4b2f-93ae-0df758e197ef",
-                "target": "58ffc5a6-fa1a-4849-8e86-4ef0ceaf4647"
+                "source": "e5d5296e-155a-4f10-b1cb-5de14d051f97",
+                "target": "01e1bf16-8399-4642-bd7f-084ca982975a"
             },
             {
-                "source": "58ffc5a6-fa1a-4849-8e86-4ef0ceaf4647",
-                "target": "89a90443-20f1-4469-a920-cec2dede7ecc"
+                "source": "01e1bf16-8399-4642-bd7f-084ca982975a",
+                "target": "c4566c24-3505-4f6d-af79-ad2667897e02"
             },
             {
-                "source": "89a90443-20f1-4469-a920-cec2dede7ecc",
-                "target": "f667cb60-b121-4fac-818d-53d9bacb4255"
+                "source": "c4566c24-3505-4f6d-af79-ad2667897e02",
+                "target": "8372bf28-78a7-4b88-a32c-764ce0632d7f"
             },
             {
-                "source": "f667cb60-b121-4fac-818d-53d9bacb4255",
-                "target": "919c8eda-bb38-4ac1-8953-5237e2ab2a56"
+                "source": "8372bf28-78a7-4b88-a32c-764ce0632d7f",
+                "target": "35508438-2d7c-4107-9574-885df8579ca1"
             },
             {
-                "source": "919c8eda-bb38-4ac1-8953-5237e2ab2a56",
-                "target": "5bc9ffb2-dc02-4b95-8b9c-5f299a5114d3"
+                "source": "35508438-2d7c-4107-9574-885df8579ca1",
+                "target": "f57e4419-4858-4493-aea8-7b09f8393e4b"
             },
             {
-                "source": "5bc9ffb2-dc02-4b95-8b9c-5f299a5114d3",
-                "target": "f8509718-5044-4e65-8622-1a4edd2c23ad"
+                "source": "f57e4419-4858-4493-aea8-7b09f8393e4b",
+                "target": "2127868f-a800-43de-809d-4937d8ecb29a"
             },
             {
-                "source": "f8509718-5044-4e65-8622-1a4edd2c23ad",
-                "target": "5e64d521-d7ed-4b46-8f73-242fbdb954ff"
+                "source": "2127868f-a800-43de-809d-4937d8ecb29a",
+                "target": "39c5cfe8-320b-4237-b89f-f53311a3ef7f"
             },
             {
-                "source": "5e64d521-d7ed-4b46-8f73-242fbdb954ff",
-                "target": "7148cd5b-8d67-4ca0-8e1f-9c7948d78347"
+                "source": "39c5cfe8-320b-4237-b89f-f53311a3ef7f",
+                "target": "3e3e3978-2e16-429b-a996-5ebe3b7e2f88"
             },
             {
-                "source": "7148cd5b-8d67-4ca0-8e1f-9c7948d78347",
-                "target": "b5f5cf46-5cdd-4c2e-9aa5-58f094041cc0"
+                "source": "3e3e3978-2e16-429b-a996-5ebe3b7e2f88",
+                "target": "1a5a86a4-1efc-4c61-a540-d6232352030c"
             },
             {
-                "source": "b5f5cf46-5cdd-4c2e-9aa5-58f094041cc0",
-                "target": "202fb680-f1d8-414d-a3c1-b23b147a6622"
+                "source": "1a5a86a4-1efc-4c61-a540-d6232352030c",
+                "target": "48df90f4-7679-4667-b777-2bcae322f923"
             },
             {
-                "source": "202fb680-f1d8-414d-a3c1-b23b147a6622",
-                "target": "32f0de75-35b5-4d10-842c-b3d503449f1e"
+                "source": "48df90f4-7679-4667-b777-2bcae322f923",
+                "target": "0d70cc04-d1b4-424c-ade8-cee77e1c3d73"
             },
             {
-                "source": "32f0de75-35b5-4d10-842c-b3d503449f1e",
-                "target": "6d754c4d-6ab6-4ec9-b29b-9bc1e3c6309b"
+                "source": "0d70cc04-d1b4-424c-ade8-cee77e1c3d73",
+                "target": "cf131214-1ee2-4a46-8f6c-f45e17f0df00"
             },
             {
-                "source": "6d754c4d-6ab6-4ec9-b29b-9bc1e3c6309b",
-                "target": "7eb6475f-5557-4bdb-bd18-f34a925786fc"
+                "source": "cf131214-1ee2-4a46-8f6c-f45e17f0df00",
+                "target": "37ffe72d-4d28-4b1c-b643-441c2878448c"
             },
             {
-                "source": "7eb6475f-5557-4bdb-bd18-f34a925786fc",
-                "target": "55139447-4451-48be-b4d8-9511aa2c2dac"
+                "source": "37ffe72d-4d28-4b1c-b643-441c2878448c",
+                "target": "5582ed07-8f41-49ab-a39f-cdce62751fc6"
             },
             {
-                "source": "55139447-4451-48be-b4d8-9511aa2c2dac",
-                "target": "41e67694-4a0c-44b7-b02c-836fb8310367"
+                "source": "5582ed07-8f41-49ab-a39f-cdce62751fc6",
+                "target": "0ee6f483-3a2f-4b6d-aa2e-c0a088b10b69"
             },
             {
-                "source": "41e67694-4a0c-44b7-b02c-836fb8310367",
-                "target": "41513af7-e2bb-4aa3-9396-b617c853974a"
+                "source": "0ee6f483-3a2f-4b6d-aa2e-c0a088b10b69",
+                "target": "87409dee-258e-4bf3-b673-bb2ce87b25ae"
             },
             {
-                "source": "41513af7-e2bb-4aa3-9396-b617c853974a",
-                "target": "f3414124-09d3-4275-8cf9-bd0529e35028"
+                "source": "87409dee-258e-4bf3-b673-bb2ce87b25ae",
+                "target": "8854bc2f-8196-4f34-b7ed-09337497682e"
             },
             {
-                "source": "f3414124-09d3-4275-8cf9-bd0529e35028",
-                "target": "6af985e4-49f9-4319-83cc-6537eb48f95d"
+                "source": "8854bc2f-8196-4f34-b7ed-09337497682e",
+                "target": "9b21dbca-a515-4642-93f0-51bc0e93a3b4"
             },
             {
-                "source": "f3414124-09d3-4275-8cf9-bd0529e35028",
-                "target": "aa93e390-1d38-43fc-8615-c449ecf88491"
+                "source": "9b21dbca-a515-4642-93f0-51bc0e93a3b4",
+                "target": "7d73a608-e500-4ac1-86e8-73c92e7e9a7c"
             },
             {
-                "source": "f3414124-09d3-4275-8cf9-bd0529e35028",
-                "target": "64126b00-ab15-47de-8a29-b7680d4ff24e"
+                "source": "7d73a608-e500-4ac1-86e8-73c92e7e9a7c",
+                "target": "4415e155-0a6d-4dde-b178-4aac14d009af"
             },
             {
-                "source": "f3414124-09d3-4275-8cf9-bd0529e35028",
-                "target": "3652cc57-8017-4ef3-ace4-2d5145baea9d"
+                "source": "4415e155-0a6d-4dde-b178-4aac14d009af",
+                "target": "0f4c4b8c-1074-460f-a9a6-11c8d11e4ccc"
             },
             {
-                "source": "f3414124-09d3-4275-8cf9-bd0529e35028",
-                "target": "3c660507-29e6-43a4-9a1a-91dfc4a7b8ea"
+                "source": "0f4c4b8c-1074-460f-a9a6-11c8d11e4ccc",
+                "target": "14a23e75-caa0-40bc-aeec-b559445f7915"
             },
             {
-                "source": "f3414124-09d3-4275-8cf9-bd0529e35028",
-                "target": "72106506-caa8-4c56-b11a-c623ce4fe4bf"
+                "source": "2df4f7ee-881e-4201-95f0-37b2f09823f1",
+                "target": "0fa798bd-f6cb-4abd-a931-cf21249ae3dc"
             },
             {
-                "source": "6af985e4-49f9-4319-83cc-6537eb48f95d",
-                "target": "c5face2a-8436-407e-bf81-66c035f797f5"
-            },
-            {
-                "source": "aa93e390-1d38-43fc-8615-c449ecf88491",
-                "target": "c5face2a-8436-407e-bf81-66c035f797f5"
-            },
-            {
-                "source": "64126b00-ab15-47de-8a29-b7680d4ff24e",
-                "target": "c5face2a-8436-407e-bf81-66c035f797f5"
-            },
-            {
-                "source": "3c660507-29e6-43a4-9a1a-91dfc4a7b8ea",
-                "target": "c5face2a-8436-407e-bf81-66c035f797f5"
-            },
-            {
-                "source": "72106506-caa8-4c56-b11a-c623ce4fe4bf",
-                "target": "c5face2a-8436-407e-bf81-66c035f797f5"
-            },
-            {
-                "source": "3652cc57-8017-4ef3-ace4-2d5145baea9d",
-                "target": "c5face2a-8436-407e-bf81-66c035f797f5"
-            },
-            {
-                "source": "c5face2a-8436-407e-bf81-66c035f797f5",
-                "target": "b4349c90-7cc8-47bf-9f0a-85c19e97dde2"
-            },
-            {
-                "source": "b4349c90-7cc8-47bf-9f0a-85c19e97dde2",
-                "target": "36527f08-90cd-4e72-9e70-e53b7d77e08d"
-            },
-            {
-                "source": "c5face2a-8436-407e-bf81-66c035f797f5",
-                "target": "e2ac5366-f78e-4869-8d58-f2efb0a5b4cc"
-            },
-            {
-                "source": "c5face2a-8436-407e-bf81-66c035f797f5",
-                "target": "238066d7-b1eb-49b3-92ad-4afda7c14b69"
-            },
-            {
-                "source": "c5face2a-8436-407e-bf81-66c035f797f5",
-                "target": "720cac59-b931-4ed2-95dc-c733536364c0"
-            },
-            {
-                "source": "e2ac5366-f78e-4869-8d58-f2efb0a5b4cc",
-                "target": "36527f08-90cd-4e72-9e70-e53b7d77e08d"
-            },
-            {
-                "source": "238066d7-b1eb-49b3-92ad-4afda7c14b69",
-                "target": "36527f08-90cd-4e72-9e70-e53b7d77e08d"
-            },
-            {
-                "source": "720cac59-b931-4ed2-95dc-c733536364c0",
-                "target": "36527f08-90cd-4e72-9e70-e53b7d77e08d"
-            },
-            {
-                "source": "36527f08-90cd-4e72-9e70-e53b7d77e08d",
-                "target": "0b20a66c-b5fd-40fc-a53a-0577ba1debaf"
-            },
-            {
-                "source": "26bf49e9-8f9a-4f83-afdf-32e7cc13daa0",
-                "target": "96c7eb2f-62b9-4c75-9a4d-0b01225d1740"
-            },
-            {
-                "source": "bc529266-0cc4-4e31-a38b-9ef20b371eef",
-                "target": "395d4dfd-9fea-4505-b0db-87a659832480"
-            },
-            {
-                "source": "395d4dfd-9fea-4505-b0db-87a659832480",
-                "target": "877d55e6-8fec-49a4-b1d0-188abd93f42a"
-            },
-            {
-                "source": "0b20a66c-b5fd-40fc-a53a-0577ba1debaf",
-                "target": "efba8c47-f818-4df1-a693-dfaaf43a2b3c"
+                "source": "14a23e75-caa0-40bc-aeec-b559445f7915",
+                "target": "7002de60-aec1-4638-b3f6-4a84caf530fa"
             }
         ]
     },
     "Command": {
-        "command": "run",
+        "command": "stop",
         "commandtype": 0,
         "Gantt": [],
         "speed": 1,
         "warmuptime": -1,
-        "stoptime": 3600,
-        "event_seq": true
+        "stoptime": -1
     },
-    "CacheKey": "0477492a-5a82-47ff-b713-e688b1569913"
+    "CacheKey": 0
 }
