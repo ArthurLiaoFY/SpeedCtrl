@@ -1,6 +1,8 @@
 import salabim as sim
-from agent import Agent
+from agent import Agent, np
 from config import (
+    agent_config,
+    defaultdict,
     simulate_conveyer_config,
     simulate_machine_config,
     simulate_setup_config,
@@ -114,9 +116,19 @@ class Conveyer(sim.Component):
 
 
 class Machine(sim.Component):
-    def __init__(self, machine_id: str, machine_cycletime: int, *args, **kwargs):
+    def __init__(
+        self,
+        machine_id: str,
+        machine_cycletime: int,
+        # machine_speed: int,
+        # lm_coefs: tuple,
+        *args,
+        **kwargs,
+    ):
         super().__init__(*args, **kwargs)
         self.machine_id = machine_id
+        # self.machine_speed = machine_speed
+        # self.machine_cycletime = lm_coefs[0] + lm_coefs[1] * self.machine_speed + lm_coefs[2] * np.random.randn()
         self.machine_cycletime = machine_cycletime
 
     def switch_to_status(self, status: int):
@@ -153,48 +165,109 @@ class Machine(sim.Component):
             self.to_store(simulate_obj[self.machine_id]["tail_buffer"], product)
 
 
-# class EnvScanner(sim.Component):
-#     def __init__(self, scan_interval: int = 5, *args, **kwargs):
-#         super().__init__(*args, **kwargs)
+class EnvScanner(sim.Component):
+    def __init__(self, scan_interval: int, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.scan_interval = scan_interval
+        self.reset()
 
-#         self.scan_interval = scan_interval
+    def reset(self) -> None:
+        self.eqp_state_dict = defaultdict(list)
+        self.eqp_reward_dict = defaultdict(list)
 
-#     def reward(self):
-#         pass
+    def reward(self, eqp_state: dict):
+        # part 1, effect other machine
+        part_1 = (
+            -1000
+            if 5 in eqp_state.get("pm_state") or 4 in eqp_state.get("nm_state")
+            else 0
+        )
 
-#     def process(self):
-#         while True:
-#             # feed state to eqp agent
-#             for i in range(num_of_machine):
-#                 eqp_state = {
-#                     "m_speed": simulate_obj.get(f"machine_{i+1}")
-#                     .get("machine")
-#                     .machine_speed,
-#                     "balancing_coef": 0.7,
-#                     "head_queued": len(
-#                         simulate_obj.get(f"machine_{i+1}", {}).get("head_buffer")
-#                     ),
-#                     "tail_queued": len(
-#                         simulate_obj.get(f"machine_{i+1}", {}).get("tail_buffer")
-#                     ),
-#                 }
-#                 action_idx = agent.select_action_idx(
-#                     state_tuple=tuple(v for v in eqp_state.values())
-#                 )
-#                 action = agent.action_idx_to_action(action_idx=action_idx)
-#             # feed state to line agent
+        # part 2, resource waste
+        part_2 = 0
 
-#             len(simulate_obj["sn_receiver"])
+        # part 3, buffer stack
+        part_3 = eqp_state.get("balancing_coef", 0.7) * (
+            eqp_state.get("head_queued")
+        ) + (1.0 - eqp_state.get("balancing_coef", 0.7)) * (
+            eqp_state.get("tail_queued")
+        )
 
-#             # wait until next scan
-#             self.hold(self.scan_interval)
+        return part_1 + part_2 + part_3
+
+    def process(self) -> None:
+        while True:
+            # feed state to eqp agent
+            for machine_id in simulate_machine_config.keys():
+                eqp_state = {
+                    "pm_state": [
+                        status_code
+                        for status_code, status in simulate_obj.get(
+                            simulate_obj.get(machine_id, {}).get("prev_machine_id"), {}
+                        )
+                        .get("status", {})
+                        .items()
+                        if status() == True
+                    ],
+                    "m_state": [
+                        status_code
+                        for status_code, status in simulate_obj.get(machine_id, {})
+                        .get("status", {})
+                        .items()
+                        if status() == True
+                    ],
+                    "nm_state": [
+                        status_code
+                        for status_code, status in simulate_obj.get(
+                            simulate_obj.get(machine_id, {}).get("next_machine_id"), {}
+                        )
+                        .get("status", {})
+                        .items()
+                        if status() == True
+                    ],
+                    "m_cycletime": simulate_obj.get(machine_id, {})
+                    .get("machine")
+                    .machine_cycletime,
+                    "balancing_coef": 0.7,
+                    "head_queued": len(
+                        simulate_obj.get(machine_id, {}).get("head_buffer")
+                    ),
+                    "tail_queued": len(
+                        simulate_obj.get(machine_id, {}).get("tail_buffer")
+                    ),
+                }
+                self.eqp_state_dict[machine_id].append(eqp_state)
+                action_idx = simulate_obj[machine_id]["eqp_agent"].select_action_idx(
+                    state_tuple=tuple(
+                        v
+                        for k, v in eqp_state.items()
+                        if k not in ("pm_state", "m_state", "nm_state")
+                    )
+                )
+                action = simulate_obj[machine_id]["eqp_agent"].action_idx_to_action(
+                    action_idx
+                )
+
+                reward = self.reward(eqp_state=eqp_state.copy())
+                self.eqp_reward_dict[machine_id].append(reward)
+
+                simulate_obj[machine_id]["machine"].machine_cycletime = np.clip(
+                    a=simulate_obj[machine_id]["machine"].machine_cycletime + action[0],
+                    a_max=15,
+                    a_min=5,
+                )
+
+            # wait until next scan
+            self.hold(self.scan_interval)
 
 
 env = sim.Environment(
-    trace=simulate_setup_config.get("trace_env", False),
-    random_seed=simulate_setup_config.get("seed", 1122),
+    trace=simulate_setup_config.get("trace_env"),
+    # random_seed=simulate_setup_config.get("seed"),
 )
-# agent = Agent()
+env_scanner = EnvScanner(scan_interval=simulate_setup_config.get("env_scan_interval"))
+env_scanner.activate(at=simulate_setup_config.get("env_scan_interval"))
+
 
 simulate_obj = {
     **{
@@ -204,11 +277,12 @@ simulate_obj = {
     },
     **{
         machine_id: {
+            "eqp_agent": Agent(**agent_config),
             "machine": Machine(
                 name=machine_infos.get("machine_name"),
                 machine_id=machine_id,
-                machine_cycletime=simulate_machine_config.get(machine_id).get(
-                    "machine_cycletime"
+                machine_cycletime=float(
+                    simulate_machine_config.get(machine_id).get("machine_cycletime")
                 ),
             ),
             "head_buffer": sim.Store(
