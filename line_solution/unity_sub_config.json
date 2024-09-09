@@ -1,0 +1,99 @@
+{
+    "Layoutdata": {
+        "usersetuph": 1,
+        "Device": [
+            {
+                "class": "Processor",
+                "id": "14a23e75-caa0-40bc-aeec-b559445f7915",
+                "name": "升降回流",
+                "x": 8609.1,
+                "y": 3140,
+                "z": 0,
+                "length": 50,
+                "angle": 0,
+                "width": 50,
+                "height": 1,
+                "beat": [
+                    {
+                        "time": 15,
+                        "status": 56
+                    }
+                ],
+                "cycletime": "10",
+                "arrivalstyle": 1,
+                "reachNum": null,
+                "stationid": 84,
+                "maxcontent": 1,
+                "speed": 1,
+                "transportdeviceMsg": null,
+                "MTBFMTTR": null,
+                "rejectrate": 0,
+                "separatenum": null
+            },
+            {
+                "class": "Source",
+                "id": "2df4f7ee-881e-4201-95f0-37b2f09823f1",
+                "name": "发生器",
+                "x": 2958,
+                "y": 3125,
+                "z": 0,
+                "length": 40,
+                "angle": 0,
+                "width": 40,
+                "height": 1,
+                "beat": [],
+                "arrivalstyle": 1,
+                "timeInterval": 10,
+                "reachNum": 0,
+                "stationid": 86,
+                "maxcontent": 1,
+                "speed": 1,
+                "transportdeviceMsg": null,
+                "MTBFMTTR": null,
+                "rejectrate": null,
+                "separatenum": null
+            },
+            {
+                "class": "Sink",
+                "id": "7002de60-aec1-4638-b3f6-4a84caf530fa",
+                "name": "吸收器",
+                "x": 8644.1,
+                "y": 3125,
+                "z": 0,
+                "length": 40,
+                "angle": 0,
+                "width": 40,
+                "height": 1,
+                "beat": [],
+                "arrivalstyle": 1,
+                "reachNum": null,
+                "stationid": 87,
+                "maxcontent": 1,
+                "speed": 1,
+                "transportdeviceMsg": null,
+                "MTBFMTTR": null,
+                "rejectrate": null,
+                "separatenum": null
+            }
+        ],
+        "Contextdragconnection": [
+            {
+                "source": "2df4f7ee-881e-4201-95f0-37b2f09823f1",
+                "target": "14a23e75-caa0-40bc-aeec-b559445f7915"
+            },
+            {
+                "source": "14a23e75-caa0-40bc-aeec-b559445f7915",
+                "target": "7002de60-aec1-4638-b3f6-4a84caf530fa"
+            }
+        ]
+    },
+    "Command": {
+        "command": "stop",
+        "commandtype": 0,
+        "Gantt": [],
+        "speed": 1,
+        "warmuptime": -1,
+        "stoptime": -1
+    },
+    "CacheKey": 0
+}
