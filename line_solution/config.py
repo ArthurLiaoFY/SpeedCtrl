@@ -3,7 +3,8 @@ import json
 from collections import defaultdict
 
 # unity_config = json.loads(open("./unity_config.json").read())
-unity_config = json.loads(open("./line_solution/unity_config.json").read())
+# unity_config = json.loads(open("./line_solution/unity_config.json").read())
+unity_config = json.loads(open("./line_solution/unity_sub_config.json").read())
 num_of_machine = len(unity_config.get("Layoutdata").get("Device"))
 
 id_to_machine_map = {
