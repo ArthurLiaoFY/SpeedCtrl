@@ -260,7 +260,7 @@ simulate_obj = {
         for conveyer_id, conveyer_infos in simulate_conveyer_config.items()
     },
     **{
-        simulate_setup_config.get("sn_receiver", {}).get("id"): sim.Store(
+        simulate_setup_config.get("sn_receiver", {}).get("id"): sim.Store( 
             name=simulate_setup_config.get("sn_receiver", {}).get("name")
         )
     },
