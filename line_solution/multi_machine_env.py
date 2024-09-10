@@ -178,9 +178,10 @@ class EnvScanner(sim.Component):
         self.eqp_state_dict = defaultdict(list)
         self.eqp_reward_dict = defaultdict(list)
         self.machine_speed_dict = defaultdict(list)
+        self.machine_uph_dict = defaultdict(list)
         self.current_action_idx = {}
 
-    def reward(self, eqp_state: dict):
+    def reward(self, machine_id: str, eqp_state: dict):
         # part 1, effect other machine
         part_1 = (
             -1000
@@ -199,8 +200,12 @@ class EnvScanner(sim.Component):
         )
 
         # part 4, uph
+        part_4 = (
+            self.machine_uph_dict[machine_id][-1]
+            - self.machine_uph_dict[machine_id][-2]
+        )
 
-        return part_1 + part_2 + part_3
+        return part_1 + part_2 + part_3 + part_4
 
     def process(self) -> None:
         while True:
@@ -209,6 +214,7 @@ class EnvScanner(sim.Component):
                 if len(self.eqp_state_dict[machine_id]) > 0:
                     eqp_state = self.eqp_state_dict[machine_id][-1]
                 else:
+                    self.machine_uph_dict[machine_id].append(0)
                     eqp_state = {
                         "pm_state": [
                             status_code
@@ -275,7 +281,12 @@ class EnvScanner(sim.Component):
             self.hold(self.scan_interval)
 
             for machine_id in simulate_machine_config.keys():
-                reward = self.reward(eqp_state=self.eqp_state_dict[machine_id][-1])
+                self.machine_uph_dict[machine_id].append(
+                    simulate_obj[machine_id]["machine"].machine_unit_count
+                )
+                reward = self.reward(
+                    machine_id=machine_id, eqp_state=self.eqp_state_dict[machine_id][-1]
+                )
                 new_eqp_state = {
                     "pm_state": [
                         status_code
@@ -338,7 +349,6 @@ env = sim.Environment(
 )
 env_scanner = EnvScanner(
     scan_interval=simulate_setup_config.get("env_scan_interval"),
-    reward_update_interval=simulate_setup_config.get("reward_update_interval"),
 )
 env_scanner.activate(at=simulate_setup_config.get("env_scan_interval"))
 
@@ -430,10 +440,13 @@ plt.plot(
     ]
 )
 plt.show()
-
+# %%
 plt.plot(
     [None]
-    + [sd for sd in env_scanner.eqp_reward_dict["14a23e75-caa0-40bc-aeec-b559445f7915"]]
+    + [
+        sd for sd in env_scanner.eqp_reward_dict["14a23e75-caa0-40bc-aeec-b559445f7915"]
+    ],
+    "o",
 )
 plt.show()
 # %%
@@ -441,4 +454,34 @@ plt.show()
     sd.get("tail_queued")
     for sd in env_scanner.eqp_state_dict["14a23e75-caa0-40bc-aeec-b559445f7915"]
 ]
+# %%
+plt.plot(env_scanner.machine_uph_dict["14a23e75-caa0-40bc-aeec-b559445f7915"])
+plt.plot(
+    range(len(env_scanner.machine_uph_dict["14a23e75-caa0-40bc-aeec-b559445f7915"])),
+    range(len(env_scanner.machine_uph_dict["14a23e75-caa0-40bc-aeec-b559445f7915"])),
+)
+# %%
+plt.plot(
+    [
+        v - i
+        for v, i in zip(
+            env_scanner.machine_uph_dict["14a23e75-caa0-40bc-aeec-b559445f7915"],
+            range(
+                len(
+                    env_scanner.machine_uph_dict["14a23e75-caa0-40bc-aeec-b559445f7915"]
+                )
+            ),
+        )
+    ]
+)
+plt.plot(
+    [
+        0
+        for i in range(
+            len(env_scanner.machine_uph_dict["14a23e75-caa0-40bc-aeec-b559445f7915"])
+        )
+    ]
+)
+
+
 # %%
