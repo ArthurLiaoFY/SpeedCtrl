@@ -204,6 +204,7 @@ class EnvScanner(sim.Component):
             self.machine_uph_dict[machine_id][-1]
             - self.machine_uph_dict[machine_id][-2]
         )
+        # part_4 = 0
 
         return part_1 + part_2 + part_3 + part_4
 
@@ -256,7 +257,7 @@ class EnvScanner(sim.Component):
                     }
                     self.eqp_state_dict[machine_id].append(eqp_state)
 
-                action_idx = simulate_obj[machine_id]["eqp_agent"].select_action_idx(
+                action_idx = agents[machine_id]["eqp_agent"].select_action_idx(
                     state_tuple=tuple(
                         v
                         for k, v in eqp_state.items()
@@ -264,7 +265,7 @@ class EnvScanner(sim.Component):
                     )
                 )
                 self.current_action_idx[machine_id] = action_idx
-                action = simulate_obj[machine_id]["eqp_agent"].action_idx_to_action(
+                action = agents[machine_id]["eqp_agent"].action_idx_to_action(
                     action_idx
                 )
 
@@ -324,7 +325,7 @@ class EnvScanner(sim.Component):
                         simulate_obj.get(machine_id, {}).get("tail_buffer")
                     ),
                 }
-                simulate_obj[machine_id]["eqp_agent"].update_policy(
+                agents[machine_id]["eqp_agent"].update_policy(
                     state_tuple=tuple(
                         v
                         for k, v in self.eqp_state_dict[machine_id][-1].items()
@@ -346,8 +347,15 @@ class EnvScanner(sim.Component):
 env = sim.Environment(
     trace=simulate_setup_config.get("trace_env"),
     # random_seed=simulate_setup_config.get("seed"),
-    do_reset=True,
 )
+agents = {
+    **{
+        machine_id: {
+            "eqp_agent": Agent(**agent_config),
+        }
+        for machine_id, machine_infos in simulate_machine_config.items()
+    }
+}
 simulate_obj = {
     **{
         simulate_setup_config.get("sn_feeder", {}).get("id"): SNGenerator(
@@ -357,7 +365,6 @@ simulate_obj = {
     },
     **{
         machine_id: {
-            "eqp_agent": Agent(**agent_config),
             "machine": Machine(
                 name=machine_infos.get("machine_name"),
                 machine_id=machine_id,
@@ -438,9 +445,15 @@ for r in range(25):
 
     env.run(till=simulate_setup_config.get("run_till"))
 
-    print([sum(v) for k, v in env_scanner.eqp_reward_dict.items()])
+    print(
+        {
+            simulate_machine_config.get(k).get("machine_name"): sum(v)
+            for k, v in env_scanner.eqp_reward_dict.items()
+        }
+    )
 
-    env.reset_now()
+    # reset env
+    sim.reset()
 
 
 print(simulate_obj[simulate_setup_config.get("sn_receiver", {}).get("id")].length())
