@@ -346,6 +346,7 @@ class EnvScanner(sim.Component):
 env = sim.Environment(
     trace=simulate_setup_config.get("trace_env"),
     # random_seed=simulate_setup_config.get("seed"),
+    do_reset=True,
 )
 simulate_obj = {
     **{
@@ -428,12 +429,18 @@ simulate_obj = {
     },
 }
 
+# for r in range(simulate_setup_config.get("simulate_runs")):
+for r in range(25):
+    env_scanner = EnvScanner(
+        scan_interval=simulate_setup_config.get("env_scan_interval"),
+    )
+    env_scanner.activate(at=simulate_setup_config.get("env_scan_interval"))
 
-env_scanner = EnvScanner(
-    scan_interval=simulate_setup_config.get("env_scan_interval"),
-)
-env_scanner.activate(at=simulate_setup_config.get("env_scan_interval"))
+    env.run(till=simulate_setup_config.get("run_till"))
 
-env.run(till=simulate_setup_config.get("run_till"))
+    print([sum(v) for k, v in env_scanner.eqp_reward_dict.items()])
+
+    env.reset_now()
+
 
 print(simulate_obj[simulate_setup_config.get("sn_receiver", {}).get("id")].length())

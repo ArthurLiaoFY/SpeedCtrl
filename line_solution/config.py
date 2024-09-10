@@ -27,6 +27,7 @@ sn_receiver_id = list(
     - set(source_to_target_map.keys())
 )[0]
 simulate_setup_config = {
+    "simulate_runs": 5000,
     "run_till": 8 * 60 * 60,
     "seed": 1122,
     "trace_env": False,
