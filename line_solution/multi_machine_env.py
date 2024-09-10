@@ -131,6 +131,7 @@ class Machine(sim.Component):
         # self.machine_speed = machine_speed
         # self.machine_cycletime = lm_coefs[0] + lm_coefs[1] * self.machine_speed + lm_coefs[2] * np.random.randn()
         self.machine_cycletime = machine_cycletime
+        self.machine_unit_count = 0
 
     def switch_to_status(self, status: int):
         for status_code in simulate_obj[self.machine_id]["status"].keys():
@@ -164,6 +165,7 @@ class Machine(sim.Component):
             self.switch_to_status(status=0)
 
             self.to_store(simulate_obj[self.machine_id]["tail_buffer"], product)
+            self.machine_unit_count += 1
 
 
 class EnvScanner(sim.Component):
@@ -195,6 +197,8 @@ class EnvScanner(sim.Component):
             + (1.0 - eqp_state.get("balancing_coef", 0.7))
             * eqp_state.get("tail_queued")
         )
+
+        # part 4, uph
 
         return part_1 + part_2 + part_3
 
