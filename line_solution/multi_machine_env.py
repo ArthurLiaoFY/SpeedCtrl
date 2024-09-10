@@ -1,3 +1,4 @@
+# %%
 import salabim as sim
 from agent import Agent, np
 from config import (
@@ -342,109 +343,155 @@ class EnvScanner(sim.Component):
                 self.eqp_reward_dict[machine_id].append(reward)
 
 
-class TrainAgent:
-    def __init__(
-        self,
-        simulate_setup_config: dict,
-        simulate_machine_config: dict,
-        simulate_conveyer_config: dict,
-    ) -> None:
-        self.env = sim.Environment(
-            trace=simulate_setup_config.get("trace_env"),
-            # random_seed=simulate_setup_config.get("seed"),
+
+env = sim.Environment(
+    trace=simulate_setup_config.get("trace_env"),
+    # random_seed=simulate_setup_config.get("seed"),
+)
+simulate_obj = {
+    **{
+        simulate_setup_config.get("sn_feeder", {}).get("id"): SNGenerator(
+            name=simulate_setup_config.get("sn_feeder", {}).get("name"),
+            env=env,
         )
-        self.simulate_obj = {
-            **{
-                simulate_setup_config.get("sn_feeder", {}).get("id"): SNGenerator(
-                    name=simulate_setup_config.get("sn_feeder", {}).get("name"),
-                    env=self.env,
+    },
+    **{
+        machine_id: {
+            "eqp_agent": Agent(**agent_config),
+            "machine": Machine(
+                name=machine_infos.get("machine_name"),
+                machine_id=machine_id,
+                machine_cycletime=float(
+                    simulate_machine_config.get(machine_id).get(
+                        "machine_cycletime"
+                    )
+                ),
+                env=env,
+            ),
+            "head_buffer": sim.Store(
+                f"{machine_infos.get('machine_name')} 前方緩存區",
+                capacity=simulate_machine_config.get(machine_id, {}).get(
+                    "max_head_buffer"
+                ),
+                env=env,
+            ),
+            "tail_buffer": sim.Store(
+                f"{machine_infos.get('machine_name')} 後方緩存區",
+                capacity=simulate_machine_config.get(machine_id, {}).get(
+                    "max_tail_buffer"
+                ),
+                env=env,
+            ),
+            "status": {
+                status_code: sim.State(
+                    name=cn_name,
+                    value=False,
+                    env=env,
                 )
-            },
-            **{
-                machine_id: {
-                    "eqp_agent": Agent(**agent_config),
-                    "machine": Machine(
-                        name=machine_infos.get("machine_name"),
-                        machine_id=machine_id,
-                        machine_cycletime=float(
-                            simulate_machine_config.get(machine_id).get(
-                                "machine_cycletime"
-                            )
-                        ),
-                        env=self.env,
-                    ),
-                    "head_buffer": sim.Store(
-                        f"{machine_infos.get('machine_name')} 前方緩存區",
-                        capacity=simulate_machine_config.get(machine_id, {}).get(
-                            "max_head_buffer"
-                        ),
-                        env=self.env,
-                    ),
-                    "tail_buffer": sim.Store(
-                        f"{machine_infos.get('machine_name')} 後方緩存區",
-                        capacity=simulate_machine_config.get(machine_id, {}).get(
-                            "max_tail_buffer"
-                        ),
-                        env=self.env,
-                    ),
-                    "status": {
-                        status_code: sim.State(
-                            name=cn_name,
-                            value=False,
-                            env=self.env,
-                        )
-                        for status_code, cn_name in zip(
-                            range(-1, 13),
-                            [
-                                "未連線",
-                                "正常",
-                                "故障",
-                                "暫停",
-                                "待機",
-                                "待料",
-                                "滿料",
-                                "材料低位",
-                                "換線",
-                                "缺料",
-                                "待啟動",
-                                "安全停機",
-                                "品質停機",
-                                "調機",
-                            ],
-                        )
-                    },
-                }
-                for machine_id, machine_infos in simulate_machine_config.items()
-            },
-            **{
-                conveyer_id: {
-                    "conveyer": Conveyer(
-                        name=conveyer_infos.get("conveyer_name", ""),
-                        from_id=conveyer_infos.get("conveyer_from", ""),
-                        to_id=conveyer_infos.get("conveyer_to", ""),
-                        conveyer_cycletime=conveyer_infos.get("conveyer_cycletime", 1),
-                        env=self.env,
-                    ),
-                }
-                for conveyer_id, conveyer_infos in simulate_conveyer_config.items()
-            },
-            **{
-                simulate_setup_config.get("sn_receiver", {}).get("id"): sim.Store(
-                    name=simulate_setup_config.get("sn_receiver", {}).get("name"),
-                    env=self.env,
+                for status_code, cn_name in zip(
+                    range(-1, 13),
+                    [
+                        "未連線",
+                        "正常",
+                        "故障",
+                        "暫停",
+                        "待機",
+                        "待料",
+                        "滿料",
+                        "材料低位",
+                        "換線",
+                        "缺料",
+                        "待啟動",
+                        "安全停機",
+                        "品質停機",
+                        "調機",
+                    ],
                 )
             },
         }
-        self.env_scanner = EnvScanner(
-            scan_interval=simulate_setup_config.get("env_scan_interval"),
+        for machine_id, machine_infos in simulate_machine_config.items()
+    },
+    **{
+        conveyer_id: {
+            "conveyer": Conveyer(
+                name=conveyer_infos.get("conveyer_name", ""),
+                from_id=conveyer_infos.get("conveyer_from", ""),
+                to_id=conveyer_infos.get("conveyer_to", ""),
+                conveyer_cycletime=conveyer_infos.get("conveyer_cycletime", 1),
+                env=env,
+            ),
+        }
+        for conveyer_id, conveyer_infos in simulate_conveyer_config.items()
+    },
+    **{
+        simulate_setup_config.get("sn_receiver", {}).get("id"): sim.Store(
+            name=simulate_setup_config.get("sn_receiver", {}).get("name"),
+            env=env,
         )
-        self.env_scanner.activate(at=simulate_setup_config.get("env_scan_interval"))
+    },
+}
+env_scanner = EnvScanner(
+    scan_interval=simulate_setup_config.get("env_scan_interval"),
+)
+env_scanner.activate(at=simulate_setup_config.get("env_scan_interval"))
 
-    def train(self):
-        self.env.run(till=simulate_setup_config.get("run_till"))
+env.run(till=simulate_setup_config.get("run_till"))
 
-        print(
-            self.simulate_obj[
-                simulate_setup_config.get("sn_receiver", {}).get("id")
-            ].length()
+
+print(simulate_obj[simulate_setup_config.get("sn_receiver", {}).get("id")].length())
+# %%
+
+import matplotlib.pyplot as plt
+
+plt.plot(
+    [
+        sd.get("m_cycletime")
+        for sd in env_scanner.eqp_state_dict["14a23e75-caa0-40bc-aeec-b559445f7915"]
+    ]
+)
+plt.show()
+# %%
+plt.plot(
+    [None]
+    + [
+        sd for sd in env_scanner.eqp_reward_dict["14a23e75-caa0-40bc-aeec-b559445f7915"]
+    ],
+    "o",
+)
+plt.show()
+# %%
+[
+    sd.get("tail_queued")
+    for sd in env_scanner.eqp_state_dict["14a23e75-caa0-40bc-aeec-b559445f7915"]
+]
+# %%
+plt.plot(env_scanner.machine_uph_dict["14a23e75-caa0-40bc-aeec-b559445f7915"])
+plt.plot(
+    range(len(env_scanner.machine_uph_dict["14a23e75-caa0-40bc-aeec-b559445f7915"])),
+    range(len(env_scanner.machine_uph_dict["14a23e75-caa0-40bc-aeec-b559445f7915"])),
+)
+# %%
+plt.plot(
+    [
+        v - i
+        for v, i in zip(
+            env_scanner.machine_uph_dict["14a23e75-caa0-40bc-aeec-b559445f7915"],
+            range(
+                len(
+                    env_scanner.machine_uph_dict["14a23e75-caa0-40bc-aeec-b559445f7915"]
+                )
+            ),
         )
+    ]
+)
+plt.plot(
+    [
+        0
+        for i in range(
+            len(env_scanner.machine_uph_dict["14a23e75-caa0-40bc-aeec-b559445f7915"])
+        )
+    ]
+)
+
+
+# %%
