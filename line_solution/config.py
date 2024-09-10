@@ -30,7 +30,7 @@ simulate_setup_config = {
     "run_till": 8 * 60 * 60,
     "seed": 1122,
     "trace_env": False,
-    "env_scan_interval": 5,
+    "env_scan_interval": 10,
     "sn_feeder": {
         "name": "半成品發射器",
         "id": sn_feeder_id,
