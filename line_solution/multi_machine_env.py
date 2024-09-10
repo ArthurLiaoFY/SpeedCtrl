@@ -1,4 +1,3 @@
-# %%
 import salabim as sim
 from agent import Agent, np
 from config import (
@@ -429,59 +428,3 @@ env.run(till=simulate_setup_config.get("run_till"))
 
 
 print(simulate_obj[simulate_setup_config.get("sn_receiver", {}).get("id")].length())
-# %%
-
-import matplotlib.pyplot as plt
-
-plt.plot(
-    [
-        sd.get("m_cycletime")
-        for sd in env_scanner.eqp_state_dict["14a23e75-caa0-40bc-aeec-b559445f7915"]
-    ]
-)
-plt.show()
-# %%
-plt.plot(
-    [None]
-    + [
-        sd for sd in env_scanner.eqp_reward_dict["14a23e75-caa0-40bc-aeec-b559445f7915"]
-    ],
-    "o",
-)
-plt.show()
-# %%
-[
-    sd.get("tail_queued")
-    for sd in env_scanner.eqp_state_dict["14a23e75-caa0-40bc-aeec-b559445f7915"]
-]
-# %%
-plt.plot(env_scanner.machine_uph_dict["14a23e75-caa0-40bc-aeec-b559445f7915"])
-plt.plot(
-    range(len(env_scanner.machine_uph_dict["14a23e75-caa0-40bc-aeec-b559445f7915"])),
-    range(len(env_scanner.machine_uph_dict["14a23e75-caa0-40bc-aeec-b559445f7915"])),
-)
-# %%
-plt.plot(
-    [
-        v - i
-        for v, i in zip(
-            env_scanner.machine_uph_dict["14a23e75-caa0-40bc-aeec-b559445f7915"],
-            range(
-                len(
-                    env_scanner.machine_uph_dict["14a23e75-caa0-40bc-aeec-b559445f7915"]
-                )
-            ),
-        )
-    ]
-)
-plt.plot(
-    [
-        0
-        for i in range(
-            len(env_scanner.machine_uph_dict["14a23e75-caa0-40bc-aeec-b559445f7915"])
-        )
-    ]
-)
-
-
-# %%
