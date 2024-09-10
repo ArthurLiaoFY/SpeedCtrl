@@ -27,6 +27,82 @@
             },
             {
                 "class": "Processor",
+                "id": "9b21dbca-a515-4642-93f0-51bc0e93a3b4",
+                "name": "崩应测试",
+                "x": 7129.1,
+                "y": 3140,
+                "z": 0,
+                "length": 720,
+                "angle": 0,
+                "width": 170,
+                "height": 1,
+                "beat": [
+                    {
+                        "time": 2,
+                        "status": 53
+                    },
+                    {
+                        "time": 5,
+                        "status": 53
+                    },
+                    {
+                        "time": 2,
+                        "status": 53
+                    },
+                    {
+                        "time": 5,
+                        "status": 53
+                    },
+                    {
+                        "time": 30,
+                        "status": 56
+                    },
+                    {
+                        "time": 2,
+                        "status": 54
+                    }
+                ],
+                "cycletime": "10",
+                "arrivalstyle": 1,
+                "reachNum": null,
+                "stationid": 76,
+                "maxcontent": 1,
+                "speed": 1,
+                "transportdeviceMsg": null,
+                "MTBFMTTR": null,
+                "rejectrate": 0,
+                "separatenum": null
+            },
+            {
+                "class": "Processor",
+                "id": "7d73a608-e500-4ac1-86e8-73c92e7e9a7c",
+                "name": "产品转接",
+                "x": 7849.1,
+                "y": 3140,
+                "z": 0,
+                "length": 120,
+                "angle": 0,
+                "width": 170,
+                "height": 1,
+                "beat": [
+                    {
+                        "time": 15,
+                        "status": 56
+                    }
+                ],
+                "cycletime": "10",
+                "arrivalstyle": 1,
+                "reachNum": null,
+                "stationid": 78,
+                "maxcontent": 1,
+                "speed": 1,
+                "transportdeviceMsg": null,
+                "MTBFMTTR": null,
+                "rejectrate": 0,
+                "separatenum": null
+            },
+            {
+                "class": "Processor",
                 "id": "4415e155-0a6d-4dde-b178-4aac14d009af",
                 "name": "功能测试",
                 "x": 7969.1,
@@ -155,6 +231,14 @@
         "Contextdragconnection": [
             {
                 "source": "2df4f7ee-881e-4201-95f0-37b2f09823f1",
+                "target": "9b21dbca-a515-4642-93f0-51bc0e93a3b4"
+            },
+            {
+                "source": "9b21dbca-a515-4642-93f0-51bc0e93a3b4",
+                "target": "7d73a608-e500-4ac1-86e8-73c92e7e9a7c"
+            },
+            {
+                "source": "7d73a608-e500-4ac1-86e8-73c92e7e9a7c",
                 "target": "4415e155-0a6d-4dde-b178-4aac14d009af"
             },
             {

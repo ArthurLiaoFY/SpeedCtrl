@@ -344,10 +344,6 @@ class EnvScanner(sim.Component):
                 self.eqp_reward_dict[machine_id].append(reward)
 
 
-env = sim.Environment(
-    trace=simulate_setup_config.get("trace_env"),
-    # random_seed=simulate_setup_config.get("seed"),
-)
 agents = {
     **{
         machine_id: {
@@ -356,88 +352,95 @@ agents = {
         for machine_id, machine_infos in simulate_machine_config.items()
     }
 }
-simulate_obj = {
-    **{
-        simulate_setup_config.get("sn_feeder", {}).get("id"): SNGenerator(
-            name=simulate_setup_config.get("sn_feeder", {}).get("name"),
-            env=env,
-        )
-    },
-    **{
-        machine_id: {
-            "machine": Machine(
-                name=machine_infos.get("machine_name"),
-                machine_id=machine_id,
-                machine_cycletime=float(
-                    simulate_machine_config.get(machine_id).get("machine_cycletime")
-                ),
-                env=env,
-            ),
-            "head_buffer": sim.Store(
-                f"{machine_infos.get('machine_name')} 前方緩存區",
-                capacity=simulate_machine_config.get(machine_id, {}).get(
-                    "max_head_buffer"
-                ),
-                env=env,
-            ),
-            "tail_buffer": sim.Store(
-                f"{machine_infos.get('machine_name')} 後方緩存區",
-                capacity=simulate_machine_config.get(machine_id, {}).get(
-                    "max_tail_buffer"
-                ),
-                env=env,
-            ),
-            "status": {
-                status_code: sim.State(
-                    name=cn_name,
-                    value=False,
-                    env=env,
-                )
-                for status_code, cn_name in zip(
-                    range(-1, 13),
-                    [
-                        "未連線",
-                        "正常",
-                        "故障",
-                        "暫停",
-                        "待機",
-                        "待料",
-                        "滿料",
-                        "材料低位",
-                        "換線",
-                        "缺料",
-                        "待啟動",
-                        "安全停機",
-                        "品質停機",
-                        "調機",
-                    ],
-                )
-            },
-        }
-        for machine_id, machine_infos in simulate_machine_config.items()
-    },
-    **{
-        conveyer_id: {
-            "conveyer": Conveyer(
-                name=conveyer_infos.get("conveyer_name", ""),
-                from_id=conveyer_infos.get("conveyer_from", ""),
-                to_id=conveyer_infos.get("conveyer_to", ""),
-                conveyer_cycletime=conveyer_infos.get("conveyer_cycletime", 1),
-                env=env,
-            ),
-        }
-        for conveyer_id, conveyer_infos in simulate_conveyer_config.items()
-    },
-    **{
-        simulate_setup_config.get("sn_receiver", {}).get("id"): sim.Store(
-            name=simulate_setup_config.get("sn_receiver", {}).get("name"),
-            env=env,
-        )
-    },
-}
+
 
 # for r in range(simulate_setup_config.get("simulate_runs")):
 for r in range(25):
+    env = sim.Environment(
+        trace=simulate_setup_config.get("trace_env"),
+        # random_seed=simulate_setup_config.get("seed"),
+    )
+
+    simulate_obj = {
+        **{
+            simulate_setup_config.get("sn_feeder", {}).get("id"): SNGenerator(
+                name=simulate_setup_config.get("sn_feeder", {}).get("name"),
+                env=env,
+            )
+        },
+        **{
+            machine_id: {
+                "machine": Machine(
+                    name=machine_infos.get("machine_name"),
+                    machine_id=machine_id,
+                    machine_cycletime=float(
+                        simulate_machine_config.get(machine_id).get("machine_cycletime")
+                    ),
+                    env=env,
+                ),
+                "head_buffer": sim.Store(
+                    f"{machine_infos.get('machine_name')} 前方緩存區",
+                    capacity=simulate_machine_config.get(machine_id, {}).get(
+                        "max_head_buffer"
+                    ),
+                    env=env,
+                ),
+                "tail_buffer": sim.Store(
+                    f"{machine_infos.get('machine_name')} 後方緩存區",
+                    capacity=simulate_machine_config.get(machine_id, {}).get(
+                        "max_tail_buffer"
+                    ),
+                    env=env,
+                ),
+                "status": {
+                    status_code: sim.State(
+                        name=cn_name,
+                        value=False,
+                        env=env,
+                    )
+                    for status_code, cn_name in zip(
+                        range(-1, 13),
+                        [
+                            "未連線",
+                            "正常",
+                            "故障",
+                            "暫停",
+                            "待機",
+                            "待料",
+                            "滿料",
+                            "材料低位",
+                            "換線",
+                            "缺料",
+                            "待啟動",
+                            "安全停機",
+                            "品質停機",
+                            "調機",
+                        ],
+                    )
+                },
+            }
+            for machine_id, machine_infos in simulate_machine_config.items()
+        },
+        **{
+            conveyer_id: {
+                "conveyer": Conveyer(
+                    name=conveyer_infos.get("conveyer_name", ""),
+                    from_id=conveyer_infos.get("conveyer_from", ""),
+                    to_id=conveyer_infos.get("conveyer_to", ""),
+                    conveyer_cycletime=conveyer_infos.get("conveyer_cycletime", 1),
+                    env=env,
+                ),
+            }
+            for conveyer_id, conveyer_infos in simulate_conveyer_config.items()
+        },
+        **{
+            simulate_setup_config.get("sn_receiver", {}).get("id"): sim.Store(
+                name=simulate_setup_config.get("sn_receiver", {}).get("name"),
+                env=env,
+            )
+        },
+    }
+
     env_scanner = EnvScanner(
         scan_interval=simulate_setup_config.get("env_scan_interval"),
     )
@@ -451,6 +454,11 @@ for r in range(25):
             for k, v in env_scanner.eqp_reward_dict.items()
         }
     )
+    if r in (0, 24):
+        for id in simulate_machine_config.keys():
+            print("#" * 20)
+            simulate_obj.get(id).get("head_buffer").print_statistics()
+            simulate_obj.get(id).get("tail_buffer").print_statistics()
 
     # reset env
     sim.reset()
