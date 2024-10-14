@@ -1,8 +1,9 @@
 # %%
+import numpy as np
 import salabim as sim
 
-from agent import Agent, np
-from config import (
+from line_solution.agent import Agent
+from line_solution.config import (
     agent_config,
     defaultdict,
     simulate_conveyer_config,

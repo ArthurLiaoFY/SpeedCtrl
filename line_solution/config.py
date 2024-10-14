@@ -3,10 +3,8 @@ import itertools
 import json
 from collections import defaultdict
 
-# unity_config = json.loads(open("./unity_config.json").read())
 # unity_config = json.loads(open("./line_solution/unity_config.json").read())
-unity_config = json.loads(open("./unity_sub_config.json").read())
-# unity_config = json.loads(open("./line_solution/unity_sub_config.json").read())
+unity_config = json.loads(open("./line_solution/unity_sub_config.json").read())
 
 id_to_machine_map = {
     item.get("id"): item for item in unity_config.get("Layoutdata").get("Device")
