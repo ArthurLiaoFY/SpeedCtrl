@@ -1,5 +1,6 @@
 # %%
 import salabim as sim
+
 from agent import Agent, np
 from config import (
     agent_config,
