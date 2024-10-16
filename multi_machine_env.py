@@ -143,10 +143,25 @@ class Machine(sim.Component):
             else:
                 simulate_obj[self.machine_id]["status"][status_code].set(value=False)
 
+    def machine_down(self):
+        self.hold(
+            sim.Bounded(
+                sim.Exponential(
+                    mean=simulate_obj.get(self.machine_id, {}).get(
+                        "down_duration_lambda"
+                    ),
+                ),
+                upperbound=simulate_obj.get(self.machine_id, {}).get(
+                    "down_duration_lambda"
+                )
+                * 2.5,
+            )
+        )
+
     def process(self):
         while True:
             while len(simulate_obj.get(self.machine_id, {}).get("head_buffer")) == 0:
-                self.switch_to_status(status=4)
+                self.switch_to_status(status=2)
                 self.standby()
 
             product = self.from_store(simulate_obj[self.machine_id]["head_buffer"])
@@ -155,13 +170,14 @@ class Machine(sim.Component):
 
             self.hold(self.machine_cycletime)
 
+            # running out of space while sending to current equipment tail buffer
             while (
                 simulate_obj.get(self.machine_id, {})
                 .get("tail_buffer")
                 .available_quantity()
                 <= 0
             ):
-                self.switch_to_status(status=5)
+                self.switch_to_status(status=3)
                 self.standby()
 
             self.switch_to_status(status=0)
@@ -394,6 +410,8 @@ for r in range(25):
                     ),
                     env=env,
                 ),
+                "down_freq_lambda": 120,
+                "down_duration_lambda": 10,
                 "status": {
                     status_code: sim.State(
                         name=cn_name,
@@ -401,22 +419,12 @@ for r in range(25):
                         env=env,
                     )
                     for status_code, cn_name in zip(
-                        range(-1, 13),
+                        range(0, 4),
                         [
-                            "未連線",
                             "正常",
-                            "故障",
-                            "暫停",
-                            "待機",
+                            "停機",
                             "待料",
                             "滿料",
-                            "材料低位",
-                            "換線",
-                            "缺料",
-                            "待啟動",
-                            "安全停機",
-                            "品質停機",
-                            "調機",
                         ],
                     )
                 },
