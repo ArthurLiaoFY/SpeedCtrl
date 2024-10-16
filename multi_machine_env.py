@@ -2,8 +2,8 @@
 import numpy as np
 import salabim as sim
 
-from line_solution.agent import Agent
-from line_solution.config import (
+from agent.q_agent import Agent
+from config import (
     agent_config,
     defaultdict,
     simulate_conveyer_config,
@@ -171,8 +171,9 @@ class Machine(sim.Component):
 
 
 class EnvScanner(sim.Component):
-    def __init__(self, scan_interval: int, *args, **kwargs):
+    def __init__(self, agents: dict, scan_interval: int, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.agents = agents
         self.scan_interval = scan_interval
         self.reset()
 
@@ -346,14 +347,22 @@ class EnvScanner(sim.Component):
                 self.eqp_reward_dict[machine_id].append(reward)
 
 
-agents = {
-    **{
-        machine_id: {
-            "eqp_agent": Agent(**agent_config),
+class LineEnv:
+    def __init__(self, simulate_machine_config: dict) -> None:
+        self.simulate_machine_config = simulate_machine_config
+
+        self.agents = {
+            **{
+                machine_id: {
+                    "eqp_agent": Agent(**agent_config),
+                }
+                for machine_id, machine_infos in simulate_machine_config.items()
+            }
         }
-        for machine_id, machine_infos in simulate_machine_config.items()
-    }
-}
+        pass
+
+    def step(self):
+        pass
 
 
 # for r in range(simulate_setup_config.get("simulate_runs")):
